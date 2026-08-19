@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>堪輿理氣 · 曆象核心 v0.8</title>
+<title>堪輿理氣 · 曆象核心 v0.9</title>
 <style>
 :root{
   --lacquer:#14110E; --lacquer2:#1E1A15; --vermilion:#C4342B; --gold:#C9A24B;
@@ -78,6 +78,10 @@ table.k td,.ns{margin-bottom:6px}
 .grid9 b{display:block;font-family:"Noto Serif TC",serif;font-size:17px;letter-spacing:.04em}
 .grid9 u{display:block;text-decoration:none;font-size:10px;color:var(--dim);letter-spacing:.1em;margin-top:3px}
 .grid9 .j b{color:var(--azure)} .grid9 .x b{color:var(--vermilion)}
+.grid9.xk div{padding:8px 3px}
+.grid9.xk b{font-size:15px;color:var(--xuan);letter-spacing:0}
+.grid9.xk b i{font-style:normal;font-size:19px}
+.grid9.xk .s{color:var(--azure)} .grid9.xk .x{color:var(--vermilion)}
 .grid9 .c{background:transparent;border-style:dashed}
 .grid9 .c b{color:var(--gold);font-size:15px}
 .ns sup{color:var(--gold);font-size:9px}
@@ -93,6 +97,10 @@ table.k th{padding:5px 7px;border-bottom:1px solid var(--line);text-align:left}
 .grid9 b{display:block;font-family:"Noto Serif TC",serif;font-size:17px;letter-spacing:.04em}
 .grid9 u{display:block;text-decoration:none;font-size:10px;color:var(--dim);letter-spacing:.1em;margin-top:3px}
 .grid9 .j b{color:var(--azure)} .grid9 .x b{color:var(--vermilion)}
+.grid9.xk div{padding:8px 3px}
+.grid9.xk b{font-size:15px;color:var(--xuan);letter-spacing:0}
+.grid9.xk b i{font-style:normal;font-size:19px}
+.grid9.xk .s{color:var(--azure)} .grid9.xk .x{color:var(--vermilion)}
 .grid9 .c{background:transparent;border-style:dashed}
 .grid9 .c b{color:var(--gold);font-size:15px}
 .ns sup{color:var(--gold);font-size:9px}
@@ -102,7 +110,7 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
 <body>
 <div class="wrap">
   <h1>堪輿理氣 · 曆象核心</h1>
-  <div class="sub">v0.8　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神　—　理氣盤式未立</div>
+  <div class="sub">v0.9　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神・玄空飛星　—　理氣盤式未立</div>
 
   <nav role="tablist">
     <button role="tab" id="t1" aria-selected="true" data-p="p1">羅經</button>
@@ -134,6 +142,9 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
         <div><label>磁偏角（東偏為正）</label><input id="idec" type="number" step="0.01" value="-5.04"></div>
         <div><label>讀數基準</label><select id="imode"><option value="magnetic">磁方位</option><option value="true">真方位</option></select></div>
       </div>
+      <div class="row"><div><label>玄空元運（建成之運）</label><select id="iyun">
+        <option value="0">依事時之運</option><option>1</option><option>2</option><option>3</option><option>4</option>
+        <option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div></div>
       <button class="go" id="go">起算</button>
     </section>
 
@@ -170,6 +181,13 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
     </section>
 
     <section>
+      <h2>玄空飛星</h2>
+      <div id="xkHead" class="ns"></div>
+      <div class="grid9 xk" id="xk"></div>
+      <div class="cap" id="xkCap"></div>
+    </section>
+
+    <section>
       <h2>八宅</h2>
       <div id="bzHead" class="ns"></div>
       <div class="grid9" id="bz"></div>
@@ -193,6 +211,14 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
 
       <h3>三針進退</h3>
       <p>正針（地盤）以磁北為準，中針（人盤）逆七度半，縫針（天盤）順七度半。此為通行說，各家記述互異，故寫為參數而不寫死，日後可並列異說。要緊處：三針之差為半山（七度半），而台灣磁偏角約四度——<b>派別之擇先於偏角之校</b>。</p>
+
+      <h3>玄空飛星（下卦）</h3>
+      <p>運盤以運數入中順飛；山盤取坐山所在宮之運星入中，向盤取向所在宮之運星入中，順逆各依「該運星所指之宮中，與坐山同元龍之山」之陰陽——陽順陰逆。</p>
+      <p>所需之三事皆有據：一卦筦三山與二十四山之立，見《協紀》卷二〈本原二〉；九宮飛佈之序，即本引擎飛佈層所用之中乾兌艮離坎坤震巽；三元龍與陰陽之分（地元甲庚丙壬陽、辰戌丑未陰；天元乾坤艮巽陽、子午卯酉陰；人元寅申巳亥陽、乙辛丁癸陰）為玄空一家之制。</p>
+      <p><b>結構自驗</b>：九運二十四山合二百一十六局，運山向三盤各皆九星無重無漏；格局分布為旺山旺向四十八、上山下水四十八、雙星到向六十、雙星到坐六十——旺山旺向與上山下水數同，雙星到向與到坐數同，全盤對稱。另八運子山午向算得雙星到向，與通行盤例相合。</p>
+      <p><b>五入中待考（二百一十六局中四十八局）。</b>山盤或向盤之入中星為五時，五無定位、中宮無山可稽，順逆無從取。本引擎暫從本山之陰陽並於介面標明待考。沈氏原書當有其例，惟未及尋得，不臆定。</p>
+      <p><b>替卦未作。</b>兼向逾度須用替星，其訣即〈坤壬乙訣〉——「坤壬乙，巨門從頭出；艮丙辛，位位是破軍；巽辰亥，盡是武曲位；甲癸申，貪狼一路行」，出《青囊奧語》，沈氏另有〈坤壬乙訣起例之由來〉一篇溯其源於奇門。惟此訣止及十二山，其餘十二山之替星須另據沈氏之二十四山起星表，尚未尋得，故本版只出下卦。</p>
+      <p>元運預設從事時之三元九運，亦可另選——玄空論宅以建成入住之運為主，非以問事之年。</p>
 
       <h3>磁偏角</h3>
       <p>現為手動輸入。地磁模型（WMM）係數尚未接入；接入後可由經緯度與年份自動求得。npm 之 geomagnetism 套件附係數與解析器，惟僅至 WMM-2020，已逾效期，須另覓現行係數檔。</p>
@@ -233,6 +259,14 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
       <p><b>八宅之法亦全。</b>大遊年翻卦：上一爻變為生氣貪狼、下二爻變為天醫巨門、三爻俱變為延年武曲、三爻俱不變為伏位輔弼；乾兌老陽、艮坤老陰為西四宅，離震少陰、巽坎少陽為東四宅。是八宅可逕依協紀而作，不待《陽宅三要》。</p>
       <p><b>年剋山家亦可算。</b>年表所列之長串山名，即洪範五行之某一行——卷二載甲寅辰巽戌坎辛申八山屬水、離壬丙乙四山屬火、震艮巳三山屬木、乾亥兌丁四山屬金、丑癸坤庚未五山屬土。</p>
       <p>另卷三十三、三十四〈利用〉二卷為施用之篇，坐山、消砂納水、分金、紫白入中宮皆在其中；卷八之入中宮順飛逆飛凡四十餘見，九宮飛佈之機括完備。所缺者惟玄空挨星一系，本晚出而在官修之外。</p>
+
+      <h3>玄空飛星（下卦）</h3>
+      <p>運盤以運數入中順飛；山盤取坐山所在宮之運星入中，向盤取向所在宮之運星入中，順逆各依「該運星所指之宮中，與坐山同元龍之山」之陰陽——陽順陰逆。</p>
+      <p>所需之三事皆有據：一卦筦三山與二十四山之立，見《協紀》卷二〈本原二〉；九宮飛佈之序，即本引擎飛佈層所用之中乾兌艮離坎坤震巽；三元龍與陰陽之分（地元甲庚丙壬陽、辰戌丑未陰；天元乾坤艮巽陽、子午卯酉陰；人元寅申巳亥陽、乙辛丁癸陰）為玄空一家之制。</p>
+      <p><b>結構自驗</b>：九運二十四山合二百一十六局，運山向三盤各皆九星無重無漏；格局分布為旺山旺向四十八、上山下水四十八、雙星到向六十、雙星到坐六十——旺山旺向與上山下水數同，雙星到向與到坐數同，全盤對稱。另八運子山午向算得雙星到向，與通行盤例相合。</p>
+      <p><b>五入中待考（二百一十六局中四十八局）。</b>山盤或向盤之入中星為五時，五無定位、中宮無山可稽，順逆無從取。本引擎暫從本山之陰陽並於介面標明待考。沈氏原書當有其例，惟未及尋得，不臆定。</p>
+      <p><b>替卦未作。</b>兼向逾度須用替星，其訣即〈坤壬乙訣〉——「坤壬乙，巨門從頭出；艮丙辛，位位是破軍；巽辰亥，盡是武曲位；甲癸申，貪狼一路行」，出《青囊奧語》，沈氏另有〈坤壬乙訣起例之由來〉一篇溯其源於奇門。惟此訣止及十二山，其餘十二山之替星須另據沈氏之二十四山起星表，尚未尋得，故本版只出下卦。</p>
+      <p>元運預設從事時之三元九運，亦可另選——玄空論宅以建成入住之運為主，非以問事之年。</p>
 
       <h3>磁偏角</h3>
       <p>採世界地磁模型 WMM2025（曆元二〇二五·〇），係數取自 NOAA 與英國地質調查所發布之 WMM2025.COF，經其官方測值一百筆比對，磁偏角中位偏差〇·〇〇二三度、最大〇·〇〇五度。</p>
@@ -1009,6 +1043,74 @@ var YS = (function (KY) {
   };
 })(KY, FG, NS);
 
+/* 玄空飛星（下卦）— 三元九運山向飛星
+   二十四山分三元龍與陰陽、一卦筦三山之制據《協紀》卷二；
+   飛佈之序沿用本引擎九宮飛佈層（中乾兌艮離坎坤震巽）。 */
+var XK = (function (KY, FG) {
+  'use strict';
+  function mod(a, n) { return ((a % n) + n) % n; }
+  /* 每宮三山，序為地元、天元、人元 */
+  var PALACE = { 1: '壬子癸', 8: '丑艮寅', 3: '甲卯乙', 4: '辰巽巳',
+    9: '丙午丁', 2: '未坤申', 7: '庚酉辛', 6: '戌乾亥' };
+  /* 三元龍之陰陽：陽順飛、陰逆飛 */
+  var YANG = '壬甲丙庚乾坤艮巽寅申巳亥';
+  function info(shan) {
+    for (var g in PALACE) {
+      var i = PALACE[g].indexOf(shan);
+      if (i >= 0) return { gong: +g, yuan: i, yang: YANG.indexOf(shan) >= 0 };
+    }
+    return null;
+  }
+  /* 運盤：運數入中順飛 */
+  function yunPan(yun) {
+    var p = {};
+    FG.FLY.forEach(function (g, i) { p[g] = mod(yun - 1 + i, 9) + 1; });
+    return p;
+  }
+  /* 由入中之星與順逆，飛佈九宮 */
+  function fly(center, forward) {
+    var p = {};
+    FG.FLY.forEach(function (g, i) { p[g] = mod(center - 1 + (forward ? i : -i), 9) + 1; });
+    return p;
+  }
+  /* 山盤或向盤：取該宮之運星入中，依「運星所指之宮中同元龍之山」定陰陽 */
+  function sub(star, yuan) {
+    if (star === 5) return null;                    // 五無定位，入中無山可稽
+    var shan = PALACE[star].charAt(yuan);
+    return { shan: shan, yang: YANG.indexOf(shan) >= 0 };
+  }
+  /* zuo：坐山　xiang：向（自動取對山） */
+  function chart(yun, zuoShan) {
+    var z = info(zuoShan);
+    if (!z) return null;
+    var xIdx = mod(KY.SHAN.indexOf(zuoShan) + 12, 24);
+    var xiangShan = KY.SHAN[xIdx];
+    var x = info(xiangShan);
+    var yp = yunPan(yun);
+    var sStar = yp[z.gong], xStar = yp[x.gong];
+    var sInfo = sub(sStar, z.yuan), xInfo = sub(xStar, x.yuan);
+    var doubt = (sInfo === null || xInfo === null);
+    var sp = fly(sStar, sInfo ? sInfo.yang : z.yang);      // 五入中時暫從本山之陰陽，待考
+    var xp = fly(xStar, xInfo ? xInfo.yang : x.yang);
+    /* 格局：旺星（＝運數）落於坐或向 */
+    var pat;
+    var sAtZuo = sp[z.gong] === yun, xAtXiang = xp[x.gong] === yun;
+    var sAtXiang = sp[x.gong] === yun, xAtZuo = xp[z.gong] === yun;
+    if (sAtZuo && xAtXiang) pat = '旺山旺向';
+    else if (sAtXiang && xAtZuo) pat = '上山下水';
+    else if (xAtXiang && sAtXiang) pat = '雙星到向';
+    else if (sAtZuo && xAtZuo) pat = '雙星到坐';
+    else pat = xAtXiang ? '雙星到向' : (sAtZuo ? '雙星到坐' : '其他');
+    return { yun: yun, zuo: zuoShan, xiang: xiangShan,
+      zuoGong: z.gong, xiangGong: x.gong, yuanLong: ['地元', '天元', '人元'][z.yuan],
+      yunPan: yp, shanPan: sp, xiangPan: xp,
+      shanRu: sStar, xiangRu: xStar,
+      shanShun: sInfo ? sInfo.yang : z.yang, xiangShun: xInfo ? xInfo.yang : x.yang,
+      pattern: pat, doubt: doubt };
+  }
+  return { PALACE: PALACE, YANG: YANG, info: info, yunPan: yunPan, fly: fly, chart: chart };
+})(KY, FG);
+
 </script>
 <script>
 (function(){
@@ -1133,6 +1235,20 @@ var YS = (function (KY) {
         +(tags.length?'<u style="color:var(--xuan);margin-top:5px">'+tags.join('・')+'</u>':'')+'</div>';
     }).join('');
 
+    var yunSel=+$('iyun').value, useYun=yunSel||KY.yunOf(P.year.solarYear).yun;
+    var XC=XK.chart(useYun,S.shan);
+    if(XC){
+      $('xkHead').innerHTML='<em>'+useYun+'運　'+XC.zuo+'山'+XC.xiang+'向（'+XC.yuanLong+'龍）　<b style="color:var(--gold)">'+XC.pattern+'</b></em>';
+      var LAYX=[6,1,8,7,5,3,2,9,4];
+      $('xk').innerHTML=LAYX.map(function(g){
+        var mark=(g===XC.zuoGong?'坐':(g===XC.xiangGong?'向':''));
+        return '<div><b><span class="s">'+XC.shanPan[g]+'</span>　<i>'+XC.yunPan[g]+'</i>　<span class="x">'+XC.xiangPan[g]+'</span></b>'
+          +'<u>'+FG.GUA[g]+(mark?'　'+mark:'')+'</u></div>';
+      }).join('');
+      $('xkCap').innerHTML='左青為山星、中為運星、右朱為向星。山盤'+XC.shanRu+'入中'+(XC.shanShun?'順':'逆')+'飛，向盤'+XC.xiangRu+'入中'+(XC.xiangShun?'順':'逆')+'飛。'
+        +(XC.doubt?'<br><span class="warn">此局運星逢五入中，五無定位而無山可稽，順逆之定暫從本山陰陽，<b>待考</b>。</span>':'');
+    }
+
     var HS=BZ.houseOf(S.shan);
     if(HS){
       $('bzHead').innerHTML='<em>'+S.shan+'山　'+HS.gua+'宅　'+HS.group+'</em>';
@@ -1233,6 +1349,18 @@ var YS = (function (KY) {
     ok('破敗五鬼＝年干納卦之衝', NS.RULE.破敗五鬼('甲子')==='巽'&&NS.RULE.破敗五鬼('丁卯')==='震');
     ok('磁偏角模組可用且台北約負五度', typeof GEOMAG!=='undefined'&&
       Math.abs(GEOMAG.model(new Date('2026-08-19')).point([25.01,121.47,0]).decl+5.04)<0.2);
+    ok('玄空：二百一十六局三盤皆九星無重無漏', (function(){
+      for(var y=1;y<=9;y++) for(var i=0;i<24;i++){ var c=XK.chart(y,KY.SHAN[i]); if(!c) return false;
+        var ps=[c.yunPan,c.shanPan,c.xiangPan];
+        for(var k=0;k<3;k++){ var t={}; for(var g in ps[k]) t[ps[k][g]]=1; if(Object.keys(t).length!==9) return false; } }
+      return true})());
+    ok('玄空：格局分布對稱（旺山旺向與上山下水同數）', (function(){var c={};
+      for(var y=1;y<=9;y++) for(var i=0;i<24;i++) { var k=XK.chart(y,KY.SHAN[i]).pattern; c[k]=(c[k]||0)+1; }
+      return c['旺山旺向']===48&&c['上山下水']===48&&c['雙星到向']===60&&c['雙星到坐']===60})());
+    ok('玄空：八運子山午向為雙星到向', XK.chart(8,'子').pattern==='雙星到向');
+    ok('玄空：坐向恆相對十二位', KY.SHAN.every(function(s,i){
+      return XK.chart(8,s).xiang===KY.SHAN[(i+12)%24]}));
+    ok('玄空：運盤中宮恆為運數', [1,4,7,9].every(function(y){return XK.chart(y,'子').yunPan[5]===y}));
     out.push('<br><i>通過 '+p+' ／ 共 '+(p+f)+'</i>');
     $('chk').innerHTML=out.join('<br>');
   }
