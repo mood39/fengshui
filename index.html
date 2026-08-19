@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>堪輿理氣 · 曆象核心 v0.1</title>
+<style>
+:root{
+  --lacquer:#14110E; --lacquer2:#1E1A15; --vermilion:#C4342B; --gold:#C9A24B;
+  --xuan:#E9E1D0; --dim:#8C8071; --azure:#4E8391; --line:#3A322A;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--lacquer);color:var(--xuan);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  font-size:15px;line-height:1.7;-webkit-text-size-adjust:100%}
+.wrap{max-width:760px;margin:0 auto;padding:22px 16px 60px}
+h1{font-family:"Noto Serif TC","Songti TC",serif;font-size:22px;font-weight:600;
+  letter-spacing:.18em;margin:0 0 4px;color:var(--gold)}
+.sub{color:var(--dim);font-size:12.5px;letter-spacing:.06em;margin-bottom:22px}
+section{border-top:1px solid var(--line);padding:18px 0}
+h2{font-family:"Noto Serif TC",serif;font-size:13px;font-weight:600;letter-spacing:.22em;
+  color:var(--gold);margin:0 0 14px;display:flex;align-items:center;gap:10px}
+h2::after{content:"";flex:1;height:1px;background:var(--line)}
+label{display:block;font-size:11.5px;color:var(--dim);letter-spacing:.1em;margin-bottom:5px}
+input,select{background:var(--lacquer2);border:1px solid var(--line);color:var(--xuan);
+  padding:8px 9px;border-radius:3px;font-size:15px;width:100%;font-family:inherit}
+input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+.row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:13px}
+.row>div{flex:1;min-width:78px}
+.tog{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--xuan);margin:9px 0}
+.tog input{width:auto;flex:none}
+button{background:var(--vermilion);border:0;color:#fff;padding:11px 20px;border-radius:3px;
+  font-size:15px;font-family:inherit;letter-spacing:.12em;cursor:pointer;width:100%}
+button.ghost{background:transparent;border:1px solid var(--line);color:var(--dim);
+  padding:8px;font-size:12.5px;letter-spacing:.08em}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:400;font-size:11.5px;letter-spacing:.1em;width:34%}
+.gz{font-family:"Noto Serif TC",serif;font-size:19px;letter-spacing:.1em;color:var(--gold)}
+.mono{font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.note{font-size:12px;color:var(--dim);line-height:1.75}
+.warn{color:var(--vermilion)}
+.pass{color:var(--azure)} .fail{color:var(--vermilion)}
+#dial{display:block;margin:0 auto;max-width:100%;height:auto}
+.read{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.read div{background:var(--lacquer2);border:1px solid var(--line);border-radius:3px;
+  padding:8px 12px;text-align:center;min-width:92px}
+.read b{display:block;font-family:"Noto Serif TC",serif;font-size:20px;color:var(--gold);letter-spacing:.08em}
+.read span{font-size:10.5px;color:var(--dim);letter-spacing:.12em}
+details{margin-top:10px}
+summary{cursor:pointer;font-size:12.5px;color:var(--dim);letter-spacing:.1em;padding:6px 0}
+.chk{font-size:12.5px;line-height:1.9;font-family:ui-monospace,Menlo,monospace}
+.chk i{font-style:normal;color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>堪輿理氣 · 曆象核心</h1>
+  <div class="sub">v0.1　時間軸（干支曆・三元九運）與空間軸（二十四山・三針）之底層　—　尚無理氣盤式</div>
+
+  <section>
+    <h2>事時</h2>
+    <div class="row">
+      <div><label>年</label><input id="iy" type="number" value="2026"></div>
+      <div><label>月</label><input id="im" type="number" value="8"></div>
+      <div><label>日</label><input id="id" type="number" value="19"></div>
+      <div><label>時</label><input id="ih" type="number" value="12"></div>
+      <div><label>分</label><input id="ii" type="number" value="0"></div>
+    </div>
+    <div class="row">
+      <div><label>經度（東經為正）</label><input id="ilon" type="number" step="0.1" value="121.5"></div>
+    </div>
+    <div class="tog"><input id="its" type="checkbox" checked><label for="its" style="margin:0">用真太陽時（依經度與均時差修正）</label></div>
+    <div class="tog"><input id="ilz" type="checkbox" checked><label for="ilz" style="margin:0">夜子時歸翌日（二十三時起日柱進位）</label></div>
+  </section>
+
+  <section>
+    <h2>坐向</h2>
+    <div class="row">
+      <div><label>羅盤讀數（度）</label><input id="ib" type="number" step="0.1" value="172.5"></div>
+      <div><label>用針</label><select id="ind"><option>正針</option><option>中針</option><option>縫針</option></select></div>
+    </div>
+    <div class="row">
+      <div><label>磁偏角（東偏為正）</label><input id="idec" type="number" step="0.1" value="-4"></div>
+      <div><label>讀數基準</label><select id="imode"><option value="magnetic">磁方位</option><option value="true">真方位</option></select></div>
+    </div>
+    <button id="go">起算</button>
+  </section>
+
+  <section>
+    <h2>羅經</h2>
+    <svg id="dial" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="二十四山三針盤"></svg>
+    <div class="read" id="read"></div>
+    <div class="note" style="margin-top:12px">三環由外而內為縫針（天盤）、正針（地盤）、中針（人盤），各差七度半。同一讀數在三環落於不同山位——此差量為半山，比台灣磁偏角約四度更大，故派別之擇先於偏角之校。</div>
+  </section>
+
+  <section>
+    <h2>四柱與運</h2>
+    <table id="out"></table>
+  </section>
+
+  <section>
+    <h2>自檢</h2>
+    <button class="ghost" id="run">執行自檢</button>
+    <div class="chk" id="chk"></div>
+  </section>
+
+  <section>
+    <h2>限制與校記</h2>
+    <div class="note">
+      <b>曆象底層</b>　逐字移植自「占星四系同參」引擎之 XY／XYD 兩模組（儒略日、ΔT、章動、太陽與月亮視黃經、均時差、解角器、定朔平朔、定氣平氣、農曆）。未改一字，故該引擎既有之外證同時成立。<br><br>
+      <b>節氣精度</b>　太陽視黃經採低階級數，節氣時刻誤差約在十分鐘內。凡事時落在節氣前後十分鐘者，年柱或月柱可能翻邊，介面已標警示，須另以高精度曆書複核。<br><br>
+      <b>日干支錨</b>　以一九四九年十月一日為甲子日，沿用既有引擎之錨，未另立新說。<br><br>
+      <b>立春換年</b>　原引擎之年干支以西曆年推、未計立春（其自註在案）。本層改以立春為界，此為堪輿必需——三元九運、年紫白、命卦皆繫於此。原引擎不動。<br><br>
+      <b>三針進退</b>　採中針逆七度半、縫針順七度半之通行說。各家記述互異，故寫為參數而不寫死，日後可並列異說。<br><br>
+      <b>磁偏角</b>　現為手動輸入。地磁模型（WMM）係數尚未接入，接入後可由經緯度與年份自動求得。<br><br>
+      <b>尚未實作</b>　理氣盤式（玄空飛星、三合、八宅）、神煞層（協紀辨方書）、巒頭圖鑑。此版僅立底層。
+    </div>
+  </section>
+</div>
+<script>
+'use strict';
+var XY = (function () {
+
+  var D2R = Math.PI / 180, R2D = 180 / Math.PI;
+  function sin(d) { return Math.sin(d * D2R); }
+  function cos(d) { return Math.cos(d * D2R); }
+  function mod(a, n) { return ((a % n) + n) % n; }
+  function norm360(a) { return mod(a, 360); }
+
+  /* ---------- 儒略日 ---------- */
+  // 西曆（1582-10-15 起格里曆，之前儒略曆）→ JD（UT）
+  function toJD(y, m, d, hourFrac) {
+    var Y = y, M = m;
+    if (M <= 2) { Y -= 1; M += 12; }
+    var greg = (y > 1582) || (y === 1582 && (m > 10 || (m === 10 && d >= 15)));
+    var A = Math.floor(Y / 100), B = greg ? (2 - A + Math.floor(A / 4)) : 0;
+    return Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1))
+      + d + B - 1524.5 + (hourFrac || 0) / 24;
+  }
+  function fromJD(jd) {
+    var z = Math.floor(jd + 0.5), f = jd + 0.5 - z, A = z;
+    if (z >= 2299161) {
+      var al = Math.floor((z - 1867216.25) / 36524.25);
+      A = z + 1 + al - Math.floor(al / 4);
+    }
+    var B = A + 1524, C = Math.floor((B - 122.1) / 365.25),
+      D = Math.floor(365.25 * C), E = Math.floor((B - D) / 30.6001);
+    var day = B - D - Math.floor(30.6001 * E) + f;
+    var mo = (E < 14) ? E - 1 : E - 13;
+    var yr = (mo > 2) ? C - 4716 : C - 4715;
+    var di = Math.floor(day), hf = (day - di) * 24;
+    return { y: yr, m: mo, d: di, h: hf };
+  }
+  // ΔT（Espenak/Meeus 多項式，簡化；只需秒級即可）
+  function deltaT(y) {
+    var t, u;
+    if (y < -500) { u = (y - 1820) / 100; return -20 + 32 * u * u; }
+    if (y < 500) { u = y / 100; return 10583.6 - 1014.41 * u + 33.78311 * u * u - 5.952053 * u * u * u - 0.1798452 * Math.pow(u, 4) + 0.022174192 * Math.pow(u, 5) + 0.0090316521 * Math.pow(u, 6); }
+    if (y < 1600) { u = (y - 1000) / 100; return 1574.2 - 556.01 * u + 71.23472 * u * u + 0.319781 * u * u * u - 0.8503463 * Math.pow(u, 4) - 0.005050998 * Math.pow(u, 5) + 0.0083572073 * Math.pow(u, 6); }
+    if (y < 1700) { t = y - 1600; return 120 - 0.9808 * t - 0.01532 * t * t + t * t * t / 7129; }
+    if (y < 1800) { t = y - 1700; return 8.83 + 0.1603 * t - 0.0059285 * t * t + 0.00013336 * t * t * t - t * t * t * t / 1174000; }
+    if (y < 1860) { t = y - 1800; return 13.72 - 0.332447 * t + 0.0068612 * t * t + 0.0041116 * t * t * t - 0.00037436 * Math.pow(t, 4) + 0.0000121272 * Math.pow(t, 5) - 0.0000001699 * Math.pow(t, 6) + 0.000000000875 * Math.pow(t, 7); }
+    if (y < 1900) { t = y - 1860; return 7.62 + 0.5737 * t - 0.251754 * t * t + 0.01680668 * t * t * t - 0.0004473624 * Math.pow(t, 4) + t * t * t * t * t / 233174; }
+    if (y < 1920) { t = y - 1900; return -2.79 + 1.494119 * t - 0.0598939 * t * t + 0.0061966 * t * t * t - 0.000197 * Math.pow(t, 4); }
+    if (y < 1941) { t = y - 1920; return 21.20 + 0.84493 * t - 0.076100 * t * t + 0.0020936 * t * t * t; }
+    if (y < 1961) { t = y - 1950; return 29.07 + 0.407 * t - t * t / 233 + t * t * t / 2547; }
+    if (y < 1986) { t = y - 1975; return 45.45 + 1.067 * t - t * t / 260 - t * t * t / 718; }
+    if (y < 2005) { t = y - 2000; return 63.86 + 0.3345 * t - 0.060374 * t * t + 0.0017275 * t * t * t + 0.000651814 * Math.pow(t, 4) + 0.00002373599 * Math.pow(t, 5); }
+    if (y < 2050) { t = y - 2000; return 62.92 + 0.32217 * t + 0.005589 * t * t; }
+    if (y < 2150) { return -20 + 32 * Math.pow((y - 1820) / 100, 2) - 0.5628 * (2150 - y); }
+    u = (y - 1820) / 100; return -20 + 32 * u * u;
+  }
+
+  /* ---------- 章動與黃赤交角 ---------- */
+  function nutObl(T) {
+    var Om = 125.04452 - 1934.136261 * T + 0.0020708 * T * T + T * T * T / 450000;
+    var L = 280.4665 + 36000.7698 * T, Lp = 218.3165 + 481267.8813 * T;
+    var dpsi = (-17.20 * sin(Om) - 1.32 * sin(2 * L) - 0.23 * sin(2 * Lp) + 0.21 * sin(2 * Om)) / 3600;
+    var deps = (9.20 * cos(Om) + 0.57 * cos(2 * L) + 0.10 * cos(2 * Lp) - 0.09 * cos(2 * Om)) / 3600;
+    var U = T / 100;
+    var e0 = 23 + 26 / 60 + 21.448 / 3600
+      + (-4680.93 * U - 1.55 * Math.pow(U, 2) + 1999.25 * Math.pow(U, 3) - 51.38 * Math.pow(U, 4)
+        - 249.67 * Math.pow(U, 5) - 39.05 * Math.pow(U, 6) + 7.12 * Math.pow(U, 7)
+        + 27.87 * Math.pow(U, 8) + 5.79 * Math.pow(U, 9) + 2.45 * Math.pow(U, 10)) / 3600;
+    return { dpsi: dpsi, deps: deps, eps0: e0, eps: e0 + deps, omega: Om };
+  }
+
+  /* ---------- 太陽視黃經 ---------- */
+  function sunLon(jde) {
+    var T = (jde - 2451545) / 36525;
+    var L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
+    var M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;
+    var C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * sin(M)
+      + (0.019993 - 0.000101 * T) * sin(2 * M)
+      + 0.000289 * sin(3 * M);
+    var tru = L0 + C;
+    var Om = 125.04 - 1934.136 * T;
+    var lam = tru - 0.00569 - 0.00478 * sin(Om);   // 視黃經（含光行差與章動）
+    return norm360(lam);
+  }
+
+  /* ---------- 月亮黃經：Meeus 47.A 六十項 ---------- */
+  var MT = [
+    [0, 0, 1, 0, 6288774], [2, 0, -1, 0, 1274027], [2, 0, 0, 0, 658314], [0, 0, 2, 0, 213618],
+    [0, 1, 0, 0, -185116], [0, 0, 0, 2, -114332], [2, 0, -2, 0, 58793], [2, -1, -1, 0, 57066],
+    [2, 0, 1, 0, 53322], [2, -1, 0, 0, 45758], [0, 1, -1, 0, -40923], [1, 0, 0, 0, -34720],
+    [0, 1, 1, 0, -30383], [2, 0, 0, -2, 15327], [0, 0, 1, 2, -12528], [0, 0, 1, -2, 10980],
+    [4, 0, -1, 0, 10675], [0, 0, 3, 0, 10034], [4, 0, -2, 0, 8548], [2, 1, -1, 0, -7888],
+    [2, 1, 0, 0, -6766], [1, 0, -1, 0, -5163], [1, 1, 0, 0, 4987], [2, -1, 1, 0, 4036],
+    [2, 0, 2, 0, 3994], [4, 0, 0, 0, 3861], [2, 0, -3, 0, 3665], [0, 1, -2, 0, -2689],
+    [2, 0, -1, 2, -2602], [2, -1, -2, 0, 2390], [1, 0, 1, 0, -2348], [2, -2, 0, 0, 2236],
+    [0, 1, 2, 0, -2120], [0, 2, 0, 0, -2069], [2, -2, -1, 0, 2048], [2, 0, 1, -2, -1773],
+    [2, 0, 0, 2, -1595], [4, -1, -1, 0, 1215], [0, 0, 2, 2, -1110], [3, 0, -1, 0, -892],
+    [2, 1, 1, 0, -810], [4, -1, -2, 0, 759], [0, 2, -1, 0, -713], [2, 2, -1, 0, -700],
+    [2, 1, -2, 0, 691], [2, -1, 0, -2, 596], [4, 0, 1, 0, 549], [0, 0, 4, 0, 537],
+    [4, -1, 0, 0, 520], [1, 0, -2, 0, -487], [2, 1, 0, -2, -399], [0, 0, 2, -2, -381],
+    [1, 1, 1, 0, 351], [3, 0, -2, 0, -340], [4, 0, -3, 0, 330], [2, -1, 2, 0, 327],
+    [0, 2, 1, 0, -323], [1, 1, -1, 0, 299], [2, 0, 3, 0, 294], [2, 0, -1, -2, 0]
+  ];
+
+  function moonLon(jde) {
+    var T = (jde - 2451545) / 36525;
+    var Lp = 218.3164477 + 481267.88123421 * T - 0.0015786 * T * T + T * T * T / 538841 - Math.pow(T, 4) / 65194000;
+    var D = 297.8501921 + 445267.1114034 * T - 0.0018819 * T * T + T * T * T / 545868 - Math.pow(T, 4) / 113065000;
+    var M = 357.5291092 + 35999.0502909 * T - 0.0001536 * T * T + T * T * T / 24490000;
+    var Mp = 134.9633964 + 477198.8675055 * T + 0.0087414 * T * T + T * T * T / 69699 - Math.pow(T, 4) / 14712000;
+    var F = 93.2720950 + 483202.0175233 * T - 0.0036539 * T * T - T * T * T / 3526000 + Math.pow(T, 4) / 863310000;
+    var A1 = 119.75 + 131.849 * T, A2 = 53.09 + 479264.290 * T;
+    var E = 1 - 0.002516 * T - 0.0000074 * T * T;
+    var sl = 0;
+    for (var i = 0; i < MT.length; i++) {
+      var t = MT[i], arg = t[0] * D + t[1] * M + t[2] * Mp + t[3] * F, c = t[4];
+      if (Math.abs(t[1]) === 1) c *= E; else if (Math.abs(t[1]) === 2) c *= E * E;
+      sl += c * sin(arg);
+    }
+    sl += 3958 * sin(A1) + 1962 * sin(Lp - F) + 318 * sin(A2);
+    var lam = Lp + sl / 1000000;
+    var nu = nutObl(T);
+    return norm360(lam + nu.dpsi);   // 視黃經
+  }
+
+  /* ---------- 均時差（分鐘） ---------- */
+  function eqTime(jde) {
+    var T = (jde - 2451545) / 36525, tau = T / 10;
+    var L0 = 280.4664567 + 360007.6982779 * tau + 0.03032028 * tau * tau
+      + tau * tau * tau / 49931 - Math.pow(tau, 4) / 15300 - Math.pow(tau, 5) / 2000000;
+    var nu = nutObl(T), lam = sunLon(jde);
+    var alpha = Math.atan2(cos(nu.eps) * sin(lam), cos(lam)) * R2D;
+    var E = norm360(L0) - 0.0057183 - norm360(alpha) + nu.dpsi * cos(nu.eps);
+    E = mod(E + 180, 360) - 180;
+    return E * 4;   // 度→分鐘
+  }
+
+  /* ---------- 歲差 / ayanāṁśa ---------- */
+  // Lahiri：J2000.0 為 23.8531°，年變率約 50.29″
+  function ayanamsaLahiri(jde) {
+    var T = (jde - 2451545) / 36525;
+    return 23.8531 + 1.39694 * T + 0.000308 * T * T;
+  }
+
+  /* ---------- 求解器：由目標黃經反解時刻 ---------- */
+  function solveAngle(fn, target, jd0, span) {
+    // fn(jd) 回傳角度；求 fn(jd) ≡ target 的最近解
+    var f = function (jd) { return mod(fn(jd) - target + 180, 360) - 180; };
+    var lo = jd0 - span, hi = jd0 + span, flo = f(lo), fhi = f(hi), i;
+    // 掃描找變號區間
+    var step = span / 40, a = lo, fa = flo, b, fb;
+    for (i = 1; i <= 80; i++) {
+      b = lo + i * step; fb = f(b);
+      if (fa <= 0 && fb >= 0 && (fb - fa) < 180) break;
+      a = b; fa = fb;
+      if (b >= hi) return null;
+    }
+    if (b === undefined) return null;
+    for (i = 0; i < 60; i++) {
+      var mid = (a + b) / 2, fm = f(mid);
+      if (fm < 0) { a = mid; } else { b = mid; }
+      if (b - a < 1e-8) break;
+    }
+    return (a + b) / 2;
+  }
+
+  return {
+    D2R: D2R, sin: sin, cos: cos, mod: mod, norm360: norm360,
+    toJD: toJD, fromJD: fromJD, deltaT: deltaT, nutObl: nutObl,
+    sunLon: sunLon, moonLon: moonLon, eqTime: eqTime,
+    ayanamsaLahiri: ayanamsaLahiri, solveAngle: solveAngle
+  };
+})();
+
+/* 宿曜曆經引擎 — 曆法層與宿曜層 */
+'use strict';
+var XYD = (function (XY) {
+
+  var SYN = 29.530588853;
+  var TZ = 8 / 24;                       // 東八區
+  function dayNo(jdUT) { return Math.floor(jdUT + 0.5 + TZ); }
+  function tt(jdUT, y) { return jdUT + XY.deltaT(y) / 86400; }
+  function yearOf(jdUT) { return XY.fromJD(jdUT).y; }
+
+  /* 由 UT 解算：太陽視黃經達 target 的時刻（UT） */
+  function solarTerm(jdGuess, target) {
+    var y = yearOf(jdGuess);
+    var f = function (jdUT) { return XY.sunLon(tt(jdUT, y)); };
+    return XY.solveAngle(f, target, jdGuess, 20);
+  }
+  /* 朔：月日視黃經差為 0 */
+  function newMoonNear(jdGuess) {
+    var y = yearOf(jdGuess);
+    var f = function (jdUT) {
+      var j = tt(jdUT, y);
+      return XY.norm360(XY.moonLon(j) - XY.sunLon(j));
+    };
+    return XY.solveAngle(f, 0, jdGuess, 20);
+  }
+  /* 平朔（唐麟德曆六六五年行用定朔之前，歷代皆用平朔）
+     用 Meeus ch.49 之平朔式（無週期改正項），即天文意義之平朔；
+     非復刻某一部古曆之朔策，故不宣稱等同四分曆或大衍曆之平朔。 */
+  var DINGSHUO_FROM = 0;   // 0 ＝ 一律用定朔（見文獻區：平朔經測後不採）
+  function meanNewMoonNear(jdUT, y) {
+    var k = Math.round((jdUT - 2451550.09766) / 29.530588861);
+    var T = k / 1236.85;
+    var jde = 2451550.09766 + 29.530588861 * k
+      + 0.00015437 * T * T - 0.000000150 * T * T * T + 0.00000000073 * Math.pow(T, 4);
+    return jde - XY.deltaT(y) / 86400;                  // TT → UT
+  }
+  function newMoonAuto(jdGuess) {
+    var y = yearOf(jdGuess);
+    if (y >= DINGSHUO_FROM) return newMoonNear(jdGuess);
+    return meanNewMoonNear(jdGuess, y);
+  }
+  function newMoonOnOrBefore(dn) {
+    var jd = dn - 0.5 - TZ;              // 該日 00:00 地方時的 UT 儒略日
+    var t = newMoonAuto(jd + 0.5);
+    if (t === null || dayNo(t) > dn) { t = newMoonAuto(jd - SYN + 0.5); }
+    var guard = 0;
+    while (t !== null && dayNo(t) > dn && guard++ < 4) { t = newMoonAuto(t - SYN); }
+    return t;
+  }
+  /* 某年冬至（λ☉=270）*/
+  function winterSolstice(year) {
+    return solarTerm(XY.toJD(year, 12, 21, 0), 270);
+  }
+
+  /* 農曆換算：輸入西曆 y,m,d → {month, leap, day} */
+  function jdOfDayStart(dn) { return dn - 0.5 - TZ; }   // 該日 00:00 地方時之 UT 儒略日
+  function sunAt(dn, y) { return XY.sunLon(tt(jdOfDayStart(dn), y)); }
+  var TROPY = 365.2422;
+  // 定氣（清《時憲曆》1645 起）：中氣為真黃經達 30 之倍數
+  function hasZhongqiDing(a, b, y) {
+    var la = sunAt(a, y), lb = sunAt(b, y);
+    var ka = Math.floor(la / 30), kb = Math.floor(lb / 30);
+    if (lb < la) kb += 12;                              // 跨春分點
+    return kb > ka;
+  }
+  // 平氣（1645 以前歷代）：自冬至起每歲實十二分之一為一中氣
+  function hasZhongqiPing(a, b, ws0) {
+    var step = TROPY / 12;
+    for (var k = 0; k <= 12; k++) {
+      var d = dayNo(ws0 + k * step);
+      if (d >= a && d < b) return true;
+    }
+    return false;
+  }
+  var DINGQI_FROM = 1645;                               // 時憲曆行用之年
+  function hasZhongqi(a, b, y, ws0) {
+    return (y >= DINGQI_FROM) ? hasZhongqiDing(a, b, y) : hasZhongqiPing(a, b, ws0);
+  }
+  var tblCache = {};
+  function buildTable(a) {
+    if (tblCache[a]) return tblCache[a];
+    var ws0 = winterSolstice(a), ws1 = winterSolstice(a + 1);
+    var m11 = dayNo(newMoonOnOrBefore(dayNo(ws0)));
+    var m11n = dayNo(newMoonOnOrBefore(dayNo(ws1)));
+    var n = Math.round((m11n - m11) / SYN);
+    var s = [m11], i;
+    for (i = 1; i < n; i++) s.push(dayNo(newMoonAuto(jdOfDayStart(m11) + i * SYN)));
+    s.push(m11n);
+    var leapIdx = -1;
+    if (n === 13) {
+      for (i = 1; i < n; i++) { if (!hasZhongqi(s[i], s[i + 1], a, ws0)) { leapIdx = i; break; } }
+      if (leapIdx < 0) leapIdx = 12;                    // 保險：無中氣月未尋得則置於末
+    }
+    var names = [], leaps = [];
+    for (i = 0; i < n; i++) {
+      if (i === leapIdx) { names.push(names[i - 1]); leaps.push(true); }
+      else { names.push(i === 0 ? 11 : names[i - 1] % 12 + 1); leaps.push(false); }
+    }
+    var t = { s: s, names: names, leap: leaps, n: n };
+    tblCache[a] = t;
+    return t;
+  }
+  function lunarOf(y, m, d) {
+    var dn = Math.floor(XY.toJD(y, m, d, 0) + 0.5 + TZ);
+    var a = y, tbl = buildTable(a);
+    if (dn < tbl.s[0]) { a = y - 1; tbl = buildTable(a); }
+    else if (dn >= tbl.s[tbl.n]) { a = y + 1; tbl = buildTable(a); }
+    for (var j = 0; j < tbl.n; j++) {
+      if (dn >= tbl.s[j] && dn < tbl.s[j + 1]) {
+        return { month: tbl.names[j], leap: tbl.leap[j], day: dn - tbl.s[j] + 1,
+                 dn: dn, mlen: tbl.s[j + 1] - tbl.s[j], nmon: tbl.n };
+      }
+    }
+    return null;
+  }
+
+  return { SYN: SYN, TZ: TZ, dayNo: dayNo, tt: tt, yearOf: yearOf,
+    solarTerm: solarTerm, newMoonNear: newMoonNear, meanNewMoonNear: meanNewMoonNear,
+    newMoonAuto: newMoonAuto, newMoonOnOrBefore: newMoonOnOrBefore,
+    winterSolstice: winterSolstice, lunarOf: lunarOf, jdOfDayStart: jdOfDayStart,
+    DINGSHUO_FROM: DINGSHUO_FROM, DINGQI_FROM: DINGQI_FROM };
+})(XY);
+
+/* 堪輿理氣 — 干支曆・三元九運・二十四山
+   曆象底層沿用 XY / XYD（自「占星四系同參」引擎逐位元移植，未改一字） */
+var KY = (function (XY, XYD) {
+  'use strict';
+
+  var GAN = '甲乙丙丁戊己庚辛壬癸'.split('');
+  var ZHI = '子丑寅卯辰巳午未申酉戌亥'.split('');
+  function gz(n) { n = XY.mod(n, 60); return GAN[n % 10] + ZHI[n % 12]; }
+
+  /* ---------- 節氣 ---------- */
+  /* 十二節（月建之界）與十二中氣，以太陽視黃經定義 */
+  var JIE = [
+    ['立春', 315, '寅'], ['驚蟄', 345, '卯'], ['清明', 15, '辰'], ['立夏', 45, '巳'],
+    ['芒種', 75, '午'], ['小暑', 105, '未'], ['立秋', 135, '申'], ['白露', 165, '酉'],
+    ['寒露', 195, '戌'], ['立冬', 225, '亥'], ['大雪', 255, '子'], ['小寒', 285, '丑']
+  ];
+  var QI = [['雨水', 330], ['春分', 0], ['穀雨', 30], ['小滿', 60], ['夏至', 90], ['大暑', 120],
+    ['處暑', 150], ['秋分', 180], ['霜降', 210], ['小雪', 240], ['冬至', 270], ['大寒', 300]];
+
+  /* 求某西曆年中某節氣之時刻（UT 儒略日）。guessMonth 為粗猜之月份 */
+  function termJD(year, lambda) {
+    // 由黃經反推大致日序：春分(0°)約在年積日 79
+    var approx = XY.mod(lambda, 360) / 360 * 365.2422 + 79.0;
+    if (approx > 365.2422) approx -= 365.2422;
+    var guess = XY.toJD(year, 1, 1, 0) + approx;
+    return XYD.solarTerm(guess, lambda);
+  }
+  function lichunJD(year) { return termJD(year, 315); }
+
+  /* ---------- 四柱 ---------- */
+  /* 日干支錨點：1949-10-01 為甲子日（沿用既有引擎之錨） */
+  var DAY_ANCHOR = XYD.dayNo(XY.toJD(1949, 10, 1, 0));
+  function dayGZ(dn) { return XY.mod(dn - DAY_ANCHOR, 60); }
+
+  /* 五虎遁：年干 → 寅月之月干 */
+  function monthGanStart(yearGanIdx) { return XY.mod(yearGanIdx * 2 + 2, 10); }
+  /* 五鼠遁：日干 → 子時之時干 */
+  function hourGanStart(dayGanIdx) { return XY.mod(dayGanIdx * 2, 10); }
+
+  /* 主入口
+     opt: {y,m,d,hh,mi, lon:經度, trueSolar:布林, lateZi:布林(夜子時歸翌日, 預設真)} */
+  function pillars(opt) {
+    var lon = (opt.lon === undefined) ? 120 : opt.lon;
+    var lateZi = (opt.lateZi === undefined) ? true : opt.lateZi;
+    var jdUT0 = XY.toJD(opt.y, opt.m, opt.d, (opt.hh + opt.mi / 60) - 8);  // 東八區鐘面 → UT
+    var corr = 0, eq = 0;
+    if (opt.trueSolar) {
+      eq = XY.eqTime(jdUT0 + XY.deltaT(opt.y) / 86400);
+      corr = (lon - 120) * 4 + eq;                    // 分
+    }
+    var jdUT = jdUT0 + corr / 1440;
+    var jdTT = jdUT + XY.deltaT(opt.y) / 86400;
+
+    /* 年柱：立春換年 */
+    var lc = lichunJD(opt.y);
+    var sy = (jdUT >= lc) ? opt.y : opt.y - 1;
+    var yIdx = XY.mod(sy - 4, 60);
+
+    /* 月柱：由太陽視黃經直定月建（節氣分界即黃經分界，無須逐節解算） */
+    var lam = XY.sunLon(jdTT);
+    var mi12 = Math.floor(XY.mod(lam - 315, 360) / 30);   // 0=寅
+    var mGan = XY.mod(monthGanStart(yIdx % 10) + mi12, 10);
+    var mZhi = XY.mod(mi12 + 2, 12);
+
+    /* 日柱：以修正後之時刻定日；夜子時可選歸翌日 */
+    var clock = opt.hh + opt.mi / 60 + corr / 60;        // 修正後之鐘面時（可能溢出 0–24）
+    var dayShift = 0;
+    if (clock >= 24) { dayShift = 1; clock -= 24; }
+    if (clock < 0) { dayShift = -1; clock += 24; }
+    var dn = XYD.dayNo(XY.toJD(opt.y, opt.m, opt.d, 0)) + dayShift;
+    var hIdx = XY.mod(Math.floor((clock + 1) / 2), 12);  // 時支：23:00 起子
+    if (lateZi && clock >= 23) dn += 1;                  // 夜子時歸翌日
+    var dIdx = dayGZ(dn);
+
+    /* 時柱 */
+    var hGan = XY.mod(hourGanStart(dIdx % 10) + hIdx, 10);
+
+    return {
+      year: { gz: gz(yIdx), idx: yIdx, solarYear: sy },
+      month: { gz: GAN[mGan] + ZHI[mZhi], jie: JIE[mi12][0], zhi: ZHI[mZhi] },
+      day: { gz: gz(dIdx), idx: dIdx, dn: dn },
+      hour: { gz: GAN[hGan] + ZHI[hIdx], zhi: ZHI[hIdx] },
+      sunLon: lam, corr: corr, eq: eq, lichun: lc, jdUT: jdUT
+    };
+  }
+
+  /* ---------- 三元九運 ---------- */
+  /* 上元一運起 1864 甲子；九運各二十年，三元一百八十年 */
+  var YUN_EPOCH = 1864;
+  var YUAN_NAME = ['上元', '中元', '下元'];
+  var YUN_STAR = ['一白', '二黑', '三碧', '四綠', '五黃', '六白', '七赤', '八白', '九紫'];
+  function yunOf(solarYear) {
+    var k = solarYear - YUN_EPOCH;
+    var n = Math.floor(k / 20);
+    var yun = XY.mod(n, 9) + 1;
+    var yuan = XY.mod(Math.floor(n / 3), 3);
+    var start = YUN_EPOCH + Math.floor(k / 20) * 20;
+    return { yun: yun, star: YUN_STAR[yun - 1], yuan: YUAN_NAME[yuan],
+      from: start, to: start + 19 };
+  }
+
+  /* ---------- 二十四山 ---------- */
+  /* 子居正北 0°，順時針每十五度一山 */
+  var SHAN = '子癸丑艮寅甲卯乙辰巽巳丙午丁未坤申庚酉辛戌乾亥壬'.split('');
+  var GUA8 = { 壬: '坎', 子: '坎', 癸: '坎', 丑: '艮', 艮: '艮', 寅: '艮',
+    甲: '震', 卯: '震', 乙: '震', 辰: '巽', 巽: '巽', 巳: '巽',
+    丙: '離', 午: '離', 丁: '離', 未: '坤', 坤: '坤', 申: '坤',
+    庚: '兌', 酉: '兌', 辛: '兌', 戌: '乾', 乾: '乾', 亥: '乾' };
+  /* 三針：正針（地盤，磁北）為基準；中針（人盤）逆七度半，縫針（天盤）順七度半。
+     各家對中縫之進退記述互異，此處採通行說，並以參數外顯而不寫死。 */
+  var NEEDLE = { 正針: 0, 中針: -7.5, 縫針: 7.5 };
+
+  /* bearing: 羅盤讀數（度）。decl: 磁偏角（東偏為正）。
+     mode 'magnetic' 表讀數本為磁方位；'true' 表已為真方位 */
+  function shanOf(bearing, opt) {
+    opt = opt || {};
+    var needle = NEEDLE[opt.needle || '正針'];
+    var decl = opt.decl || 0;
+    var b = bearing;
+    if (opt.mode === 'true') b = b - decl;      // 真方位 → 磁方位（正針以磁北為準）
+    b = XY.mod(b + needle, 360);
+    var i = Math.floor(XY.mod(b + 7.5, 360) / 15);
+    var centre = i * 15;
+    var off = XY.mod(b - centre + 180, 360) - 180;
+    return { shan: SHAN[i], idx: i, gua: GUA8[SHAN[i]], centre: centre,
+      offset: off, edge: Math.abs(Math.abs(off) - 7.5) < 1.5,
+      magnetic: b, true: XY.mod(b + decl, 360) };
+  }
+
+  return { GAN: GAN, ZHI: ZHI, gz: gz, JIE: JIE, QI: QI, termJD: termJD,
+    lichunJD: lichunJD, pillars: pillars, yunOf: yunOf, SHAN: SHAN, GUA8: GUA8,
+    NEEDLE: NEEDLE, shanOf: shanOf, dayGZ: dayGZ, DAY_ANCHOR: DAY_ANCHOR };
+})(XY, XYD);
+
+</script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var SHAN=KY.SHAN, RINGS=[{n:'縫針',r:150,fs:12},{n:'正針',r:120,fs:13},{n:'中針',r:90,fs:12}];
+
+  function drawDial(bearing){
+    var s='',cx=160,cy=160;
+    s+='<circle cx="160" cy="160" r="157" fill="#1E1A15" stroke="#3A322A"/>';
+    RINGS.forEach(function(R){
+      var off=KY.NEEDLE[R.n];
+      s+='<circle cx="160" cy="160" r="'+R.r+'" fill="none" stroke="#3A322A"/>';
+      for(var i=0;i<24;i++){
+        // 該環上第 i 山之中心，換算為畫面角度（正北在上、順時針）
+        var ang=i*15-off, rad=(ang-90)*Math.PI/180;
+        var tx=cx+(R.r-13)*Math.cos(rad), ty=cy+(R.r-13)*Math.sin(rad);
+        var bd=(ang-7.5-90)*Math.PI/180;
+        s+='<line x1="'+(cx+(R.r-26)*Math.cos(bd)).toFixed(1)+'" y1="'+(cy+(R.r-26)*Math.sin(bd)).toFixed(1)
+          +'" x2="'+(cx+R.r*Math.cos(bd)).toFixed(1)+'" y2="'+(cy+R.r*Math.sin(bd)).toFixed(1)
+          +'" stroke="#3A322A" stroke-width="0.7"/>';
+        var col=(SHAN[i]==='子'||SHAN[i]==='午'||SHAN[i]==='卯'||SHAN[i]==='酉')?'#C9A24B':'#C4342B';
+        s+='<text x="'+tx.toFixed(1)+'" y="'+ty.toFixed(1)+'" fill="'+col+'" font-size="'+R.fs
+          +'" text-anchor="middle" dominant-baseline="central" font-family="Noto Serif TC,serif">'+SHAN[i]+'</text>';
+      }
+    });
+    var br=(bearing-90)*Math.PI/180;
+    s+='<line x1="'+(cx-40*Math.cos(br)).toFixed(1)+'" y1="'+(cy-40*Math.sin(br)).toFixed(1)
+      +'" x2="'+(cx+157*Math.cos(br)).toFixed(1)+'" y2="'+(cy+157*Math.sin(br)).toFixed(1)
+      +'" stroke="#E9E1D0" stroke-width="1.6"/>';
+    s+='<circle cx="160" cy="160" r="26" fill="#14110E" stroke="#C9A24B"/>';
+    s+='<text x="160" y="160" fill="#8C8071" font-size="10" text-anchor="middle" dominant-baseline="central" letter-spacing="2">天池</text>';
+    $('dial').innerHTML=s;
+  }
+
+  function run(){
+    var v={y:+$('iy').value,m:+$('im').value,d:+$('id').value,hh:+$('ih').value,mi:+$('ii').value,
+      lon:+$('ilon').value,trueSolar:$('its').checked,lateZi:$('ilz').checked};
+    var P,err=null;
+    try{ P=KY.pillars(v); }catch(e){ err=e.message; }
+    if(err){ $('out').innerHTML='<tr><td class="warn">起算失敗：'+err+'</td></tr>'; return; }
+
+    var b=+$('ib').value, opt={needle:$('ind').value,decl:+$('idec').value,mode:$('imode').value};
+    var S=KY.shanOf(b,opt);
+    drawDial(S.magnetic);
+
+    var rd='';
+    RINGS.forEach(function(R){
+      var r=KY.shanOf(b,{needle:R.n,decl:opt.decl,mode:opt.mode});
+      rd+='<div><b>'+r.shan+'</b><span>'+R.n+'　'+r.gua+'</span></div>';
+    });
+    $('read').innerHTML=rd;
+
+    var Y=KY.yunOf(P.year.solarYear);
+    var lcd=XY.fromJD(P.lichun+8/24);
+    var nearJie=Math.abs(((XY.mod(P.sunLon-315,360))%30)-0)<0.007 || (30-((XY.mod(P.sunLon-315,360))%30))<0.007;
+    var h='';
+    h+='<tr><th>四柱</th><td><span class="gz">'+P.year.gz+'　'+P.month.gz+'　'+P.day.gz+'　'+P.hour.gz+'</span></td></tr>';
+    h+='<tr><th>月建</th><td>'+P.month.jie+'節後　'+P.month.zhi+'月</td></tr>';
+    h+='<tr><th>三元九運</th><td><span class="gz">'+Y.yuan+Y.yun+'運</span>　'+Y.star+'　<span class="mono">'+Y.from+'–'+Y.to+'</span></td></tr>';
+    h+='<tr><th>本年立春</th><td class="mono">'+lcd.y+'-'+lcd.m+'-'+lcd.d+' '+Math.floor(lcd.h)+':'+String(Math.round(lcd.h%1*60)).padStart(2,'0')+'</td></tr>';
+    h+='<tr><th>太陽視黃經</th><td class="mono">'+P.sunLon.toFixed(4)+'°</td></tr>';
+    h+='<tr><th>真太陽時修正</th><td class="mono">'+(v.trueSolar?P.corr.toFixed(2)+' 分（均時差 '+P.eq.toFixed(2)+' 分）':'未用')+'</td></tr>';
+    h+='<tr><th>坐向</th><td><span class="gz">'+S.shan+'山</span>　'+S.gua+'卦　偏中心 <span class="mono">'+S.offset.toFixed(2)+'°</span>'
+      +(S.edge?'　<span class="warn">近山界，宜複核</span>':'')+'</td></tr>';
+    h+='<tr><th>磁／真方位</th><td class="mono">'+S.magnetic.toFixed(1)+'° ／ '+S['true'].toFixed(1)+'°</td></tr>';
+    if(nearJie) h+='<tr><th></th><td class="warn">事時逼近節氣分界，年柱或月柱可能翻邊，請以高精度曆書複核。</td></tr>';
+    $('out').innerHTML=h;
+  }
+
+  function selfcheck(){
+    var out=[],p=0,f=0;
+    function ok(n,c,note){ if(c){p++;out.push('<i>✓</i> <span class="pass">'+n+'</span>');}
+      else{f++;out.push('<i>✗</i> <span class="fail">'+n+(note?'　← '+note:'')+'</span>');} }
+    function P(o){return KY.pillars(o)}
+    ok('一九四九年十月一日為甲子日', P({y:1949,m:10,d:1,hh:12,mi:0}).day.gz==='甲子');
+    ok('六十日後復為甲子', P({y:1949,m:11,d:30,hh:12,mi:0}).day.gz==='甲子');
+    ok('立春前為乙巳（二〇二六年二月三日）', P({y:2026,m:2,d:3,hh:12,mi:0}).year.gz==='乙巳');
+    ok('立春後為丙午（二〇二六年二月五日）', P({y:2026,m:2,d:5,hh:12,mi:0}).year.gz==='丙午');
+    ok('二〇二四年為甲辰', P({y:2024,m:6,d:1,hh:12,mi:0}).year.gz==='甲辰');
+    ok('五虎遁：甲年寅月為丙寅', P({y:2024,m:2,d:20,hh:12,mi:0}).month.gz==='丙寅');
+    ok('立春前後月建異（丑→寅）', P({y:2026,m:2,d:3,hh:12,mi:0}).month.zhi==='丑' && P({y:2026,m:2,d:5,hh:12,mi:0}).month.zhi==='寅');
+    ok('五鼠遁：甲日子時為甲子', P({y:1949,m:10,d:1,hh:0,mi:30}).hour.gz==='甲子');
+    ok('夜子時歸翌日則日柱進位', P({y:1949,m:10,d:1,hh:23,mi:30}).day.gz==='乙丑');
+    ok('不歸翌日則日柱不動', P({y:1949,m:10,d:1,hh:23,mi:30,lateZi:false}).day.gz==='甲子');
+    ok('一八六四上元一運', KY.yunOf(1864).yun===1 && KY.yunOf(1864).yuan==='上元');
+    ok('一九四四中元五運', KY.yunOf(1944).yun===5 && KY.yunOf(1944).yuan==='中元');
+    ok('一九八四下元七運', KY.yunOf(1984).yun===7 && KY.yunOf(1984).yuan==='下元');
+    ok('二〇二四下元九運', KY.yunOf(2024).yun===9 && KY.yunOf(2024).yuan==='下元');
+    ok('二〇四四復歸上元一運', KY.yunOf(2044).yun===1 && KY.yunOf(2044).yuan==='上元');
+    ok('每運二十年', KY.yunOf(2024).from===2024 && KY.yunOf(2024).to===2043);
+    ok('二十四山無重無漏', (function(){var s={};KY.SHAN.forEach(function(c){s[c]=1});return Object.keys(s).length===24})());
+    ok('四正：子午卯酉當正北南東西', KY.shanOf(0).shan==='子'&&KY.shanOf(180).shan==='午'&&KY.shanOf(90).shan==='卯'&&KY.shanOf(270).shan==='酉');
+    ok('每山十五度（三五二·四屬壬、三五二·六屬子）', KY.shanOf(352.4).shan==='壬'&&KY.shanOf(352.6).shan==='子');
+    ok('八卦歸屬：艮山屬艮、巽山屬巽', KY.shanOf(45).gua==='艮'&&KY.shanOf(135).gua==='巽');
+    ok('中針逆七度半：正針癸位讀作子', KY.shanOf(10).shan==='癸'&&KY.shanOf(10,{needle:'中針'}).shan==='子');
+    ok('縫針順七度半：正針子位讀作癸', KY.shanOf(5,{needle:'縫針'}).shan==='癸');
+    ok('近山界可觸發警示', KY.shanOf(7.4).edge===true);
+    ok('磁偏角改動真方位而不改磁方位', Math.abs(KY.shanOf(30,{decl:-4})['true']-26)<0.001);
+    ok('真太陽時修正在合理範圍', Math.abs(KY.pillars({y:2026,m:8,d:19,hh:12,mi:0,lon:121.5,trueSolar:true}).corr)<20);
+    ok('未用真太陽時則不修正', KY.pillars({y:2026,m:8,d:19,hh:12,mi:0,lon:121.5}).corr===0);
+    ok('冬至合天（二〇二五年十二月二十一日）', (function(){var d=XY.fromJD(XYD.winterSolstice(2025)+8/24);return d.m===12&&d.d===21})());
+    ok('農曆層可用（二〇二六年八月十九日為七月初七）', (function(){var L=XYD.lunarOf(2026,8,19);return L.month===7&&L.day===7&&!L.leap})());
+    out.push('<br><i>通過 '+p+' ／ 共 '+(p+f)+'</i>');
+    document.getElementById('chk').innerHTML=out.join('<br>');
+  }
+
+  $('go').addEventListener('click',run);
+  $('run').addEventListener('click',selfcheck);
+  window.addEventListener('error',function(e){
+    var c=document.getElementById('chk');
+    if(c) c.innerHTML+='<br><span class="fail">未捕獲例外：'+e.message+'（'+e.lineno+'）</span>';
+  });
+  run(); selfcheck();
+})();
+</script>
+</body>
+</html>
