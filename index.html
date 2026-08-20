@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>堪輿理氣 · 曆象核心 v1.1</title>
+<title>堪輿理氣 · 曆象核心 v1.2</title>
 <style>
 :root{
   --lacquer:#14110E; --lacquer2:#1E1A15; --vermilion:#C4342B; --gold:#C9A24B;
@@ -110,7 +110,7 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
 <body>
 <div class="wrap">
   <h1>堪輿理氣 · 曆象核心</h1>
-  <div class="sub">v1.1　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神・玄空飛星　—　理氣盤式未立</div>
+  <div class="sub">v1.2　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神・玄空飛星　—　理氣盤式未立</div>
 
   <nav role="tablist">
     <button role="tab" id="t1" aria-selected="true" data-p="p1">羅經</button>
@@ -129,6 +129,7 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
         <div><label>分</label><input id="ii" type="number" value="0"></div>
       </div>
       <div class="row"><div><label>經度（東經為正）</label><input id="ilon" type="number" step="0.1" value="121.5"></div><div><label>緯度（北緯為正）</label><input id="ilat" type="number" step="0.1" value="25.0"></div></div><div class="tog"><input id="iauto" type="checkbox" checked><label for="iauto" style="margin:0">磁偏角依 WMM2025 自動求（限二〇二五至二〇三〇）</label></div>
+      <div class="row"><div><button class="go" id="now" style="padding:9px;letter-spacing:.1em;font-size:13px">凍結此刻</button></div></div>
       <div class="tog"><input id="its" type="checkbox" checked><label for="its" style="margin:0">真太陽時</label></div>
       <div class="tog"><input id="ilz" type="checkbox" checked><label for="ilz" style="margin:0">夜子時歸翌日</label></div>
     </section>
@@ -137,15 +138,13 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
       <h2>坐向</h2>
       <div class="row">
         <div><label>羅盤讀數（度）</label><input id="ib" type="number" step="0.1" value="172.5"></div>
-        <div><label>用針</label><select id="ind"><option value="正針">正針・定向</option><option value="中針">中針・格龍</option><option value="縫針">縫針・消砂納水</option></select></div>
+        <div><label>判讀基準</label><select id="imode"><option value="magnetic">磁方位（古法）</option><option value="true">真方位</option></select></div>
       </div>
       <div class="row">
         <div><label>磁偏角（東偏為正）</label><input id="idec" type="number" step="0.01" value="-5.04"></div>
-        <div><label>讀數基準</label><select id="imode"><option value="magnetic">磁方位</option><option value="true">真方位</option></select></div>
+        
       </div>
-      <div class="row"><div><label>玄空元運（建成之運）</label><select id="iyun">
-        <option value="0">依事時之運</option><option>1</option><option>2</option><option>3</option><option>4</option>
-        <option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div></div>
+      <div class="row"><div><label>建成或入住之年（玄空宅運）</label><input id="ibuilt" type="number" value="2026"></div></div>
       <button class="go" id="go">起算</button>
     </section>
 
@@ -186,6 +185,13 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
       <div id="xkHead" class="ns"></div>
       <div class="grid9 xk" id="xk"></div>
       <div class="cap" id="xkCap"></div>
+    </section>
+
+    <section>
+      <h2>玄空流年</h2>
+      <div id="lnHead" class="ns"></div>
+      <div class="grid9 xk" id="ln"></div>
+      <div class="cap" id="lnCap"></div>
     </section>
 
     <section>
@@ -1301,6 +1307,65 @@ var GL = (function () {
   return { of: function (n) { return G[n] || null; }, all: G };
 })();
 
+/* 山之五行三系 與 玄空流年 —— 五行諸系據《協紀》卷二〈本原二〉原文 */
+var WX = (function (KY) {
+  'use strict';
+  /* 正五行：亥壬子癸水、寅甲卯乙巽木、巳丙午丁火、申庚酉辛乾金、辰未戌丑坤艮土 */
+  var ZHENG = { 水: '亥壬子癸', 木: '寅甲卯乙巽', 火: '巳丙午丁', 金: '申庚酉辛乾', 土: '辰未戌丑坤艮' };
+  /* 雙山五行（即三合五行）：支前一位之卦干與支雙並，同取地支三合之五行 */
+  var SHUANG = { 水: '坤申壬子乙辰', 木: '乾亥甲卯丁未', 火: '艮寅丙午辛戌', 金: '巽巳庚酉癸丑' };
+  /* 洪範五行 */
+  var HONGFAN = { 水: '甲寅辰巽戌坎辛申', 火: '離壬丙乙', 木: '震艮巳', 金: '乾亥兌丁', 土: '丑癸坤庚未' };
+  /* 洪範原文以卦名稱四正：坎即子、離即午、震即卯、兌即酉 */
+  var ALIAS = { 子: '坎', 午: '離', 卯: '震', 酉: '兌' };
+  function look(tbl, shan) {
+    var alt = ALIAS[shan];
+    for (var k in tbl) if (tbl[k].indexOf(shan) >= 0 || (alt && tbl[k].indexOf(alt) >= 0)) return k;
+    return null;
+  }
+  function of(shan) {
+    return { 正五行: look(ZHENG, shan), 雙山五行: look(SHUANG, shan), 洪範五行: look(HONGFAN, shan) };
+  }
+  return { ZHENG: ZHENG, SHUANG: SHUANG, HONGFAN: HONGFAN, of: of, look: look };
+})(KY);
+
+/* 玄空流年・流月飛星與入囚 */
+(function (KY, FG, XK) {
+  'use strict';
+  function mod(a, n) { return ((a % n) + n) % n; }
+  /* 流年星入中，順飛九宮，加臨宅盤各宮 */
+  XK.liunian = function (chart, solarYear, monthIdx) {
+    var ys = FG.yearStar(solarYear);
+    var yp = XK.fly(ys, true);
+    var out = { 年星入中: ys, 年盤: yp };
+    if (monthIdx) {
+      var ms = FG.monthStar(KY.ZHI[mod(solarYear - 4, 12)], monthIdx);
+      out.月星入中 = ms; out.月盤 = XK.fly(ms, true);
+    }
+    /* 入囚：當運之向星入中宮，謂之入囚 */
+    var cur = KY.yunOf(solarYear).yun;
+    out.入囚 = (chart.xiangPan[5] === cur);
+    out.當運 = cur;
+    /* 各宮綜合：宅盤山向 ＋ 流年 ＋ 流月 */
+    out.宮 = {};
+    [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach(function (g) {
+      out.宮[g] = { 山: chart.shanPan[g], 運: chart.yunPan[g], 向: chart.xiangPan[g],
+        流年: yp[g], 流月: out.月盤 ? out.月盤[g] : null };
+    });
+    return out;
+  };
+  /* 宅運入囚之年：向星盤中宮之數所值之運 */
+  XK.ruqiuYears = function (chart) {
+    var n = chart.xiangPan[5];
+    var out = [];
+    for (var y = 1864; y <= 2223; y += 20) {
+      var k = KY.yunOf(y);
+      if (k.yun === n) out.push(k.from + '–' + k.to);
+    }
+    return out;
+  };
+})(KY, FG, XK);
+
 </script>
 <script>
 (function(){
@@ -1358,7 +1423,7 @@ var GL = (function () {
         }catch(e){ decNote='WMM 求值失敗，用手填值'; }
       } else decNote='事時在 WMM2025 有效區間（二〇二五–二〇三〇）之外，不外推，改用手填值';
     }
-    var b=+$('ib').value, sel=$('ind').value, opt={needle:sel,decl:+$('idec').value,mode:$('imode').value};
+    var b=+$('ib').value, sel='正針', opt={needle:sel,decl:+$('idec').value,mode:$('imode').value};
     var S=KY.shanOf(b,opt);
     drawDial(S.magnetic);
 
@@ -1378,7 +1443,8 @@ var GL = (function () {
         +'<div class="cap" style="margin:0 0 8px">　'+j+'——'+(GL.of(j)||'')+'</div>';})()+
       '<div class="line"><em>三元九運</em><b>'+Y.yuan+Y.yun+'運</b></div>'+
       '<div class="line"><em>坐向</em><b>'+S.shan+'山</b></div>'+
-      '<div class="line"><em>卦位</em><span>'+S.gua+'　偏中心 '+S.offset.toFixed(1)+'°</span></div>';
+      '<div class="line"><em>卦位</em><span>'+S.gua+'　偏中心 '+S.offset.toFixed(1)+'°</span></div>'+
+      '<div class="line"><em>山之五行</em><span>正五行'+W.正五行+'　雙山'+W.雙山五行+'　洪範'+W.洪範五行+'</span></div>';
 
     $('cap').textContent = Y.star+'　'+Y.from+'–'+Y.to+'　·　'+sel+
       '　磁 '+S.magnetic.toFixed(1)+'° ／ 真 '+S['true'].toFixed(1)+'°'+
@@ -1432,7 +1498,7 @@ var GL = (function () {
         +(tags.length?'<u style="color:var(--xuan);margin-top:5px">'+tags.join('・')+'</u>':'')+'</div>';
     }).join('');
 
-    var yunSel=+$('iyun').value, useYun=yunSel||KY.yunOf(P.year.solarYear).yun;
+    var builtY=+$('ibuilt').value||v.y, useYun=KY.yunOf(builtY).yun;
     var jian=Math.abs(S.offset)>4.5;
     var XC=XK.chart(useYun,S.shan,{jian:jian});
     if(XC){
@@ -1453,6 +1519,21 @@ var GL = (function () {
         +(XC.fuyin?'<br>　伏吟——'+GL.of('伏吟'):'')+(XC.heshi?'<br>　合十——'+GL.of('合十'):'');
     }
 
+    if(XC){
+      var LN=XK.liunian(XC,P.year.solarYear,mIdx);
+      $('lnHead').innerHTML='<em>'+P.year.solarYear+'年　流年'+FG.NAME[LN.年星入中-1]+'入中　流月'+FG.NAME[LN.月星入中-1]+'入中'
+        +(LN.入囚?'　<b style="color:var(--vermilion)">入囚</b>':'')+'</em>';
+      $('ln').innerHTML=[6,1,8,7,5,3,2,9,4].map(function(g){
+        var q=LN.宮[g];
+        return '<div><b><span class="s">'+q.山+'</span>　<i>'+q.運+'</i>　<span class="x">'+q.向+'</span></b>'
+          +'<u style="color:var(--gold)">年'+q.流年+'　月'+q.流月+'</u><u>'+FG.GUA[g]+'</u></div>';
+      }).join('');
+      $('lnCap').innerHTML='宅盤（山運向）固定不變，流年流月逐時加臨其上——配置一次定，逐年只看加臨之星。'
+        +(LN.入囚?'<br><span class="warn">入囚：當運之向星入中宮，傳統視為宅氣受困之期。</span>'
+          :'<br>本宅入囚之運期：'+XK.ruqiuYears(XC).join('、')+'。');
+    }
+
+    var W=WX.of(S.shan);
     var HS=BZ.houseOf(S.shan);
     if(HS){
       $('bzHead').innerHTML='<em>'+S.shan+'山　'+HS.gua+'宅　'+HS.group+'</em>';
@@ -1585,6 +1666,11 @@ var GL = (function () {
   (function(){ var b=$('glossBox'); if(!b) return;
     b.innerHTML=Object.keys(GL.all).map(function(k){return '<b style="color:var(--gold)">'+k+'</b>　'+GL.all[k]}).join('<br>');
   })();
+  function freeze(){ var d=new Date();
+    $('iy').value=d.getFullYear(); $('im').value=d.getMonth()+1; $('id').value=d.getDate();
+    $('ih').value=d.getHours(); $('ii').value=d.getMinutes(); }
+  $('now').addEventListener('click',function(){ freeze(); run(); });
+  freeze();
   $('go').addEventListener('click',run);
   window.addEventListener('error',function(e){
     var c=$('chk'); if(c) c.innerHTML+='<br><span class="fail">未捕獲例外：'+e.message+'（'+e.lineno+'）</span>';
