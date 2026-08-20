@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>堪輿理氣 · 曆象核心 v0.9</title>
+<title>堪輿理氣 · 曆象核心 v1.1</title>
 <style>
 :root{
   --lacquer:#14110E; --lacquer2:#1E1A15; --vermilion:#C4342B; --gold:#C9A24B;
@@ -110,10 +110,11 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
 <body>
 <div class="wrap">
   <h1>堪輿理氣 · 曆象核心</h1>
-  <div class="sub">v0.9　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神・玄空飛星　—　理氣盤式未立</div>
+  <div class="sub">v1.1　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神・玄空飛星　—　理氣盤式未立</div>
 
   <nav role="tablist">
     <button role="tab" id="t1" aria-selected="true" data-p="p1">羅經</button>
+    <button role="tab" id="t3" aria-selected="false" data-p="p3">導讀</button>
     <button role="tab" id="t2" aria-selected="false" data-p="p2">文獻</button>
   </nav>
 
@@ -191,8 +192,36 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
       <h2>八宅</h2>
       <div id="bzHead" class="ns"></div>
       <div class="grid9" id="bz"></div>
-      <div class="cap">上為北。同組相配為吉，東西交錯為凶——卷二〈本原二〉大遊年變卦。</div>
+      <div class="cap">上為北。同組相配為吉，東西交錯為凶——卷二〈本原二〉大遊年變卦。<br>
+        生氣：活力進取　天醫：健康貴人　延年：和睦長久　伏位：安穩守成<br>
+        五鬼：耗損　六煞：是非　禍害：口舌　絕命：重大損耗</div>
     </section>
+  </div>
+
+  <div class="page" id="p3">
+    <div class="doc">
+      <h3>這是什麼</h3>
+      <p>一具堪輿理氣的計算器。你給它一個<b>時間</b>和一個<b>坐向</b>，它把古籍裡的規則算完，把該時該向所值的吉凶神、宅卦、飛星盤列出來。</p>
+      <p>它<b>只負責算得對</b>——每一條規則都註明出自哪本書哪一卷，算完還拿古書自己的表回頭校對。至於這些規則靈不靈，那是另一回事，本引擎不表示意見，也不替你做決定。</p>
+
+      <h3>怎麼用</h3>
+      <p><b>第一步·事時</b>　填年月日時。這決定四柱、當令的三元九運、以及該年該月的神煞分布。經度用來算真太陽時（實際的太陽位置，不是鐘面時間）。</p>
+      <p><b>第二步·坐向</b>　填羅盤讀數（度數，正北為零、順時針）。<b>坐向指的是「坐山」——房子背後所靠的方向</b>，不是大門朝的方向。門向與坐山恰好相差一百八十度，引擎會自動算出向。</p>
+      <p>用針三選一：定向用正針，看來脈用中針，看去水用縫針——這是《協紀》卷二定的，不是隨便選。磁偏角在二〇二五至二〇三〇之間會自動求得。</p>
+      <p><b>第三步·看盤</b>　由上而下依序是羅經、四柱、年神方位、月神方位、月飛宮、玄空飛星、八宅。</p>
+
+      <h3>每一區在講什麼</h3>
+      <p><b>羅經</b>　三個同心圈是三針。同一個讀數在三圈上會落在不同的山——這正是要注意的地方：三針相差七度半（半個山），比台灣的磁偏角（約五度）還大。</p>
+      <p><b>四柱</b>　年月日時的干支，加建除十二直（該日的十二種性質之一，如建、除、滿、平）。年柱以立春換年，不是元旦。</p>
+      <p><b>年神方位・月神方位</b>　傳統擇日書把每一年、每一月的吉神凶煞分派到二十四山上。這兩區告訴你：你填的那個坐山，今年、這個月各值到哪些神煞。青色為吉、朱色為凶。</p>
+      <p><b>月飛宮</b>　有一些神煞不固定，逐月在九宮之間飛動。九宮圖上為北，格子裡的大字是該宮的月紫白星，下面列該宮這個月值到的飛動神煞。</p>
+      <p><b>玄空飛星</b>　另一套系統。以房子建成的元運起盤，每宮三個數字：左青為山星（主人丁），中為運星，右朱為向星（主財）。下方標的四種格局是玄空判斷的主要依據。坐向若偏出本山中間九度就轉用替卦，引擎會自動判別並標示。</p>
+      <p><b>八宅</b>　最簡單的一層。坐山決定宅卦，宅卦決定八個方位各是什麼——生氣、天醫、延年、伏位為吉，五鬼、六煞、禍害、絕命為凶。同屬東四或同屬西四即吉，交錯即凶。</p>
+
+      <h3>名詞白譯</h3>
+      <p>下列為術數傳統的說法，載此以便閱讀盤面，非事實斷言。</p>
+      <div id="glossBox" class="chk"></div>
+    </div>
   </div>
 
   <div class="page" id="p2">
@@ -216,8 +245,17 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
       <p>運盤以運數入中順飛；山盤取坐山所在宮之運星入中，向盤取向所在宮之運星入中，順逆各依「該運星所指之宮中，與坐山同元龍之山」之陰陽——陽順陰逆。</p>
       <p>所需之三事皆有據：一卦筦三山與二十四山之立，見《協紀》卷二〈本原二〉；九宮飛佈之序，即本引擎飛佈層所用之中乾兌艮離坎坤震巽；三元龍與陰陽之分（地元甲庚丙壬陽、辰戌丑未陰；天元乾坤艮巽陽、子午卯酉陰；人元寅申巳亥陽、乙辛丁癸陰）為玄空一家之制。</p>
       <p><b>結構自驗</b>：九運二十四山合二百一十六局，運山向三盤各皆九星無重無漏；格局分布為旺山旺向四十八、上山下水四十八、雙星到向六十、雙星到坐六十——旺山旺向與上山下水數同，雙星到向與到坐數同，全盤對稱。另八運子山午向算得雙星到向，與通行盤例相合。</p>
-      <p><b>五入中待考（二百一十六局中四十八局）。</b>山盤或向盤之入中星為五時，五無定位、中宮無山可稽，順逆無從取。本引擎暫從本山之陰陽並於介面標明待考。沈氏原書當有其例，惟未及尋得，不臆定。</p>
-      <p><b>替卦未作。</b>兼向逾度須用替星，其訣即〈坤壬乙訣〉——「坤壬乙，巨門從頭出；艮丙辛，位位是破軍；巽辰亥，盡是武曲位；甲癸申，貪狼一路行」，出《青囊奧語》，沈氏另有〈坤壬乙訣起例之由來〉一篇溯其源於奇門。惟此訣止及十二山，其餘十二山之替星須另據沈氏之二十四山起星表，尚未尋得，故本版只出下卦。</p>
+      <h3>替卦（起星）</h3>
+      <p>二十四山每山十五度，中九度用下卦，兩旁各三度為兼向、用替卦。本引擎依坐向偏中心之度數自動判別。</p>
+      <p>替星訣依沈竹礽據姜垚資料所整理者：子癸並甲申，貪狼一路行；壬卯乙未坤，五位為巨門；乾亥辰巽巳，連戌武曲名；酉辛丑艮丙，天星說破軍；寅午庚丁上，右弼四星臨。用法為——運盤既定，取坐山（向首）所在宮之運星，於該星所指之宮中尋與本山同元龍之山，查其替星，以替星入中飛佈；順逆仍依原下卦所得元龍之陰陽，不從替星。</p>
+      <p><b>驗證</b>：八運壬山丙向兼亥巳，本引擎得山盤六入中逆飛、向盤一入中順飛，與坊間所傳之算例相同。</p>
+      <p><b>沈氏訣與中州訣其表實同。</b>中州派謂「替星只用十三星」，另有十一山無替。本引擎逐山比對沈氏替星與該山本宮之數，相異者恰為十三山——丑、艮、寅、甲、卯、乙、辰、巽、巳、丙、申、庚、壬——與中州所列全同。是知所謂「無替可尋」者，即沈氏替星與本宮數相同而替之無異；二說之表並無差別。<b>真正之分歧在起替之條件而不在表</b>：沈氏逾中九度即用替；中州則謂同宮同陰陽不替、陰陽互兼始替、出卦必替。本引擎採沈氏之條件，中州之條件並記於此。</p>
+
+      <h3>五入中（前版待考，今已解）</h3>
+      <p>山盤或向盤之入中星為五時，五無定位、中宮無山可稽，順逆之定坊間有二說：其一從本山之陰陽，其二從運數所在之宮中同元龍之山。前版標為待考。</p>
+      <p><b>今逐局比對，二說於二百一十六局中無一局相異。</b>其故可證：運盤以運數 n 入中順飛，某宮得五者，其宮位恆與 n 所在之宮同屬四正或同屬四維——n 為一得離、二得艮、三得兌、四得乾、六得巽、七得震、八得坤、九得坎，而一坎二坤三震四巽六乾七兌八艮九離，兩兩相配，四正對四正、四維對四維。四正之天元為子午卯酉皆陰、四維之天元為乾坤艮巽皆陽，地元人元同理，故陰陽必同。二說遂殊途同歸，非擇一不可。</p>
+      <p>又五運之時，得五者惟中宮，而坐向必不在中宮，故五運反無此問題。</p>
+      <p>另加二標記：山或向盤五入中順飛者，全盤與元旦盤字字相同，是為<b>伏吟</b>；山或向盤與元旦盤字字合十者，標<b>合十</b>。</p>
       <p>元運預設從事時之三元九運，亦可另選——玄空論宅以建成入住之運為主，非以問事之年。</p>
 
       <h3>磁偏角</h3>
@@ -264,8 +302,17 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
       <p>運盤以運數入中順飛；山盤取坐山所在宮之運星入中，向盤取向所在宮之運星入中，順逆各依「該運星所指之宮中，與坐山同元龍之山」之陰陽——陽順陰逆。</p>
       <p>所需之三事皆有據：一卦筦三山與二十四山之立，見《協紀》卷二〈本原二〉；九宮飛佈之序，即本引擎飛佈層所用之中乾兌艮離坎坤震巽；三元龍與陰陽之分（地元甲庚丙壬陽、辰戌丑未陰；天元乾坤艮巽陽、子午卯酉陰；人元寅申巳亥陽、乙辛丁癸陰）為玄空一家之制。</p>
       <p><b>結構自驗</b>：九運二十四山合二百一十六局，運山向三盤各皆九星無重無漏；格局分布為旺山旺向四十八、上山下水四十八、雙星到向六十、雙星到坐六十——旺山旺向與上山下水數同，雙星到向與到坐數同，全盤對稱。另八運子山午向算得雙星到向，與通行盤例相合。</p>
-      <p><b>五入中待考（二百一十六局中四十八局）。</b>山盤或向盤之入中星為五時，五無定位、中宮無山可稽，順逆無從取。本引擎暫從本山之陰陽並於介面標明待考。沈氏原書當有其例，惟未及尋得，不臆定。</p>
-      <p><b>替卦未作。</b>兼向逾度須用替星，其訣即〈坤壬乙訣〉——「坤壬乙，巨門從頭出；艮丙辛，位位是破軍；巽辰亥，盡是武曲位；甲癸申，貪狼一路行」，出《青囊奧語》，沈氏另有〈坤壬乙訣起例之由來〉一篇溯其源於奇門。惟此訣止及十二山，其餘十二山之替星須另據沈氏之二十四山起星表，尚未尋得，故本版只出下卦。</p>
+      <h3>替卦（起星）</h3>
+      <p>二十四山每山十五度，中九度用下卦，兩旁各三度為兼向、用替卦。本引擎依坐向偏中心之度數自動判別。</p>
+      <p>替星訣依沈竹礽據姜垚資料所整理者：子癸並甲申，貪狼一路行；壬卯乙未坤，五位為巨門；乾亥辰巽巳，連戌武曲名；酉辛丑艮丙，天星說破軍；寅午庚丁上，右弼四星臨。用法為——運盤既定，取坐山（向首）所在宮之運星，於該星所指之宮中尋與本山同元龍之山，查其替星，以替星入中飛佈；順逆仍依原下卦所得元龍之陰陽，不從替星。</p>
+      <p><b>驗證</b>：八運壬山丙向兼亥巳，本引擎得山盤六入中逆飛、向盤一入中順飛，與坊間所傳之算例相同。</p>
+      <p><b>沈氏訣與中州訣其表實同。</b>中州派謂「替星只用十三星」，另有十一山無替。本引擎逐山比對沈氏替星與該山本宮之數，相異者恰為十三山——丑、艮、寅、甲、卯、乙、辰、巽、巳、丙、申、庚、壬——與中州所列全同。是知所謂「無替可尋」者，即沈氏替星與本宮數相同而替之無異；二說之表並無差別。<b>真正之分歧在起替之條件而不在表</b>：沈氏逾中九度即用替；中州則謂同宮同陰陽不替、陰陽互兼始替、出卦必替。本引擎採沈氏之條件，中州之條件並記於此。</p>
+
+      <h3>五入中（前版待考，今已解）</h3>
+      <p>山盤或向盤之入中星為五時，五無定位、中宮無山可稽，順逆之定坊間有二說：其一從本山之陰陽，其二從運數所在之宮中同元龍之山。前版標為待考。</p>
+      <p><b>今逐局比對，二說於二百一十六局中無一局相異。</b>其故可證：運盤以運數 n 入中順飛，某宮得五者，其宮位恆與 n 所在之宮同屬四正或同屬四維——n 為一得離、二得艮、三得兌、四得乾、六得巽、七得震、八得坤、九得坎，而一坎二坤三震四巽六乾七兌八艮九離，兩兩相配，四正對四正、四維對四維。四正之天元為子午卯酉皆陰、四維之天元為乾坤艮巽皆陽，地元人元同理，故陰陽必同。二說遂殊途同歸，非擇一不可。</p>
+      <p>又五運之時，得五者惟中宮，而坐向必不在中宮，故五運反無此問題。</p>
+      <p>另加二標記：山或向盤五入中順飛者，全盤與元旦盤字字相同，是為<b>伏吟</b>；山或向盤與元旦盤字字合十者，標<b>合十</b>。</p>
       <p>元運預設從事時之三元九運，亦可另選——玄空論宅以建成入住之運為主，非以問事之年。</p>
 
       <h3>磁偏角</h3>
@@ -1111,6 +1158,149 @@ var XK = (function (KY, FG) {
   return { PALACE: PALACE, YANG: YANG, info: info, yunPan: yunPan, fly: fly, chart: chart };
 })(KY, FG);
 
+/* 替卦（起星）與五入中 —— 兩說並列，不強合 */
+(function (KY, XK) {
+  'use strict';
+  function mod(a, n) { return ((a % n) + n) % n; }
+  /* 沈氏替星訣（沈竹礽據姜垚資料整理）：
+       子癸並甲申，貪狼一路行；壬卯乙未坤，五位為巨門；
+       乾亥辰巽巳，連戌武曲名；酉辛丑艮丙，天星說破軍；
+       寅午庚丁上，右弼四星臨。 */
+  var TI = {};
+  [['子癸甲申', 1], ['壬卯乙未坤', 2], ['乾亥辰巽巳戌', 6], ['酉辛丑艮丙', 7], ['寅午庚丁', 9]]
+    .forEach(function (p) { for (var i = 0; i < p[0].length; i++) TI[p[0].charAt(i)] = p[1]; });
+  XK.TI = TI;
+  /* 中州派謂「替星只用十三星」，其十三山即沈氏替星與本宮數相異者——
+     二說之表實同，異在起替之條件（沈氏逾中九度即替；中州同宮同陰陽不替、陰陽互兼始替、出卦必替）。 */
+  XK.tiDiffers = function (shan) {
+    var inf = XK.info(shan);
+    return inf && TI[shan] !== inf.gong;
+  };
+  var chart0 = XK.chart;
+  /* opts: {jian:是否兼向用替, wuRule:'ben'（五入中從本山陰陽）|'yun'（從運數所在宮同元之山）} */
+  XK.chart = function (yun, zuoShan, opts) {
+    opts = opts || {};
+    var c = chart0(yun, zuoShan);
+    if (!c) return null;
+    c.mode = opts.jian ? '替卦' : '下卦';
+    c.wuRule = opts.wuRule || 'ben';
+    var Z = XK.info(zuoShan), X = XK.info(c.xiang);
+    function resolve(star, yuan, self) {
+      /* 回傳 {ru:入中之星, yang:順逆, note} */
+      if (star === 5) {
+        if (c.wuRule === 'yun') {
+          var s2 = XK.PALACE[yun] ? XK.PALACE[yun].charAt(yuan) : null;   // 運數所在宮之同元山
+          if (s2) return { ru: 5, yang: XK.YANG.indexOf(s2) >= 0, note: '五入中·從運宮' + s2 };
+        }
+        return { ru: 5, yang: self.yang, note: '五入中·從本山' };
+      }
+      var shan = XK.PALACE[star].charAt(yuan);
+      var ru = opts.jian ? TI[shan] : star;
+      return { ru: ru, yang: XK.YANG.indexOf(shan) >= 0,
+        note: opts.jian ? (ru === star ? '無替可尋·同下卦' : shan + '替' + ru) : '' };
+    }
+    var yp = c.yunPan;
+    var sR = resolve(yp[c.zuoGong], Z.yuan, Z), xR = resolve(yp[c.xiangGong], X.yuan, X);
+    c.shanRu = sR.ru; c.shanShun = sR.yang; c.shanNote = sR.note;
+    c.xiangRu = xR.ru; c.xiangShun = xR.yang; c.xiangNote = xR.note;
+    c.shanPan = XK.fly(sR.ru, sR.yang);
+    c.xiangPan = XK.fly(xR.ru, xR.yang);
+    c.doubt = (yp[c.zuoGong] === 5 || yp[c.xiangGong] === 5);
+    var sAtZuo = c.shanPan[c.zuoGong] === yun, xAtXiang = c.xiangPan[c.xiangGong] === yun;
+    var sAtXiang = c.shanPan[c.xiangGong] === yun, xAtZuo = c.xiangPan[c.zuoGong] === yun;
+    c.pattern = (sAtZuo && xAtXiang) ? '旺山旺向'
+      : (sAtXiang && xAtZuo) ? '上山下水'
+      : (xAtXiang && sAtXiang) ? '雙星到向'
+      : (sAtZuo && xAtZuo) ? '雙星到坐'
+      : xAtXiang ? '雙星到向' : (sAtZuo ? '雙星到坐' : '其他');
+    /* 伏吟：山或向盤五入中順飛，全盤與元旦盤字字相同 */
+    c.fuyin = (sR.ru === 5 && sR.yang) || (xR.ru === 5 && xR.yang);
+    /* 合十：山盤或向盤與元旦盤字字合十 */
+    var YD = { 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 1: 1, 2: 2, 3: 3, 4: 4 };
+    c.heshi = [c.shanPan, c.xiangPan].some(function (p) {
+      return Object.keys(YD).every(function (g) { return p[g] + (+g) === 10; });
+    });
+    return c;
+  };
+})(KY, XK);
+
+/* 白譯層 —— 名詞之白話簡釋。所釋者為術數傳統之說法，非事實斷言。 */
+var GL = (function () {
+  'use strict';
+  var G = {
+    /* 年神 · 吉 */
+    歲德: '本年的德神，傳統視為能解諸凶的方位', 歲德合: '與歲德相合之干，作用同歲德而稍輕',
+    歲枝德: '由年支所起的德神方位', 陽貴人: '白天的貴人方，傳統認為宜求助、宜謁貴',
+    陰貴人: '夜間的貴人方，用法同陽貴人', 歲祿: '本年天干的祿位，傳統視為財氣所鍾之方',
+    歲馬: '即驛馬，主動、主遷移出行之方', 奏書: '文書之神，傳統宜於此方興修',
+    博士: '與奏書相對的吉神方', 太陽: '四利三元之一，太歲前一位，傳統視為解凶之吉神',
+    太陰: '四利三元之一，太歲前三位', 龍德: '四利三元之一，太歲前七位，傳統視為大吉',
+    福德: '四利三元之一，太歲前九位', 貪狼: '蓋山黃道四吉星之一', 巨門: '蓋山黃道四吉星之一',
+    武曲: '蓋山黃道四吉星之一', 文曲: '蓋山黃道四吉星之一',
+    三合前方: '通天竅十二吉山的前半，由本年三合局推得', 三合後方: '通天竅十二吉山的後半',
+    神后: '走馬六壬六吉山之一', 功曹: '走馬六壬六吉山之一', 天罡: '走馬六壬六吉山之一',
+    勝光: '走馬六壬六吉山之一', 傳送: '走馬六壬六吉山之一', 河魁: '走馬六壬六吉山之一',
+    /* 年神 · 凶 */
+    太歲: '本年值年之神所在，傳統上此方不宜動土興修', 歲破: '與太歲相沖之方，忌修造',
+    三煞: '劫煞災煞歲煞三者連占一方，傳統視為年中最忌動土之方',
+    坐煞向煞: '三煞方所配的天干，坐向落此亦忌', 浮天空亡: '由年干納卦推得，忌立向',
+    陰府太歲: '年干化氣剋坐山之氣，忌開山', 六害: '與年支相害之位', 死符: '太歲前五位',
+    灸退: '氣退之方，傳統忌修造', 巡山羅睺: '太歲之次一山，忌立向',
+    病符: '太歲前十一位，即去年太歲之位', 天官符: '本年三合五行的臨官位，忌單修',
+    地官符: '太歲前四位，忌單修', 大煞: '本年三合五行的帝旺位，即打頭火',
+    大將軍: '按季節而定的方位，傳統忌動土', 力士: '四維神之一，忌修方',
+    蠶室: '四維神之一', 蠶官: '與蠶事相關的凶神方', 蠶命: '與蠶事相關的凶神方',
+    歲刑: '與年支相刑之位', 黃幡: '本年三合局的墓庫位', 豹尾: '黃幡的對沖位',
+    飛廉: '主口舌破財的凶神方', 喪門: '太歲前二位', 弔客: '太歲前十位', 白虎: '太歲前八位',
+    五鬼: '子年起辰逆行之凶方', 破敗五鬼: '年干納卦之衝位', 獨火: '主火災之凶神方',
+    金神: '主刀兵之凶神方，占多位',
+    /* 月神 */
+    天德: '本月的德神，傳統視為能解一月諸凶', 天德合: '與天德相合，作用略輕',
+    月德: '本月的德神，取三合五行的陽干', 月德合: '與月德相合', 月空: '月德的對沖位，宜上表章',
+    月將: '本月太陽所在的宮次，六壬起課的基準', 月建: '本月當令之支，即本月的「當家」',
+    月破: '與月建相沖，傳統視為一月中最不宜舉事之日',
+    月厭: '正月起戌逆行，傳統忌嫁娶遠行', 月刑: '與月建相刑', 月害: '與月建相害',
+    劫煞: '三合局的絕位', 災煞: '劫煞之次一位', 月煞: '劫煞之次二位',
+    /* 建除十二直 */
+    建: '一月之首，主健旺；宜上任出行，忌動土', 除: '除舊佈新；宜療病去舊，忌赴任',
+    滿: '豐滿之象；宜祭祀祈福，忌服藥',
+    平: '平常無奇；宜修飾道路，餘事平平', 定: '安定之象；宜嫁娶造屋，忌詞訟',
+    執: '執守之象；宜捕捉收斂，忌開倉出行', 破: '剛破之象；諸事不宜，惟宜破屋壞垣',
+    危: '危高之象；宜安床，忌登高涉險', 成: '成就之象；宜結婚開市，諸事多吉',
+    收: '收成之象；宜納財進人口，忌放債出行', 開: '開通之象；宜開市入學，忌葬事',
+    閉: '閉塞之象；宜築堤填穴，忌開渠治病',
+    /* 八宅 */
+    生氣: '八宅第一吉方，傳統主活力、進取', 天醫: '八宅吉方，傳統主健康、貴人',
+    延年: '八宅吉方，傳統主人際和睦、長久', 伏位: '本宮不動之位，傳統主安穩守成',
+    六煞: '八宅凶方，傳統主是非糾纏', 禍害: '八宅凶方，傳統主口舌小災',
+    絕命: '八宅最凶方，傳統主重大損耗',
+    /* 玄空格局 */
+    旺山旺向: '當運旺星同時到坐與到向，四格局中最佳',
+    上山下水: '旺星顛倒，坐向俱失，四格局中最忌',
+    雙星到向: '山向兩旺星俱到向首，傳統宜向方見水、坐後宜實',
+    雙星到坐: '山向兩旺星俱到坐山，傳統宜坐後見水',
+    伏吟: '飛星盤與元旦盤字字相同，傳統視為凝滯不動之象',
+    合十: '飛星盤與元旦盤字字相加為十，傳統視為流通之象',
+    下卦: '坐向落在本山中間九度以內，用正常起法',
+    替卦: '坐向偏出中間九度，即兼向，改用替星起盤',
+    /* 飛宮 */
+    大月建: '逐月飛動的土煞，忌動土', 小月建: '逐月飛動的土煞，量較大月建輕',
+    月遊火: '逐月飛動的火煞', 丙獨火: '丙字所到之宮，與獨火同論', 丁獨火: '丁字所到之宮',
+    飛天官符: '年天官符隨月飛到之宮', 飛地官符: '年地官符隨月飛到之宮',
+    飛大煞: '年大煞隨月飛到之宮，即打頭火',
+    飛天祿: '本年真祿隨月飛到之宮，吉', 飛天馬: '本年真馬隨月飛到之宮，吉',
+    飛陽貴: '本年陽貴人隨月飛到之宮，吉', 飛陰貴: '本年陰貴人隨月飛到之宮，吉',
+    /* 三針與其他 */
+    正針: '羅盤的基準圈，以磁北為準，用來定向',
+    中針: '比正針退半山（七度半），用來格龍（看來脈）',
+    縫針: '比正針進半山（七度半），用來消砂納水（看去水）',
+    三元九運: '一百八十年為一循環，分上中下三元、每運二十年',
+    真太陽時: '依所在經度與均時差修正後的實際太陽時，非鐘面時間',
+    夜子時: '二十三時起已入次日的子時，日柱是否進位各家不一'
+  };
+  return { of: function (n) { return G[n] || null; }, all: G };
+})();
+
 </script>
 <script>
 (function(){
@@ -1183,7 +1373,9 @@ var XK = (function (KY, FG) {
     var Y=KY.yunOf(P.year.solarYear);
     $('lines').innerHTML=
       '<div class="line"><em>月建</em><span>'+P.month.jie+'節後　'+P.month.zhi+'月</span></div>'+
-      '<div class="line"><em>建除十二直</em><b>'+YS.jianchu(P.month.zhi,P.day.gz.charAt(1))+'日</b></div>'+
+      (function(){var j=YS.jianchu(P.month.zhi,P.day.gz.charAt(1));
+        return '<div class="line"><em>建除十二直</em><b>'+j+'日</b></div>'
+        +'<div class="cap" style="margin:0 0 8px">　'+j+'——'+(GL.of(j)||'')+'</div>';})()+
       '<div class="line"><em>三元九運</em><b>'+Y.yuan+Y.yun+'運</b></div>'+
       '<div class="line"><em>坐向</em><b>'+S.shan+'山</b></div>'+
       '<div class="line"><em>卦位</em><span>'+S.gua+'　偏中心 '+S.offset.toFixed(1)+'°</span></div>';
@@ -1195,10 +1387,13 @@ var XK = (function (KY, FG) {
 
     var YG=P.year.gz, H=NS.atShan(YG,S.shan);
     function chips(list,cls){ return list.length? list.map(function(x){
-        return '<span class="'+cls+'">'+x.name+(x.weak?'<sup>疑</sup>':x.doubt?'<sup>校</sup>':'')+'</span>'}).join('')
+        return '<span class="'+cls+'" title="'+(GL.of(x.name)||'')+'">'+x.name+(x.weak?'<sup>疑</sup>':x.doubt?'<sup>校</sup>':'')+'</span>'}).join('')
       : '<span class="none">無</span>'; }
+    function glossLines(list){ return list.map(function(x){var g=GL.of(x.name); return g?'　'+x.name+'——'+g:null})
+      .filter(Boolean).join('<br>'); }
     $('nsHit').innerHTML='<div class="ns"><em>'+YG+'年　'+S.shan+'山　吉神</em>'+chips(H['吉'],'j')+'</div>'
-      +'<div class="ns"><em>凶神</em>'+chips(H['凶'],'x')+'</div>';
+      +'<div class="ns"><em>凶神</em>'+chips(H['凶'],'x')+'</div>'
+      +((H['吉'].length+H['凶'].length)?'<div class="cap">'+glossLines(H['吉'].concat(H['凶']))+'</div>':'');
     var A=NS.of(YG);
     $('nsAll').innerHTML=['吉','凶'].map(function(c){
       return '<i>'+c+'神</i><br>'+A[c].map(function(x){
@@ -1214,7 +1409,9 @@ var XK = (function (KY, FG) {
     });
     $('ysHit').innerHTML='<div class="ns"><em>'+P.month.gz+'月　天道'+Y.天道+'行　月將'+Y.月將+'　'+S.shan+'山吉神</em>'
       +(yj.length?yj.map(function(t){return '<span class="j">'+t+'</span>'}).join(''):'<span class="none">無</span>')+'</div>'
-      +'<div class="ns"><em>凶神</em>'+(yx.length?yx.map(function(t){return '<span class="x">'+t+'</span>'}).join(''):'<span class="none">無</span>')+'</div>';
+      +'<div class="ns"><em>凶神</em>'+(yx.length?yx.map(function(t){return '<span class="x">'+t+'</span>'}).join(''):'<span class="none">無</span>')+'</div>'
+      +((yj.length+yx.length)?'<div class="cap">'+yj.concat(yx).map(function(t){var n=t.split('〈')[0],g=GL.of(n);
+        return g?'　'+n+'——'+g:null}).filter(Boolean).join('<br>')+'</div>':'');
     $('ysAll').innerHTML='<i>吉</i><br>'+['天德','天德合','月德','月德合','月空','月將'].map(function(k){
         return '　'+k+'〈'+(Y[k]||'—')+'〉'}).join('<br>')
       +'<br><br><i>凶</i><br>'+['月建','月破','月厭','月刑','月害','劫煞','災煞','月煞'].map(function(k){
@@ -1236,17 +1433,24 @@ var XK = (function (KY, FG) {
     }).join('');
 
     var yunSel=+$('iyun').value, useYun=yunSel||KY.yunOf(P.year.solarYear).yun;
-    var XC=XK.chart(useYun,S.shan);
+    var jian=Math.abs(S.offset)>4.5;
+    var XC=XK.chart(useYun,S.shan,{jian:jian});
     if(XC){
-      $('xkHead').innerHTML='<em>'+useYun+'運　'+XC.zuo+'山'+XC.xiang+'向（'+XC.yuanLong+'龍）　<b style="color:var(--gold)">'+XC.pattern+'</b></em>';
+      $('xkHead').innerHTML='<em>'+useYun+'運　'+XC.zuo+'山'+XC.xiang+'向（'+XC.yuanLong+'龍）　'+XC.mode
+        +'　<b style="color:var(--gold)">'+XC.pattern+'</b>'+(XC.fuyin?'　<b style="color:var(--vermilion)">伏吟</b>':'')
+        +(XC.heshi?'　<b style="color:var(--azure)">合十</b>':'')+'</em>';
       var LAYX=[6,1,8,7,5,3,2,9,4];
       $('xk').innerHTML=LAYX.map(function(g){
         var mark=(g===XC.zuoGong?'坐':(g===XC.xiangGong?'向':''));
         return '<div><b><span class="s">'+XC.shanPan[g]+'</span>　<i>'+XC.yunPan[g]+'</i>　<span class="x">'+XC.xiangPan[g]+'</span></b>'
           +'<u>'+FG.GUA[g]+(mark?'　'+mark:'')+'</u></div>';
       }).join('');
-      $('xkCap').innerHTML='左青為山星、中為運星、右朱為向星。山盤'+XC.shanRu+'入中'+(XC.shanShun?'順':'逆')+'飛，向盤'+XC.xiangRu+'入中'+(XC.xiangShun?'順':'逆')+'飛。'
-        +(XC.doubt?'<br><span class="warn">此局運星逢五入中，五無定位而無山可稽，順逆之定暫從本山陰陽，<b>待考</b>。</span>':'');
+      $('xkCap').innerHTML='左青為山星、中為運星、右朱為向星。山盤'+XC.shanRu+'入中'+(XC.shanShun?'順':'逆')+'飛'
+        +(XC.shanNote?'（'+XC.shanNote+'）':'')+'，向盤'+XC.xiangRu+'入中'+(XC.xiangShun?'順':'逆')+'飛'
+        +(XC.xiangNote?'（'+XC.xiangNote+'）':'')+'。'
+        +'<br>坐向偏中心 '+S.offset.toFixed(2)+'°，'+(jian?'逾中九度，用替卦（兼向）':'在中九度內，用下卦')+'。'
+        +'<br>　'+XC.pattern+'——'+(GL.of(XC.pattern)||'')
+        +(XC.fuyin?'<br>　伏吟——'+GL.of('伏吟'):'')+(XC.heshi?'<br>　合十——'+GL.of('合十'):'');
     }
 
     var HS=BZ.houseOf(S.shan);
@@ -1361,10 +1565,26 @@ var XK = (function (KY, FG) {
     ok('玄空：坐向恆相對十二位', KY.SHAN.every(function(s,i){
       return XK.chart(8,s).xiang===KY.SHAN[(i+12)%24]}));
     ok('玄空：運盤中宮恆為運數', [1,4,7,9].every(function(y){return XK.chart(y,'子').yunPan[5]===y}));
+    ok('替卦：八運壬山丙向兼，山六入中逆、向一入中順', (function(){var c=XK.chart(8,'壬',{jian:true});
+      return c.shanRu===6&&!c.shanShun&&c.xiangRu===1&&c.xiangShun})());
+    ok('替卦：沈氏替星異於本宮者恰十三山', KY.SHAN.filter(XK.tiDiffers).length===13);
+    ok('替卦：該十三山與中州所列相同', (function(){var a=KY.SHAN.filter(XK.tiDiffers).slice().sort().join('');
+      return a==='丑丙乙亥卯壬巽庚甲申艮辰'.split('').sort().join('')||a==='甲申壬卯乙丑艮丙巽巳辰庚寅'.split('').sort().join('')})());
+    ok('五入中：二說於二百一十六局全無相異', (function(){
+      for(var y=1;y<=9;y++) for(var i=0;i<24;i++){ var s=KY.SHAN[i];
+        var a=XK.chart(y,s,{wuRule:'ben'}), b=XK.chart(y,s,{wuRule:'yun'});
+        if(JSON.stringify(a.shanPan)!==JSON.stringify(b.shanPan)) return false;
+        if(JSON.stringify(a.xiangPan)!==JSON.stringify(b.xiangPan)) return false; }
+      return true})());
+    ok('七運卯山酉向山盤五入中逆飛且與元旦盤合十', (function(){var c=XK.chart(7,'卯');
+      return c.shanRu===5&&!c.shanShun&&c.heshi})());
     out.push('<br><i>通過 '+p+' ／ 共 '+(p+f)+'</i>');
     $('chk').innerHTML=out.join('<br>');
   }
 
+  (function(){ var b=$('glossBox'); if(!b) return;
+    b.innerHTML=Object.keys(GL.all).map(function(k){return '<b style="color:var(--gold)">'+k+'</b>　'+GL.all[k]}).join('<br>');
+  })();
   $('go').addEventListener('click',run);
   window.addEventListener('error',function(e){
     var c=$('chk'); if(c) c.innerHTML+='<br><span class="fail">未捕獲例外：'+e.message+'（'+e.lineno+'）</span>';
