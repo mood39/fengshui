@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<title>堪輿理氣 · 曆象核心 v1.7</title>
+<title>堪輿理氣 · 曆象核心 v1.8</title>
 <style>
 :root{
   --lacquer:#14110E; --lacquer2:#1E1A15; --vermilion:#C4342B; --gold:#C9A24B;
@@ -123,7 +123,7 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
 <body>
 <div class="wrap">
   <h1>堪輿理氣 · 曆象核心</h1>
-  <div class="sub">v1.7　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神・玄空飛星　—　理氣盤式未立</div>
+  <div class="sub">v1.8　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神・玄空飛星　—　理氣盤式未立</div>
 
   <nav role="tablist">
     <button role="tab" id="t1" aria-selected="true" data-p="p1">羅經</button>
@@ -157,6 +157,13 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
 
     <section>
       <h2>坐向</h2>
+      <div class="cap" style="margin:0 0 14px;line-height:1.85">
+        <b style="color:var(--gold)">坐山怎麼取</b><br>
+        坐山是<b>房子整體背靠的方向</b>，不是大門朝的方向，也不是「站在門口背對門」。<br>
+        實務取<b>採光面或主氣口的反向</b>——整層最大的採光面（落地窗、主陽台、最寬的窗牆）朝哪，那是「向」，其反向即「坐」。若採光面不明顯，取整棟建築正面（門廳、招牌、路衝面）的反向。<br>
+        <b>量的位置</b>：站在屋子中心（單層取棟柱之中；有前後段者取中段或天井），羅盤水平，讀數對準向方。<br>
+        <b>量幾次</b>：同一屋內相距一兩公尺各量三點。三點散布小於二度才採信；大於二度表示有鋼筋或電器干擾，請退到陽台或屋外重量。
+      </div>
       <div class="row">
         <div><label>羅盤讀數（度）</label><input id="ib" type="number" step="0.1" value="172.5"></div>
         <div><label>判讀基準</label><select id="imode"><option value="magnetic">磁方位（古法）</option><option value="true">真方位</option></select></div>
@@ -166,6 +173,11 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
         
       </div>
       <div class="row"><div><label>建成或入住之年（玄空宅運）</label><input id="ibuilt" type="number" value="2026"></div></div>
+      <div class="row">
+        <div><button class="go" id="live" style="padding:9px;font-size:13px;letter-spacing:.1em;background:transparent;border:1px solid var(--line);color:var(--gold)">用手機羅盤讀取</button></div>
+        <div><button class="go" id="sample" style="padding:9px;font-size:13px;letter-spacing:.1em;background:transparent;border:1px solid var(--line);color:var(--dim)">記錄此點</button></div>
+      </div>
+      <div id="liveBox" class="cap" style="margin:0 0 12px"></div>
       <button class="go" id="go">起算</button>
     </section>
 
@@ -260,6 +272,7 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
       <p><b>第一步·事時</b>　填年月日時。這決定四柱、當令的三元九運、以及該年該月的神煞分布。經度用來算真太陽時（實際的太陽位置，不是鐘面時間）。</p>
       <p><b>第二步·坐向</b>　填羅盤讀數（度數，正北為零、順時針）。<b>坐向指的是「坐山」——房子背後所靠的方向</b>，不是大門朝的方向。門向與坐山恰好相差一百八十度，引擎會自動算出向。</p>
       <p>用針三選一：定向用正針，看來脈用中針，看去水用縫針——這是《協紀》卷二定的，不是隨便選。磁偏角在二〇二五至二〇三〇之間會自動求得。</p>
+      <p><b>坐山不是大門朝向。</b>坐山是房子整體背靠的方向，實務取採光面或主氣口的反向。整層最大的採光面朝哪，那是「向」，其反向即「坐」。站在屋子中心量，同一屋內取三點，散布小於二度才採信——手機磁力計在室內可能因鋼筋而穩定地偏移，數值不跳不代表準確。</p>
       <p><b>第三步·看盤</b>　由上而下依序是羅經、四柱、年神方位、月神方位、月飛宮、玄空飛星、八宅。</p>
 
       <h3>每一區在講什麼</h3>
@@ -1758,6 +1771,7 @@ var NH = (function (KY, BZ) {
       return '<div class="'+(R.n===sel?'main':'')+'"><b>'+r.shan+'</b><span>'+R.n+'　'+r.gua+'</span></div>';
     }).join('');
 
+    var W=WX.of(S.shan);
     var g=[P.year.gz,P.month.gz,P.day.gz,P.hour.gz], nm=['年','月','日','時'];
     $('four').innerHTML=g.map(function(x,i){return '<div><b>'+x+'</b><span>'+nm[i]+'</span></div>'}).join('');
 
@@ -1886,7 +1900,6 @@ var NH = (function (KY, BZ) {
       +(clash.length?'<br><span class="warn">與八宅牴牾：'+clash.map(function(x){return x.dir+'（倪氏'+x.倪氏.split('・')[0]+'，八宅'+x.八宅+'）'}).join('、')
         +'。二家判準不同，不合一——倪氏依絕對方位論人倫，八宅依坐山論吉凶。</span>':'');
 
-    var W=WX.of(S.shan);
     var HS=BZ.houseOf(S.shan);
     if(HS){
       var zang=(useMode==='開山造葬');
@@ -1981,7 +1994,7 @@ var NH = (function (KY, BZ) {
     ok('未用真太陽時則不修正', KY.pillars({y:2026,m:8,d:19,hh:12,mi:0,lon:121.5}).corr===0);
     ok('冬至合天（二五年十二月二十一日）', (function(){var d=XY.fromJD(XYD.winterSolstice(2025)+8/24);return d.m===12&&d.d===21})());
     ok('農曆層可用（二六年八月十九日為七月初七）', (function(){var L=XYD.lunarOf(2026,8,19);return L.month===7&&L.day===7&&!L.leap})());
-    ok('年神表五十四項齊備', Object.keys(NS.TAB).length===54);
+    ok('年神表五十五項齊備', Object.keys(NS.TAB).length===55);
     ok('甲子年子山值太歲與大煞', (function(){var n=NS.atShan('甲子','子')['凶'].map(function(x){return x.name});return n.indexOf('太歲')>=0&&n.indexOf('大煞')>=0})());
     ok('甲子年寅山值歲祿歲馬', (function(){var n=NS.atShan('甲子','寅')['吉'].map(function(x){return x.name});return n.indexOf('歲祿')>=0&&n.indexOf('歲馬')>=0})());
     ok('三煞不落太歲之山（甲子年）', NS.atShan('甲子','子')['凶'].every(function(x){return x.name!=='三煞'}));
@@ -2072,6 +2085,46 @@ var NH = (function (KY, BZ) {
     $('ih').value=d.getHours(); $('ii').value=d.getMinutes(); }
   $('now').addEventListener('click',function(){ freeze(); run(); });
   freeze();
+  var liveOn=false, liveHeading=null, samples=[];
+  function setLive(h){
+    liveHeading=h;
+    $('ib').value=h.toFixed(1);
+    drawDial(KY.shanOf(h,{needle:'正針',decl:+$('idec').value,mode:$('imode').value}).magnetic);
+    var s=KY.shanOf(h,{needle:'正針',decl:+$('idec').value,mode:$('imode').value});
+    $('liveBox').innerHTML='<b style="color:var(--gold)">'+h.toFixed(1)+'°</b>　'+s.shan+'山　距界 '
+      +(7.5-Math.abs(s.offset)).toFixed(1)+'°'
+      +(samples.length?'<br>已記錄 '+samples.length+' 點：'+samples.map(function(x){return x.toFixed(1)}).join('、')
+        +'　散布 '+spread().toFixed(1)+'°'+(spread()>2?'　<span class="warn">散布逾二度，疑有干擾，請換位置重量</span>':'　<span class="pass">散布合格</span>'):'')
+      +'<br><span style="color:var(--dim)">手機磁力計在室內可能因鋼筋或電器而穩定地偏移，數值穩不代表準。務必多點取樣。</span>';
+  }
+  function spread(){ if(samples.length<2) return 0;
+    var mn=Math.min.apply(null,samples), mx=Math.max.apply(null,samples); return mx-mn; }
+  function onOrient(e){
+    var h=null;
+    if(typeof e.webkitCompassHeading==='number') h=e.webkitCompassHeading;
+    else if(e.absolute && typeof e.alpha==='number') h=(360-e.alpha)%360;
+    if(h!==null) setLive(h);
+  }
+  $('live').addEventListener('click',function(){
+    if(liveOn){ window.removeEventListener('deviceorientationabsolute',onOrient);
+      window.removeEventListener('deviceorientation',onOrient); liveOn=false;
+      $('live').textContent='用手機羅盤讀取'; return; }
+    function start(){ liveOn=true; $('live').textContent='停止讀取';
+      window.addEventListener('deviceorientationabsolute',onOrient,true);
+      window.addEventListener('deviceorientation',onOrient,true); }
+    if(typeof DeviceOrientationEvent!=='undefined' && DeviceOrientationEvent.requestPermission){
+      DeviceOrientationEvent.requestPermission().then(function(r){
+        if(r==='granted') start(); else $('liveBox').textContent='未取得方位感測權限，請手動填入度數。';
+      }).catch(function(){ $('liveBox').textContent='此裝置不支援方位感測，請手動填入度數。'; });
+    } else if('ondeviceorientationabsolute' in window || 'ondeviceorientation' in window){ start(); }
+    else $('liveBox').textContent='此裝置或瀏覽器不支援方位感測，請手動填入度數。';
+  });
+  $('sample').addEventListener('click',function(){
+    var h=liveHeading!==null?liveHeading:+$('ib').value;
+    samples.push(h); if(samples.length>5) samples.shift();
+    var avg=samples.reduce(function(a,b){return a+b},0)/samples.length;
+    $('ib').value=avg.toFixed(1); setLive(avg);
+  });
   ['ifam','imodeuse','imode','ibuilt'].forEach(function(id){
     var e=$(id); if(e) e.addEventListener('change',run); });
   if('serviceWorker' in navigator){ window.addEventListener('load',function(){
