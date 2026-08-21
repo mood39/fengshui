@@ -3,7 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>堪輿理氣 · 曆象核心 v1.2</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#14110E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>堪輿理氣 · 曆象核心 v1.7</title>
 <style>
 :root{
   --lacquer:#14110E; --lacquer2:#1E1A15; --vermilion:#C4342B; --gold:#C9A24B;
@@ -78,6 +83,10 @@ table.k td,.ns{margin-bottom:6px}
 .grid9 b{display:block;font-family:"Noto Serif TC",serif;font-size:17px;letter-spacing:.04em}
 .grid9 u{display:block;text-decoration:none;font-size:10px;color:var(--dim);letter-spacing:.1em;margin-top:3px}
 .grid9 .j b{color:var(--azure)} .grid9 .x b{color:var(--vermilion)}
+.rd{font-size:14.5px;line-height:1.95}
+.rd .b{margin-bottom:20px}
+.rd .b em{font-style:normal;display:block;font-family:"Noto Serif TC",serif;font-size:12px;letter-spacing:.22em;color:var(--gold);margin-bottom:6px}
+.rd b{color:var(--xuan);font-weight:600}
 .grid9.xk div{padding:8px 3px}
 .grid9.xk b{font-size:15px;color:var(--xuan);letter-spacing:0}
 .grid9.xk b i{font-style:normal;font-size:19px}
@@ -97,6 +106,10 @@ table.k th{padding:5px 7px;border-bottom:1px solid var(--line);text-align:left}
 .grid9 b{display:block;font-family:"Noto Serif TC",serif;font-size:17px;letter-spacing:.04em}
 .grid9 u{display:block;text-decoration:none;font-size:10px;color:var(--dim);letter-spacing:.1em;margin-top:3px}
 .grid9 .j b{color:var(--azure)} .grid9 .x b{color:var(--vermilion)}
+.rd{font-size:14.5px;line-height:1.95}
+.rd .b{margin-bottom:20px}
+.rd .b em{font-style:normal;display:block;font-family:"Noto Serif TC",serif;font-size:12px;letter-spacing:.22em;color:var(--gold);margin-bottom:6px}
+.rd b{color:var(--xuan);font-weight:600}
 .grid9.xk div{padding:8px 3px}
 .grid9.xk b{font-size:15px;color:var(--xuan);letter-spacing:0}
 .grid9.xk b i{font-style:normal;font-size:19px}
@@ -110,7 +123,7 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
 <body>
 <div class="wrap">
   <h1>堪輿理氣 · 曆象核心</h1>
-  <div class="sub">v1.2　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神・玄空飛星　—　理氣盤式未立</div>
+  <div class="sub">v1.7　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神・玄空飛星　—　理氣盤式未立</div>
 
   <nav role="tablist">
     <button role="tab" id="t1" aria-selected="true" data-p="p1">羅經</button>
@@ -119,6 +132,14 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
   </nav>
 
   <div class="page on" id="p1">
+    <section>
+      <h2>用途</h2>
+      <div class="row"><div><select id="imodeuse">
+        <option value="修方興修">修方興修（陽宅・興造修方）</option>
+        <option value="開山造葬">開山造葬（陰宅・立穴安葬）</option></select></div></div>
+      <div class="cap" style="margin:0 0 18px">分類逐字取自《協紀》年表綱目——開山立向修方吉／凶、開山凶、立向凶、修方凶。選定用途後只列該用途所忌者。</div>
+    </section>
+
     <section>
       <h2>事時</h2>
       <div class="row">
@@ -149,6 +170,12 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
     </section>
 
     <section>
+      <h2>判讀</h2>
+      <div id="rd" class="rd"></div>
+    </section>
+
+    <section>
+      <h2 style="color:var(--dim)">以下為盤面細節</h2>
       <svg id="dial" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="二十四山三針盤"></svg>
       <div class="read" id="read"></div>
     </section>
@@ -195,9 +222,28 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
     </section>
 
     <section>
-      <h2>八宅</h2>
+      <h2>室內配屬（倪氏）</h2>
+      <div class="row"><div><label>家庭組成</label><select id="ifam">
+        <option value="">不指定</option><option>夫妻二人</option><option>夫妻與子</option>
+        <option>夫妻與女</option><option>夫妻一子一女</option><option>單身男</option>
+        <option>單身女</option><option>三代同堂</option></select></div></div>
+      <div id="famPlan" class="cap"></div>
+      <div id="nhHead" class="ns"></div>
+      <div class="grid9" id="nh"></div>
+      <div class="cap" id="nhCap"></div>
+    </section>
+
+    <section>
+      <h2>凶宅檢核</h2>
+      <div id="chk2" class="rd"></div>
+      <div class="cap">逐項自答，屬形勢與格局之判斷，非計算所能得。出處同倪氏配屬層。</div>
+    </section>
+
+    <section>
+      <h2 id="byTitle">八宅</h2>
       <div id="bzHead" class="ns"></div>
       <div class="grid9" id="bz"></div>
+      <div class="cap" id="bzCap"></div>
       <div class="cap">上為北。同組相配為吉，東西交錯為凶——卷二〈本原二〉大遊年變卦。<br>
         生氣：活力進取　天醫：健康貴人　延年：和睦長久　伏位：安穩守成<br>
         五鬼：耗損　六煞：是非　禍害：口舌　絕命：重大損耗</div>
@@ -246,6 +292,29 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
 
       <h3>三針進退</h3>
       <p>正針（地盤）以磁北為準，中針（人盤）逆七度半，縫針（天盤）順七度半。此為通行說，各家記述互異，故寫為參數而不寫死，日後可並列異說。要緊處：三針之差為半山（七度半），而台灣磁偏角約四度——<b>派別之擇先於偏角之校</b>。</p>
+
+      <h3>室內配屬層（倪海厦一系）</h3>
+      <p>此層與八宅、玄空<b>判準根本不同</b>：八宅依坐山推宅卦，同一方位隨坐山而異吉凶；倪氏依後天八卦之絕對方位定人倫，西北恆為乾恆為父，不隨坐山改變。二者必生牴牾，本引擎並列而不合一。</p>
+      <p><b>可算之核心</b>：八宮只取天元龍八山——子（正北）、艮（東北）、卯（正東）、巽（東南）、午（正南）、坤（西南）、酉（正西）、乾（西北），各佔十五度；其餘十六山為<b>無人帶</b>。廚廁宜置於無人帶而不占人宮，此為該系統之樞紐，亦是其可計算之處。</p>
+      <p>人倫配屬：乾西北為父（夫妻主臥）、坤西南為母、震正東為長子（東宮太子）、巽東南為長女、坎正北為中男、離正南為中女、兌正西為少女、艮東北為少男。南半球南北互換，主臥改西南。</p>
+      <p><b>八煞黃泉</b>：坎不立辰、坤不立卯、震不立申、巽不立酉、乾不立午、兌不立巳、艮不立寅、離不立亥。<b>三吉六秀</b>：六秀為丙丁辛艮巽兌，三吉為巽艮兌。</p>
+      <p><b>來源自身之矛盾一處</b>：同一份資料既云「廚房在北方死兒子」，又云「廚房最好在正北或正西」。以無人帶之說解之則通——正北之人宮為子山十五度，其左右壬癸二山屬無人帶，廚房當在壬癸而非子。此為本引擎之理解，非原文明言，記此存疑。</p>
+      <p><b>兩來源實為同一份資料之鏡像，不構成互證。</b>所提供之二網站文字幾乎逐句相同，含同一處內部矛盾（廚房宜正北與廚房在北方傷子並存）。故本層之依據為單一來源，非二重外證，與本引擎他層之標準不同，特此標明。</p>
+      <p><b>未實作者</b>：該系統另有以床位方位選擇生育性別、以及宣稱可「糾正」性傾向之說。此類主張本引擎不予實作，亦不列入判讀——非因門派之見，而是不宜以計算之名為此類斷言背書。峦頭、陵線、樓層、缺角諸說屬形勢判斷，不可算，同不實作。</p>
+
+      <h3>用途兩模式</h3>
+      <p>協紀年表本以「開山立向修方吉／開山立向修方凶／開山凶／立向凶／修方凶」五類編排，分類非本引擎所立。逐年抽取各類所轄之神煞，六十年取多數為準，得二十五、五、五、二、十九共五十六項。造葬取開山與立向所忌，興修取修方與立向所忌，兩者共取通類。</p>
+
+      <h3>小遊年</h3>
+      <p>卷二明列大小遊年之對應——「貪狼與小遊同亦曰生氣；廉貞即小遊之巨門亦曰五鬼；武曲即小遊之絕體又曰延年；文曲與小遊同又曰六煞；祿存即小遊之五鬼又曰禍害；巨門即小遊之福德亦曰天醫；破軍輔弼與小遊同」。故小遊年由大遊年逐位換算而得，不另立翻卦次第，亦不臆補。八宮自驗：各得八名無重，本宮恆在本位。</p>
+      <p><b>吉凶兩家並列。</b>卷二云地理家從龍上起，以貪狼巨門武曲廉貞為吉、祿存文曲破軍輔弼為凶；選擇家從向上起，以貪狼巨門武曲文曲為吉、祿存廉貞破軍輔弼為凶。二家於廉貞與文曲二星正相反，每宮恰有二位吉凶互異。本引擎預設地理家（造葬所用），並將相異之位標出。</p>
+
+      <h3>五行三系</h3>
+      <p>正五行、雙山五行（即三合五行）、洪範五行三者，逐字取自卷二，二十四山三系全備。洪範原文以卦名稱四正——坎即子、離即午、震即卯、兌即酉。卷二並云「正五行乃五行之質，雙山五行乃五行之氣，故推龍氣之生旺用雙山而不用正五行」。</p>
+      <p><b>年剋山家未能改算。</b>非單純以年之納音剋山之洪範五行——甲子年表列水山與土山兩組，而戊子、辛卯二年更作「二十四並無剋，冬至後剋乾亥兌丁」，另有冬至之限。規則較預期複雜，維持查表。</p>
+
+      <h3>消砂納水與分金未作（底本所限）</h3>
+      <p>卷三十三僅述羅經層數之屬——「六層穿山七十二龍正針分金也……九層六十龍皆屬中針所以格龍者也，十層縫針二十四山，十一層六十龍，十二層一百二十分金，皆屬縫針所以消砂納水者也」——言其何針所屬而未出其法。消砂納水之實際規則（生旺墓輔星水法之屬）與六十龍、七十二龍、一百二十分金之表，協紀俱不載，須另據三合家專書。此非算法所限，係底本所缺。</p>
 
       <h3>玄空飛星（下卦）</h3>
       <p>運盤以運數入中順飛；山盤取坐山所在宮之運星入中，向盤取向所在宮之運星入中，順逆各依「該運星所指之宮中，與坐山同元龍之山」之陰陽——陽順陰逆。</p>
@@ -303,6 +372,29 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
       <p><b>八宅之法亦全。</b>大遊年翻卦：上一爻變為生氣貪狼、下二爻變為天醫巨門、三爻俱變為延年武曲、三爻俱不變為伏位輔弼；乾兌老陽、艮坤老陰為西四宅，離震少陰、巽坎少陽為東四宅。是八宅可逕依協紀而作，不待《陽宅三要》。</p>
       <p><b>年剋山家亦可算。</b>年表所列之長串山名，即洪範五行之某一行——卷二載甲寅辰巽戌坎辛申八山屬水、離壬丙乙四山屬火、震艮巳三山屬木、乾亥兌丁四山屬金、丑癸坤庚未五山屬土。</p>
       <p>另卷三十三、三十四〈利用〉二卷為施用之篇，坐山、消砂納水、分金、紫白入中宮皆在其中；卷八之入中宮順飛逆飛凡四十餘見，九宮飛佈之機括完備。所缺者惟玄空挨星一系，本晚出而在官修之外。</p>
+
+      <h3>室內配屬層（倪海厦一系）</h3>
+      <p>此層與八宅、玄空<b>判準根本不同</b>：八宅依坐山推宅卦，同一方位隨坐山而異吉凶；倪氏依後天八卦之絕對方位定人倫，西北恆為乾恆為父，不隨坐山改變。二者必生牴牾，本引擎並列而不合一。</p>
+      <p><b>可算之核心</b>：八宮只取天元龍八山——子（正北）、艮（東北）、卯（正東）、巽（東南）、午（正南）、坤（西南）、酉（正西）、乾（西北），各佔十五度；其餘十六山為<b>無人帶</b>。廚廁宜置於無人帶而不占人宮，此為該系統之樞紐，亦是其可計算之處。</p>
+      <p>人倫配屬：乾西北為父（夫妻主臥）、坤西南為母、震正東為長子（東宮太子）、巽東南為長女、坎正北為中男、離正南為中女、兌正西為少女、艮東北為少男。南半球南北互換，主臥改西南。</p>
+      <p><b>八煞黃泉</b>：坎不立辰、坤不立卯、震不立申、巽不立酉、乾不立午、兌不立巳、艮不立寅、離不立亥。<b>三吉六秀</b>：六秀為丙丁辛艮巽兌，三吉為巽艮兌。</p>
+      <p><b>來源自身之矛盾一處</b>：同一份資料既云「廚房在北方死兒子」，又云「廚房最好在正北或正西」。以無人帶之說解之則通——正北之人宮為子山十五度，其左右壬癸二山屬無人帶，廚房當在壬癸而非子。此為本引擎之理解，非原文明言，記此存疑。</p>
+      <p><b>兩來源實為同一份資料之鏡像，不構成互證。</b>所提供之二網站文字幾乎逐句相同，含同一處內部矛盾（廚房宜正北與廚房在北方傷子並存）。故本層之依據為單一來源，非二重外證，與本引擎他層之標準不同，特此標明。</p>
+      <p><b>未實作者</b>：該系統另有以床位方位選擇生育性別、以及宣稱可「糾正」性傾向之說。此類主張本引擎不予實作，亦不列入判讀——非因門派之見，而是不宜以計算之名為此類斷言背書。峦頭、陵線、樓層、缺角諸說屬形勢判斷，不可算，同不實作。</p>
+
+      <h3>用途兩模式</h3>
+      <p>協紀年表本以「開山立向修方吉／開山立向修方凶／開山凶／立向凶／修方凶」五類編排，分類非本引擎所立。逐年抽取各類所轄之神煞，六十年取多數為準，得二十五、五、五、二、十九共五十六項。造葬取開山與立向所忌，興修取修方與立向所忌，兩者共取通類。</p>
+
+      <h3>小遊年</h3>
+      <p>卷二明列大小遊年之對應——「貪狼與小遊同亦曰生氣；廉貞即小遊之巨門亦曰五鬼；武曲即小遊之絕體又曰延年；文曲與小遊同又曰六煞；祿存即小遊之五鬼又曰禍害；巨門即小遊之福德亦曰天醫；破軍輔弼與小遊同」。故小遊年由大遊年逐位換算而得，不另立翻卦次第，亦不臆補。八宮自驗：各得八名無重，本宮恆在本位。</p>
+      <p><b>吉凶兩家並列。</b>卷二云地理家從龍上起，以貪狼巨門武曲廉貞為吉、祿存文曲破軍輔弼為凶；選擇家從向上起，以貪狼巨門武曲文曲為吉、祿存廉貞破軍輔弼為凶。二家於廉貞與文曲二星正相反，每宮恰有二位吉凶互異。本引擎預設地理家（造葬所用），並將相異之位標出。</p>
+
+      <h3>五行三系</h3>
+      <p>正五行、雙山五行（即三合五行）、洪範五行三者，逐字取自卷二，二十四山三系全備。洪範原文以卦名稱四正——坎即子、離即午、震即卯、兌即酉。卷二並云「正五行乃五行之質，雙山五行乃五行之氣，故推龍氣之生旺用雙山而不用正五行」。</p>
+      <p><b>年剋山家未能改算。</b>非單純以年之納音剋山之洪範五行——甲子年表列水山與土山兩組，而戊子、辛卯二年更作「二十四並無剋，冬至後剋乾亥兌丁」，另有冬至之限。規則較預期複雜，維持查表。</p>
+
+      <h3>消砂納水與分金未作（底本所限）</h3>
+      <p>卷三十三僅述羅經層數之屬——「六層穿山七十二龍正針分金也……九層六十龍皆屬中針所以格龍者也，十層縫針二十四山，十一層六十龍，十二層一百二十分金，皆屬縫針所以消砂納水者也」——言其何針所屬而未出其法。消砂納水之實際規則（生旺墓輔星水法之屬）與六十龍、七十二龍、一百二十分金之表，協紀俱不載，須另據三合家專書。此非算法所限，係底本所缺。</p>
 
       <h3>玄空飛星（下卦）</h3>
       <p>運盤以運數入中順飛；山盤取坐山所在宮之運星入中，向盤取向所在宮之運星入中，順逆各依「該運星所指之宮中，與坐山同元龍之山」之陰陽——陽順陰逆。</p>
@@ -1276,6 +1368,9 @@ var GL = (function () {
     收: '收成之象；宜納財進人口，忌放債出行', 開: '開通之象；宜開市入學，忌葬事',
     閉: '閉塞之象；宜築堤填穴，忌開渠治病',
     /* 八宅 */
+    '八宅五鬼': '八宅凶方，傳統主耗損、意外',
+    絕體: '小遊年凶位，傳統主損傷', 遊魂: '小遊年凶位，傳統主漂泊不定',
+    本宮: '小遊年之本位，不動', 福德: '小遊年吉位，傳統主福澤',
     生氣: '八宅第一吉方，傳統主活力、進取', 天醫: '八宅吉方，傳統主健康、貴人',
     延年: '八宅吉方，傳統主人際和睦、長久', 伏位: '本宮不動之位，傳統主安穩守成',
     六煞: '八宅凶方，傳統主是非糾纏', 禍害: '八宅凶方，傳統主口舌小災',
@@ -1304,7 +1399,11 @@ var GL = (function () {
     真太陽時: '依所在經度與均時差修正後的實際太陽時，非鐘面時間',
     夜子時: '二十三時起已入次日的子時，日柱是否進位各家不一'
   };
-  return { of: function (n) { return G[n] || null; }, all: G };
+  /* ctx 為 'bazhai' 時，五鬼取八宅之義而非年神之義 */
+  return { of: function (n, ctx) {
+    if (ctx === 'bazhai' && G['八宅' + n]) return G['八宅' + n];
+    return G[n] || null;
+  }, all: G };
 })();
 
 /* 山之五行三系 與 玄空流年 —— 五行諸系據《協紀》卷二〈本原二〉原文 */
@@ -1365,6 +1464,233 @@ var WX = (function (KY) {
     return out;
   };
 })(KY, FG, XK);
+
+/* 小遊年變卦 —— 據《協紀》卷二〈本原二〉
+   卷二明列大小遊年之對應：「貪狼與小遊同亦曰生氣；廉貞即小遊之巨門亦曰五鬼；
+   武曲即小遊之絕體又曰延年；文曲與小遊同又曰六煞；祿存即小遊之五鬼又曰禍害；
+   巨門即小遊之福德亦曰天醫；破軍輔弼與小遊同。」
+   故小遊年可由大遊年逐位換算，不另立翻卦次第。 */
+(function (KY, BZ) {
+  'use strict';
+  /* 大遊年之星 → 小遊年之星 */
+  var MAP = { 貪狼: '貪狼', 廉貞: '巨門', 武曲: '祿存', 文曲: '文曲',
+    祿存: '廉貞', 巨門: '武曲', 破軍: '破軍', 輔弼: '輔弼' };
+  /* 小遊年之星 → 名 */
+  var NAME = { 貪狼: '生氣', 巨門: '天醫', 祿存: '絕體', 文曲: '遊魂',
+    廉貞: '五鬼', 武曲: '福德', 破軍: '絕命', 輔弼: '本宮' };
+  /* 吉凶兩家：地理家從龍上起、選擇家從向上起，異在廉貞與文曲 */
+  var JI = {
+    地理家: { 貪狼: 1, 巨門: 1, 武曲: 1, 廉貞: 1, 祿存: 0, 文曲: 0, 破軍: 0, 輔弼: 0 },
+    選擇家: { 貪狼: 1, 巨門: 1, 武曲: 1, 文曲: 1, 祿存: 0, 廉貞: 0, 破軍: 0, 輔弼: 0 }
+  };
+  BZ.XIAO = { MAP: MAP, NAME: NAME, JI: JI };
+  /* school：'地理家'（陰宅常用）或 '選擇家' */
+  BZ.xiaoyou = function (gua, school) {
+    school = school || '地理家';
+    return BZ.of(gua).map(function (x) {
+      var s = MAP[x.star];
+      return { gua: x.gua, shan: x.shan, star: s, name: NAME[s],
+        ji: !!JI[school][s], daName: x.name, daStar: x.star };
+    });
+  };
+  BZ.xiaoAt = function (shan, school) {
+    var g = BZ.guaOfShan(shan);
+    return g ? { gua: g, list: BZ.xiaoyou(g, school) } : null;
+  };
+})(KY, BZ);
+
+/* 用途模式 —— 分類逐字取自《協紀》卷十四至十九年表之綱目，非另立分類 */
+(function (NS) {
+  'use strict';
+  var CAT = {"歲德":"開山立向修方吉","歲德合":"開山立向修方吉","歲枝德":"開山立向修方吉","陽貴人":"開山立向修方吉","陰貴人":"開山立向修方吉","歲祿":"開山立向修方吉","歲馬":"開山立向修方吉","奏書":"開山立向修方吉","博士":"開山立向修方吉","巨門":"開山立向修方吉","武曲":"開山立向修方吉","文曲":"開山立向修方吉","三合後方":"開山立向修方吉","功曹":"開山立向修方吉","天罡":"開山立向修方吉","勝光":"開山立向修方吉","傳送":"開山立向修方吉","河魁":"開山立向修方吉","太陰":"開山立向修方吉","龍德":"開山立向修方吉","福德":"開山立向修方吉","太歲":"開山立向修方凶","歲破":"開山立向修方凶","三煞":"開山立向修方凶","坐煞向煞":"開山立向修方凶","浮天空亡":"開山立向修方凶","年剋山家":"開山凶","陰府太歲":"開山凶","六害":"開山凶","死符":"開山凶","灸退":"開山凶","巡山羅睺":"立向凶","病符":"立向凶","天官符":"修方凶","地官符":"修方凶","大煞":"修方凶","大將軍":"修方凶","力士":"修方凶","蠶室":"修方凶","蠶官":"修方凶","蠶命":"修方凶","歲刑":"修方凶","豹尾":"修方凶","飛廉":"修方凶","喪門":"修方凶","弔客":"修方凶","白虎":"修方凶","金神":"修方凶","獨火":"修方凶","五鬼":"修方凶","破敗五鬼":"修方凶","黃幡":"修方凶","貪狼":"開山立向修方吉","三合前方":"開山立向修方吉","神后":"開山立向修方吉","太陽":"開山立向修方吉"};
+  NS.CAT = CAT;
+  NS.MODE = {
+    開山造葬: ['開山立向修方吉', '開山立向修方凶', '開山凶', '立向凶'],
+    修方興修: ['開山立向修方吉', '開山立向修方凶', '立向凶', '修方凶']
+  };
+  NS.byMode = function (gz, mode) {
+    var keep = NS.MODE[mode] || NS.MODE['修方興修'];
+    var a = NS.of(gz), r = { 吉: [], 凶: [] };
+    ['吉', '凶'].forEach(function (c) {
+      a[c].forEach(function (x) {
+        var k = CAT[x.name];
+        if (!k || keep.indexOf(k) >= 0) { x.cat = k || '未分類'; r[c].push(x); }
+      });
+    });
+    return r;
+  };
+  NS.atShanMode = function (gz, shan, mode) {
+    var a = NS.byMode(gz, mode), hit = { 吉: [], 凶: [] };
+    ['吉', '凶'].forEach(function (c) {
+      a[c].forEach(function (x) { if (x.shan.indexOf(shan) >= 0) hit[c].push(x); });
+    });
+    return hit;
+  };
+})(NS);
+
+/* 白話判讀層 —— 將盤面綜述為可讀之語。所述為術數傳統之說法，非事實斷言。 */
+var RD = (function (KY, NS, BZ, FG, XK, GL) {
+  'use strict';
+  var DIR = { 坎: '正北', 艮: '東北', 震: '正東', 巽: '東南', 離: '正南', 坤: '西南', 兌: '正西', 乾: '西北', 中: '中央' };
+  /* 動土層級：協紀所謂「大者避之，中者制之，小者以吉星照之」 */
+  var HEAVY = ['太歲', '歲破', '三煞', '坐煞向煞', '大煞', '大將軍', '戊己都天'];
+  function dirOf(g) { return DIR[g] || g; }
+
+  function compose(o) {
+    var L = [];
+    /* 一·坐向 */
+    L.push({ h: '坐向',
+      t: '羅盤讀數 ' + o.bearing.toFixed(1) + '°（' + (o.mode === 'true' ? '真方位' : '磁方位') + '），落在<b>'
+        + o.shan + '山</b>，即房子背靠' + o.shan + '、面朝' + o.xiang + '——通稱「'
+        + o.shan + '山' + o.xiang + '向」。此山屬<b>' + o.gua + '宮</b>（' + dirOf(o.gua) + '）。'
+        + (o.edge ? '<br><span class="warn">讀數距山界僅 ' + (7.5 - Math.abs(o.offset)).toFixed(1)
+          + '°，一山才十五度，建議換位置重量三次確認。</span>' : '') });
+
+    /* 二·今年此方能不能動 */
+    var heavy = o.nianX.filter(function (x) { return HEAVY.indexOf(x.name) >= 0; });
+    var light = o.nianX.filter(function (x) { return HEAVY.indexOf(x.name) < 0; });
+    var t2;
+    if (heavy.length) {
+      t2 = '今年（' + o.yearGZ + '）此方值<b>' + heavy.map(function (x) { return x.name; }).join('、')
+        + '</b>，傳統上列為<b>忌動土興修</b>之方'
+        + (light.length ? '；另值' + light.map(function (x) { return x.name; }).join('、') + '，屬次一級。' : '。');
+    } else if (light.length) {
+      t2 = '今年（' + o.yearGZ + '）此方未值太歲三煞一類的重煞，僅值'
+        + light.map(function (x) { return x.name; }).join('、') + '，傳統視為可制可用。';
+    } else {
+      t2 = '今年（' + o.yearGZ + '）此方未值凶神。';
+    }
+    if (o.nianJ.length) t2 += '<br>吉神方面值<b>' + o.nianJ.map(function (x) { return x.name; }).join('、') + '</b>。';
+    t2 += '<br><span style="color:var(--dim)">要緊的是：年月神煞管的是「這一年這個方位能不能敲牆動土」，'
+      + '不管你睡哪間、家具怎麼擺。搬動家具、更換陳設不在此限。</span>';
+    L.push({ h: '今年此方宜忌', t: t2 });
+
+    /* 三·這個月 */
+    var t3 = '本月（' + o.monthGZ + '）此方'
+      + (o.yueX.length ? '值<b>' + o.yueX.join('、') + '</b>' : '未值月家凶神')
+      + (o.yueJ.length ? '，另值' + o.yueJ.join('、') : '') + '。今日為<b>' + o.jianchu + '日</b>——'
+      + (GL.of(o.jianchu) || '') + '。';
+    L.push({ h: '本月與今日', t: t3 });
+
+    /* 四·玄空 */
+    var t4 = '此宅以 <b>' + o.builtYear + '</b> 年建成入住計，屬 <b>' + o.yun + ' 運</b>。'
+      + o.shan + '山' + o.xiang + '向' + (o.xkMode === '替卦' ? '（坐向偏出中九度，用替卦起盤）' : '')
+      + '，格局為<b>' + o.pattern + '</b>——' + (GL.of(o.pattern) || '')
+      + (o.fuyin ? '，並見伏吟' : '') + (o.heshi ? '，並見合十' : '') + '。'
+      + '<br>宅盤一經定盤即不再變，<b>逐年變的是加臨其上的流年星</b>。' + o.solarYear + ' 年流年 '
+      + FG.NAME[o.lnStar - 1] + ' 入中。'
+      + (o.ruqiu ? '<br><span class="warn">本宅現正入囚——當運之向星入中宮，傳統視為宅氣受困之期。</span>'
+        : (o.ruqiuYears ? '<br>本宅入囚之運期為 ' + o.ruqiuYears + '。' : ''));
+    L.push({ h: '玄空宅盤', t: t4 });
+
+    /* 五·八宅或小遊年 */
+    if (o.by) {
+      var ji = o.by.filter(function (x) { return x.ji; }), xiong = o.by.filter(function (x) { return !x.ji; });
+      var t5 = '以' + o.shan + '山論，此宅屬<b>' + o.byGua + '宮</b>'
+        + (o.byGroup ? '（' + o.byGroup + '）' : '') + '。八方之中——<br>'
+        + ji.map(function (x) { return '　<span class="pass">' + dirOf(x.gua) + '　' + x.name + '</span>　' + (GL.of(x.name, 'bazhai') || ''); }).join('<br>')
+        + '<br>' + xiong.map(function (x) { return '　<span class="fail">' + dirOf(x.gua) + '　' + x.name + '</span>　' + (GL.of(x.name, 'bazhai') || ''); }).join('<br>');
+      L.push({ h: o.byTitle, t: t5 });
+    }
+    return L;
+  }
+  return { compose: compose, DIR: DIR, dirOf: dirOf, HEAVY: HEAVY };
+})(KY, NS, BZ, FG, XK, GL);
+
+/* 倪海厦陽宅配屬層 —— 後天八卦人倫定位。與八宅、玄空並列，不合一。
+   來源：finalhopes.com/yangzhai（倪海厦天紀傳習資料整理）。
+   本層只實作空間配屬與形煞檢核，不實作該系統中關於生育性別與性傾向之說。 */
+var NH = (function (KY, BZ) {
+  'use strict';
+  /* 八宮人倫：以絕對方位定，不隨坐山而變——此為與八宅最大之別 */
+  var REN = {
+    乾: { dir: '西北', role: '父・夫妻主臥', deg: '307.5–322.5', shan: '乾' },
+    坤: { dir: '西南', role: '母・保姆或客房', deg: '217.5–232.5', shan: '坤' },
+    震: { dir: '正東', role: '長子（東宮太子）', deg: '82.5–97.5', shan: '卯' },
+    巽: { dir: '東南', role: '長女', deg: '127.5–142.5', shan: '巽' },
+    坎: { dir: '正北', role: '中男（次子）', deg: '352.5–7.5', shan: '子' },
+    離: { dir: '正南', role: '中女（次女）', deg: '172.5–187.5', shan: '午' },
+    兌: { dir: '正西', role: '少女（三女）', deg: '262.5–277.5', shan: '酉' },
+    艮: { dir: '東北', role: '少男（三子）・祖父', deg: '37.5–52.5', shan: '艮' }
+  };
+  /* 無人帶：二十四山中除天元龍八山外之十六山，倪氏謂廚廁宜置於此 */
+  var REN_SHAN = '乾坤卯巽子午酉艮';
+  var WUREN = KY.SHAN.filter(function (s) { return REN_SHAN.indexOf(s) < 0; });
+  /* 八煞黃泉（八曜煞）：某卦來龍不立某向 */
+  var BASHA = { 坎: '辰', 坤: '卯', 震: '申', 巽: '酉', 乾: '午', 兌: '巳', 艮: '寅', 離: '亥' };
+  /* 三吉六秀 */
+  var LIUXIU = '丙丁辛艮巽兌', SANJI = '巽艮兌';
+
+  function guaOfDir(shan) { return BZ.guaOfShan(shan); }
+  /* 南半球：南北互換，主臥改西南 */
+  function forHemisphere(south) {
+    if (!south) return REN;
+    var m = {}, swap = { 乾: '坤', 坤: '乾', 震: '震', 兌: '兌', 坎: '離', 離: '坎', 艮: '巽', 巽: '艮' };
+    for (var k in REN) m[k] = { dir: REN[k].dir, role: REN[swap[k]].role, deg: REN[k].deg, shan: REN[k].shan };
+    return m;
+  }
+  /* 檢核：坐山之卦來龍是否犯八煞黃泉（即向落於該卦所忌之支） */
+  function bashaCheck(zuoShan, xiangShan) {
+    var g = guaOfDir(zuoShan);
+    return { gua: g, forbid: BASHA[g], hit: BASHA[g] === xiangShan };
+  }
+  /* 檢核：坐向是否落在山界（倪氏所謂分金煞之類） */
+  function lineCheck(offset) {
+    var d = 7.5 - Math.abs(offset);
+    return { toEdge: d, risky: d < 1.5 };
+  }
+  /* 廚廁宜忌：人宮為忌，無人帶為宜 */
+  function kitchenAt(shan) {
+    var g = guaOfDir(shan), isRen = REN_SHAN.indexOf(shan) >= 0;
+    return { gua: g, isRen: isRen, role: isRen ? REN[g].role : null,
+      ok: !isRen, note: isRen ? '此位為' + REN[g].role + '之宮，倪氏謂廚房為刀象，置於人宮主傷該人' : '此山屬無人帶' };
+  }
+  function xiuCheck(shan) {
+    return { 六秀: LIUXIU.indexOf(shan) >= 0, 三吉: SANJI.indexOf(shan) >= 0 };
+  }
+  /* 與八宅之衝突：同一方位，八宅論吉凶、倪氏論人倫，二者判準不同 */
+  function conflict(zuoShan) {
+    var h = BZ.houseOf(zuoShan);
+    if (!h) return null;
+    return h.list.map(function (x) {
+      return { gua: x.gua, dir: REN[x.gua].dir, 八宅: x.name, 八宅吉: x.ji,
+        倪氏: REN[x.gua].role,
+        衝突: (!x.ji && (x.gua === '乾' || x.gua === '震')) };   // 倪氏最重之位落於八宅凶方
+    });
+  }
+  return { REN: REN, WUREN: WUREN, BASHA: BASHA, LIUXIU: LIUXIU, SANJI: SANJI,
+    forHemisphere: forHemisphere, bashaCheck: bashaCheck, lineCheck: lineCheck,
+    kitchenAt: kitchenAt, xiuCheck: xiuCheck, conflict: conflict };
+})(KY, BZ);
+
+/* 凶宅檢核與家庭配屬 —— 同前來源 */
+(function (NH) {
+  'use strict';
+  NH.CHECK = [
+    { id: 'wc_center', q: '廁所位於房屋正中央？', bad: true, why: '中宮如人之心，倪氏謂主心疾。' },
+    { id: 'kitchen_nw', q: '廚房位於西北角？', bad: true, why: '西北為乾為父，廚房刀象，倪氏謂傷家長。' },
+    { id: 'kitchen_sw', q: '廚房位於西南角？', bad: true, why: '西南為坤為母。' },
+    { id: 'kitchen_e', q: '廚房位於正東（東宮）？', bad: true, why: '東宮為長子之位。' },
+    { id: 'kitchen_center', q: '廚房位於房屋正中央？', bad: true, why: '中宮不宜作廚。' },
+    { id: 'oneside', q: '房屋南北向，且臥室全在東側或全在西側？', bad: true, why: '倪氏所謂「一側住人」。' },
+    { id: 'no_nw', q: '西北方沒有房間？', bad: true, why: '倪氏所謂無人房，西北無房主無父位。' },
+    { id: 'no_sw', q: '西南方沒有房間？', bad: true, why: '西南無房主無母位。' },
+    { id: 'no_e', q: '正東方沒有房間？', bad: true, why: '東宮無房主無子位。' },
+    { id: 'no_se', q: '東南方沒有房間？', bad: true, why: '東南無房主無女位。' },
+    { id: 'on_edge', q: '房屋坐向落在兩山交界線上？', bad: true, why: '倪氏所謂分金煞，引擎已依度數自動判別。' }
+  ];
+  /* 家庭組成 → 房間配屬 */
+  NH.PLAN = {
+    夫妻二人: [['乾', '夫妻'], ['震', '男方單身時先住／未來長子'], ['坤', '客房']],
+    夫妻與子: [['震', '兒子（東宮太子）'], ['乾', '父母'], ['坤', '客房或保姆']],
+    夫妻與女: [['巽', '女兒'], ['乾', '父母'], ['坤', '客房或保姆']],
+    夫妻一子一女: [['震', '兒子'], ['巽', '女兒'], ['乾', '夫妻'], ['坤', '客房或保姆']],
+    單身男: [['震', '本人'], ['乾', '日後有伴侶時移此']],
+    單身女: [['巽', '本人'], ['乾', '日後有伴侶時移此']],
+    三代同堂: [['震', '長子'], ['巽', '長女／祖母'], ['乾', '夫妻'], ['艮', '祖父（六十五歲以上分房）'], ['坤', '客房']]
+  };
+  NH.KITCHEN_OK = ['正北', '正西', '東北', '無人帶'];
+})(NH);
 
 </script>
 <script>
@@ -1451,19 +1777,19 @@ var WX = (function (KY) {
       (v.trueSolar?'　·　真太陽時已修正 '+P.corr.toFixed(1)+' 分':'　·　未用真太陽時')
       +(decNote?'　·　磁偏角 '+decNote:'');
 
-    var YG=P.year.gz, H=NS.atShan(YG,S.shan);
+    var YG=P.year.gz, useMode=$('imodeuse').value, H=NS.atShanMode(YG,S.shan,useMode);
     function chips(list,cls){ return list.length? list.map(function(x){
         return '<span class="'+cls+'" title="'+(GL.of(x.name)||'')+'">'+x.name+(x.weak?'<sup>疑</sup>':x.doubt?'<sup>校</sup>':'')+'</span>'}).join('')
       : '<span class="none">無</span>'; }
     function glossLines(list){ return list.map(function(x){var g=GL.of(x.name); return g?'　'+x.name+'——'+g:null})
       .filter(Boolean).join('<br>'); }
-    $('nsHit').innerHTML='<div class="ns"><em>'+YG+'年　'+S.shan+'山　吉神</em>'+chips(H['吉'],'j')+'</div>'
+    $('nsHit').innerHTML='<div class="ns"><em>'+YG+'年　'+S.shan+'山　'+useMode+'　吉神</em>'+chips(H['吉'],'j')+'</div>'
       +'<div class="ns"><em>凶神</em>'+chips(H['凶'],'x')+'</div>'
       +((H['吉'].length+H['凶'].length)?'<div class="cap">'+glossLines(H['吉'].concat(H['凶']))+'</div>':'');
-    var A=NS.of(YG);
+    var A=NS.byMode(YG,useMode);
     $('nsAll').innerHTML=['吉','凶'].map(function(c){
       return '<i>'+c+'神</i><br>'+A[c].map(function(x){
-        return '　'+x.name+'〈'+x.value+'〉'+(x.weak?' <span class="fail">疑</span>':x.doubt?' <span class="fail">校</span>':'')}).join('<br>');
+        return '　'+x.name+'〈'+x.value+'〉<span style="color:var(--dim)">·'+(x.cat||'')+'</span>'+(x.weak?' <span class="fail">疑</span>':x.doubt?' <span class="fail">校</span>':'')}).join('<br>');
     }).join('<br><br>');
 
     var Zs='子丑寅卯辰巳午未申酉戌亥', mIdx=(Zs.indexOf(P.month.zhi)-2+12)%12+1;
@@ -1533,18 +1859,87 @@ var WX = (function (KY) {
           :'<br>本宅入囚之運期：'+XK.ruqiuYears(XC).join('、')+'。');
     }
 
+    var south=false, R=NH.forHemisphere(south);
+    var LAYN=['乾','坎','艮','兌',null,'震','坤','離','巽'];
+    var CF=NH.conflict(S.shan)||[], cfmap={}; CF.forEach(function(x){cfmap[x.gua]=x});
+    $('nhHead').innerHTML='<em>後天八卦人倫定位　依絕對方位，不隨坐山而變</em>';
+    $('nh').innerHTML=LAYN.map(function(g){
+      if(!g) return '<div class="c"><b>中宮</b><u>忌廁所</u></div>';
+      var r=R[g], c=cfmap[g];
+      return '<div class="'+(c&&!c.八宅吉?'x':'j')+'"><b style="font-size:14px">'+r.role.split('・')[0]+'</b>'
+        +'<u>'+r.dir+'　'+g+'</u>'+(c?'<u style="color:var(--dim)">八宅'+c.八宅+'</u>':'')+'</div>';
+    }).join('');
+    (function(){
+      var fam=$('ifam').value, p=fam?NH.PLAN[fam]:null;
+      if(!p){ $('famPlan').innerHTML=''; return; }
+      $('famPlan').innerHTML='<b style="color:var(--gold)">'+fam+'</b> 建議配屬：<br>'
+        +p.map(function(x){return '　'+NH.REN[x[0]].dir+'（'+x[0]+'宮）　'+x[1]}).join('<br>')
+        +'<br>廚房宜置於無人帶或正北、正西、東北；廁所忌在中宮。';
+    })();
+    var kk=NH.kitchenAt(S.shan), bs=NH.bashaCheck(S.shan,XC?XC.xiang:''), xs=NH.xiuCheck(S.shan);
+    var clash=CF.filter(function(x){return !x.八宅吉 && (x.gua==='乾'||x.gua==='震'||x.gua==='巽');});
+    $('nhCap').innerHTML='無人帶（十六山）：'+NH.WUREN.join('')+'——倪氏謂廚廁宜置於此，不占人宮。'
+      +'<br>本坐山（'+S.shan+'）'+(kk.ok?'屬無人帶':'屬'+kk.gua+'宮·'+kk.role)+'。'
+      +(xs.三吉?'　此山為三吉之一。':(xs.六秀?'　此山為六秀之一。':''))
+      +(bs.hit?'<br><span class="warn">犯八煞黃泉：'+bs.gua+'卦不立'+bs.forbid+'向。</span>'
+        :'<br>八煞黃泉：'+bs.gua+'卦忌'+bs.forbid+'向，本向為'+(XC?XC.xiang:'—')+'，未犯。')
+      +(clash.length?'<br><span class="warn">與八宅牴牾：'+clash.map(function(x){return x.dir+'（倪氏'+x.倪氏.split('・')[0]+'，八宅'+x.八宅+'）'}).join('、')
+        +'。二家判準不同，不合一——倪氏依絕對方位論人倫，八宅依坐山論吉凶。</span>':'');
+
     var W=WX.of(S.shan);
     var HS=BZ.houseOf(S.shan);
     if(HS){
-      $('bzHead').innerHTML='<em>'+S.shan+'山　'+HS.gua+'宅　'+HS.group+'</em>';
-      var map={}; HS.list.forEach(function(x){map[x.gua]=x});
+      var zang=(useMode==='開山造葬');
+      $('byTitle').textContent=zang?'小遊年':'八宅（大遊年）';
+      var list=zang?BZ.xiaoyou(HS.gua,'地理家'):HS.list;
+      var map={}; list.forEach(function(x){map[x.gua]=x});
+      $('bzHead').innerHTML='<em>'+S.shan+'山　'+HS.gua+'宮　'+(zang?'小遊年·地理家':HS.group)+'</em>';
       var LAY=['乾','坎','艮','兌',null,'震','坤','離','巽'];
       $('bz').innerHTML=LAY.map(function(g){
-        if(!g) return '<div class="c"><b>'+HS.gua+'宅</b><u>'+HS.group+'</u></div>';
+        if(!g) return '<div class="c"><b>'+HS.gua+'</b><u>'+(zang?'本宮':HS.group)+'</u></div>';
         var x=map[g];
-        return '<div class="'+(x.ji?'j':'x')+'"><b>'+x.name+'</b><u>'+g+'　'+x.shan+'</u></div>';
+        return '<div class="'+(x.ji?'j':'x')+'"><b>'+x.name+'</b><u>'+g+'　'+(x.shan||BZ.GUA3[g])+'</u></div>';
       }).join('');
+      if(zang){
+        var sel=BZ.xiaoyou(HS.gua,'選擇家'), d=list.filter(function(x,i){return x.ji!==sel[i].ji});
+        $('bzCap').innerHTML='小遊年吉凶兩家不一：地理家從龍上起以貪狼巨門武曲廉貞為吉，選擇家從向上起以貪狼巨門武曲文曲為吉。'
+          +'本圖用地理家。二家相異之位：'+d.map(function(x){return x.gua+x.name}).join('、')+'。';
+      } else $('bzCap').innerHTML='';
     }
+
+    var byList, byTitle, byGua, byGroup;
+    if(HS){ var zang2=(useMode==='開山造葬');
+      byTitle=zang2?'小遊年（陰宅）':'八宅八方'; byGua=HS.gua;
+      byGroup=zang2?null:HS.group; byList=zang2?BZ.xiaoyou(HS.gua,'地理家'):HS.list; }
+    var LNx = XC?XK.liunian(XC,P.year.solarYear,mIdx):null;
+    var blocks=RD.compose({
+      bearing:b, mode:opt.mode, shan:S.shan, xiang:XC?XC.xiang:'', gua:S.gua,
+      edge:S.edge, offset:S.offset,
+      yearGZ:YG, monthGZ:P.month.gz, solarYear:P.year.solarYear,
+      nianJ:H['吉'], nianX:H['凶'],
+      yueJ:yj.map(function(t){return t.split('〈')[0]}), yueX:yx.map(function(t){return t.split('〈')[0]}),
+      jianchu:YS.jianchu(P.month.zhi,P.day.gz.charAt(1)),
+      builtYear:builtY, yun:useYun, pattern:XC?XC.pattern:'', xkMode:XC?XC.mode:'',
+      fuyin:XC&&XC.fuyin, heshi:XC&&XC.heshi,
+      lnStar:LNx?LNx.年星入中:1, ruqiu:LNx&&LNx.入囚, ruqiuYears:XC?XK.ruqiuYears(XC).join('、'):'',
+      by:byList, byTitle:byTitle, byGua:byGua, byGroup:byGroup
+    });
+    (function(){
+      var cf=NH.conflict(S.shan)||[];
+      var clash=cf.filter(function(x){return !x.八宅吉 && (x.gua==='乾'||x.gua==='震'||x.gua==='巽')});
+      var kk2=NH.kitchenAt(S.shan), bs2=NH.bashaCheck(S.shan,XC?XC.xiang:'');
+      var t='另有一家判法與八宅根本不同——<b>倪海厦一系依後天八卦之絕對方位定人倫</b>，'
+        +'西北恆為父（夫妻主臥）、西南恆為母、正東恆為長子、東南恆為長女，<b>不隨坐山改變</b>。'
+        +'<br>此系之樞紐在「無人帶」：八宮只取天元龍八山（子艮卯巽午坤酉乾）各十五度，'
+        +'其餘十六山無人所主，<b>廚廁宜置於此而不占人宮</b>。'
+        +(bs2.hit?'<br><span class="warn">本向犯八煞黃泉（'+bs2.gua+'卦不立'+bs2.forbid+'向）。</span>':'')
+        +(clash.length?'<br><span class="warn">兩家在此宅牴牾：'+clash.map(function(x){
+            return x.dir+'——倪氏為'+x.倪氏.split('・')[0]+'之位，八宅judge判'+x.八宅}).join('；')
+          +'。同一角落，一家說最該住，一家說最不該住。二家判準不同，本引擎並列不裁決。</span>'
+          :'<br>此宅兩家無明顯牴牾。');
+      blocks.push({h:'另一家的看法（倪氏配屬）', t:t.replace('judge','')});
+    })();
+    $('rd').innerHTML=blocks.map(function(x){return '<div class="b"><em>'+x.h+'</em>'+x.t+'</div>'}).join('');
 
     var w=[];
     if(S.edge) w.push('坐向逼近山界（距界 '+(7.5-Math.abs(S.offset)).toFixed(2)+'°），宜複核羅盤讀數與磁偏角。');
@@ -1663,6 +2058,12 @@ var WX = (function (KY) {
     $('chk').innerHTML=out.join('<br>');
   }
 
+  (function(){ var c=$('chk2'); if(!c) return;
+    c.innerHTML=NH.CHECK.map(function(x,i){
+      return '<div class="tog"><input type="checkbox" id="ck'+i+'"><label for="ck'+i+'" style="margin:0">'
+        +x.q+'<span style="color:var(--dim);font-size:11.5px"><br>　'+x.why+'</span></label></div>';
+    }).join('');
+  })();
   (function(){ var b=$('glossBox'); if(!b) return;
     b.innerHTML=Object.keys(GL.all).map(function(k){return '<b style="color:var(--gold)">'+k+'</b>　'+GL.all[k]}).join('<br>');
   })();
@@ -1671,6 +2072,10 @@ var WX = (function (KY) {
     $('ih').value=d.getHours(); $('ii').value=d.getMinutes(); }
   $('now').addEventListener('click',function(){ freeze(); run(); });
   freeze();
+  ['ifam','imodeuse','imode','ibuilt'].forEach(function(id){
+    var e=$(id); if(e) e.addEventListener('change',run); });
+  if('serviceWorker' in navigator){ window.addEventListener('load',function(){
+    navigator.serviceWorker.register('/sw.js').catch(function(){}); }); }
   $('go').addEventListener('click',run);
   window.addEventListener('error',function(e){
     var c=$('chk'); if(c) c.innerHTML+='<br><span class="fail">未捕獲例外：'+e.message+'（'+e.lineno+'）</span>';
