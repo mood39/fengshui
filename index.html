@@ -8,127 +8,84 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<title>堪輿理氣 · 曆象核心 v1.8</title>
+<title>堪輿理氣 v2.0</title>
 <style>
-:root{
-  --lacquer:#14110E; --lacquer2:#1E1A15; --vermilion:#C4342B; --gold:#C9A24B;
-  --xuan:#E9E1D0; --dim:#8C8071; --azure:#4E8391; --line:#3A322A;
-}
+:root{--lacquer:#14110E;--lacquer2:#1E1A15;--vermilion:#C4342B;--gold:#C9A24B;
+  --xuan:#E9E1D0;--dim:#8C8071;--azure:#4E8391;--line:#3A322A}
 *{box-sizing:border-box}
 body{margin:0;background:var(--lacquer);color:var(--xuan);
   font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
   font-size:15px;line-height:1.75;-webkit-text-size-adjust:100%}
-.wrap{max-width:720px;margin:0 auto;padding:24px 18px 64px}
-h1{font-family:"Noto Serif TC","Songti TC",serif;font-size:21px;font-weight:600;
-  letter-spacing:.2em;margin:0 0 5px;color:var(--gold)}
-.sub{color:var(--dim);font-size:12px;letter-spacing:.08em;margin-bottom:20px}
-nav{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:26px}
-nav button{flex:1;background:none;border:0;border-bottom:2px solid transparent;
-  color:var(--dim);padding:11px 0;font-size:14px;font-family:inherit;letter-spacing:.2em;cursor:pointer;width:auto}
+.wrap{max-width:720px;margin:0 auto;padding:22px 16px 64px}
+h1{font-family:"Noto Serif TC","Songti TC",serif;font-size:20px;font-weight:600;
+  letter-spacing:.2em;margin:0 0 4px;color:var(--gold)}
+.sub{color:var(--dim);font-size:11.5px;letter-spacing:.08em;margin-bottom:18px}
+nav{display:flex;border-bottom:1px solid var(--line);margin-bottom:22px}
+nav button{flex:1;background:none;border:0;border-bottom:2px solid transparent;color:var(--dim);
+  padding:11px 0;font-size:13.5px;font-family:inherit;letter-spacing:.16em;cursor:pointer}
 nav button[aria-selected="true"]{color:var(--gold);border-bottom-color:var(--gold)}
-.page{display:none} .page.on{display:block}
-section{padding:0 0 26px}
+.page{display:none}.page.on{display:block}
+section{padding:0 0 22px}
 h2{font-family:"Noto Serif TC",serif;font-size:12px;font-weight:600;letter-spacing:.24em;
-  color:var(--dim);margin:0 0 14px;display:flex;align-items:center;gap:11px}
+  color:var(--dim);margin:0 0 12px;display:flex;align-items:center;gap:11px}
 h2::after{content:"";flex:1;height:1px;background:var(--line)}
 label{display:block;font-size:11px;color:var(--dim);letter-spacing:.1em;margin-bottom:5px}
 input,select{background:var(--lacquer2);border:1px solid var(--line);color:var(--xuan);
   padding:9px;border-radius:3px;font-size:15px;width:100%;font-family:inherit}
 input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
-.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px}
 .row>div{flex:1;min-width:74px}
-.tog{display:flex;align-items:center;gap:9px;font-size:13px;margin:8px 0}
+.tog{display:flex;align-items:center;gap:9px;font-size:13px;margin:7px 0}
 .tog input{width:auto;flex:none}
 button.go{background:var(--vermilion);border:0;color:#fff;padding:12px;border-radius:3px;
-  font-size:15px;font-family:inherit;letter-spacing:.2em;cursor:pointer;width:100%;margin-top:4px}
-#dial{display:block;margin:0 auto;max-width:100%;height:auto}
-.read{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px 0 0}
-.read div{background:var(--lacquer2);border:1px solid var(--line);border-radius:3px;
-  padding:9px 14px;text-align:center;min-width:88px}
-.read b{display:block;font-family:"Noto Serif TC",serif;font-size:21px;color:var(--gold);letter-spacing:.06em}
-.read div.main b{color:var(--vermilion)}
-.read span{font-size:10px;color:var(--dim);letter-spacing:.14em}
-.four{display:flex;gap:8px;margin-bottom:14px}
-.four div{flex:1;background:var(--lacquer2);border:1px solid var(--line);border-radius:3px;padding:11px 4px;text-align:center}
-.four b{display:block;font-family:"Noto Serif TC",serif;font-size:20px;color:var(--gold);letter-spacing:.04em}
-.four span{font-size:10px;color:var(--dim);letter-spacing:.2em}
-.line{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
-.line em{font-style:normal;color:var(--dim);font-size:12px;letter-spacing:.1em}
-.line b{font-family:"Noto Serif TC",serif;font-weight:600;color:var(--gold);letter-spacing:.06em;font-size:16px}
-.cap{font-size:11.5px;color:var(--dim);margin-top:12px;line-height:1.8}
-.warn{color:var(--vermilion);font-size:12.5px;margin-top:10px;line-height:1.8}
-.doc{font-size:13.5px;line-height:1.95;color:var(--xuan)}
-.doc h3{font-family:"Noto Serif TC",serif;font-size:14px;color:var(--gold);
-  letter-spacing:.14em;margin:24px 0 7px;font-weight:600}
-.doc h3:first-child{margin-top:0}
-.doc p{margin:0 0 10px}
-.doc .q{color:var(--dim);border-left:2px solid var(--line);padding-left:12px;margin:10px 0;font-size:13px}
-details{border-top:1px solid var(--line);margin-top:24px}
-summary{cursor:pointer;font-size:12px;color:var(--dim);letter-spacing:.2em;padding:13px 0;list-style:none}
+  font-size:15px;font-family:inherit;letter-spacing:.2em;cursor:pointer;width:100%}
+button.gh{background:transparent;border:1px solid var(--line);color:var(--gold);
+  padding:9px;border-radius:3px;font-size:13px;font-family:inherit;letter-spacing:.1em;cursor:pointer;width:100%}
+#dial{display:block;margin:0 auto;max-width:100%;height:auto;touch-action:manipulation}
+.cap{font-size:11.5px;color:var(--dim);line-height:1.8;margin-top:10px}
+.warn{color:var(--vermilion)}
+.pass{color:var(--azure)}.fail{color:var(--vermilion)}
+.rd .b{margin-bottom:16px}
+.rd .b em{font-style:normal;display:block;font-family:"Noto Serif TC",serif;font-size:11.5px;
+  letter-spacing:.22em;color:var(--gold);margin-bottom:4px}
+.rd b{color:var(--xuan);font-weight:600}
+.box{background:var(--lacquer2);border:1px solid var(--line);border-radius:3px;padding:10px 12px;margin:8px 0}
+.g33{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.g33 div{background:var(--lacquer2);border:1px solid var(--line);border-radius:3px;padding:9px 3px;text-align:center;font-size:12.5px}
+.g33 b{display:block;font-family:"Noto Serif TC",serif;font-size:15px;letter-spacing:.03em}
+.g33 u{display:block;text-decoration:none;font-size:10px;color:var(--dim);margin-top:3px}
+.g33 .j b{color:var(--azure)}.g33 .x b{color:var(--vermilion)}
+.chips span{display:inline-block;background:var(--lacquer2);border:1px solid var(--line);
+  border-radius:2px;padding:3px 8px;margin:0 4px 4px 0;font-size:12.5px}
+.chips .j{color:var(--azure);border-color:#2C4A52}
+.chips .x{color:var(--vermilion);border-color:#4A2320}
+details{border-top:1px solid var(--line);margin-top:8px}
+summary{cursor:pointer;font-size:12px;color:var(--dim);letter-spacing:.18em;padding:11px 0;list-style:none}
 summary::-webkit-details-marker{display:none}
-summary::before{content:"▸ "}
-details[open] summary::before{content:"▾ "}
-.chk{font-size:12.5px;line-height:1.95;font-family:ui-monospace,Menlo,monospace;padding-bottom:12px}
+summary::before{content:"▸ "}details[open] summary::before{content:"▾ "}
+.mono{font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,monospace}
+.doc{font-size:13.5px;line-height:1.95}
+.doc h3{font-family:"Noto Serif TC",serif;font-size:13.5px;color:var(--gold);letter-spacing:.14em;margin:22px 0 6px}
+.doc h3:first-child{margin-top:0}
+.doc p{margin:0 0 9px}
+.doc .q{color:var(--dim);border-left:2px solid var(--line);padding-left:11px;margin:9px 0;font-size:13px}
+.chk{font-size:12.5px;line-height:1.9;font-family:ui-monospace,Menlo,monospace}
 .chk i{font-style:normal;color:var(--dim)}
-.pass{color:var(--azure)} .fail{color:var(--vermilion)}
-table.k{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0}
-table.k td,.ns{margin-bottom:6px}
-.ns em{font-style:normal;color:var(--dim);font-size:11px;letter-spacing:.18em;display:block;margin-bottom:5px}
-.ns span{display:inline-block;background:var(--lacquer2);border:1px solid var(--line);border-radius:2px;padding:4px 9px;margin:0 5px 5px 0;font-size:13px}
-.ns .j{color:var(--azure);border-color:#2C4A52}
-.ns .x{color:var(--vermilion);border-color:#4A2320}
-.ns .none{color:var(--dim);font-size:12.5px}
-.grid9{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.grid9 div{background:var(--lacquer2);border:1px solid var(--line);border-radius:3px;padding:10px 3px;text-align:center}
-.grid9 b{display:block;font-family:"Noto Serif TC",serif;font-size:17px;letter-spacing:.04em}
-.grid9 u{display:block;text-decoration:none;font-size:10px;color:var(--dim);letter-spacing:.1em;margin-top:3px}
-.grid9 .j b{color:var(--azure)} .grid9 .x b{color:var(--vermilion)}
-.rd{font-size:14.5px;line-height:1.95}
-.rd .b{margin-bottom:20px}
-.rd .b em{font-style:normal;display:block;font-family:"Noto Serif TC",serif;font-size:12px;letter-spacing:.22em;color:var(--gold);margin-bottom:6px}
-.rd b{color:var(--xuan);font-weight:600}
-.grid9.xk div{padding:8px 3px}
-.grid9.xk b{font-size:15px;color:var(--xuan);letter-spacing:0}
-.grid9.xk b i{font-style:normal;font-size:19px}
-.grid9.xk .s{color:var(--azure)} .grid9.xk .x{color:var(--vermilion)}
-.grid9 .c{background:transparent;border-style:dashed}
-.grid9 .c b{color:var(--gold);font-size:15px}
-.ns sup{color:var(--gold);font-size:9px}
-table.k th{padding:5px 7px;border-bottom:1px solid var(--line);text-align:left}
-.ns{margin-bottom:6px}
-.ns em{font-style:normal;color:var(--dim);font-size:11px;letter-spacing:.18em;display:block;margin-bottom:5px}
-.ns span{display:inline-block;background:var(--lacquer2);border:1px solid var(--line);border-radius:2px;padding:4px 9px;margin:0 5px 5px 0;font-size:13px}
-.ns .j{color:var(--azure);border-color:#2C4A52}
-.ns .x{color:var(--vermilion);border-color:#4A2320}
-.ns .none{color:var(--dim);font-size:12.5px}
-.grid9{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.grid9 div{background:var(--lacquer2);border:1px solid var(--line);border-radius:3px;padding:10px 3px;text-align:center}
-.grid9 b{display:block;font-family:"Noto Serif TC",serif;font-size:17px;letter-spacing:.04em}
-.grid9 u{display:block;text-decoration:none;font-size:10px;color:var(--dim);letter-spacing:.1em;margin-top:3px}
-.grid9 .j b{color:var(--azure)} .grid9 .x b{color:var(--vermilion)}
-.rd{font-size:14.5px;line-height:1.95}
-.rd .b{margin-bottom:20px}
-.rd .b em{font-style:normal;display:block;font-family:"Noto Serif TC",serif;font-size:12px;letter-spacing:.22em;color:var(--gold);margin-bottom:6px}
-.rd b{color:var(--xuan);font-weight:600}
-.grid9.xk div{padding:8px 3px}
-.grid9.xk b{font-size:15px;color:var(--xuan);letter-spacing:0}
-.grid9.xk b i{font-style:normal;font-size:19px}
-.grid9.xk .s{color:var(--azure)} .grid9.xk .x{color:var(--vermilion)}
-.grid9 .c{background:transparent;border-style:dashed}
-.grid9 .c b{color:var(--gold);font-size:15px}
-.ns sup{color:var(--gold);font-size:9px}
-table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
+table.k{width:100%;border-collapse:collapse;font-size:12.5px}
+table.k td,table.k th{padding:5px 7px;border-bottom:1px solid var(--line);text-align:left}
+table.k th{color:var(--dim);font-weight:400;font-size:11px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>堪輿理氣 · 曆象核心</h1>
-  <div class="sub">v1.8　干支曆・三元九運・二十四山・年神方位・八宅・九宮飛佈・月神・玄空飛星　—　理氣盤式未立</div>
+  <h1>堪輿理氣</h1>
+  <div class="sub">v2.0　協紀神煞・玄空飛星・八宅・倪氏配屬　四家並列</div>
 
   <nav role="tablist">
-    <button role="tab" id="t1" aria-selected="true" data-p="p1">羅經</button>
-    <button role="tab" id="t3" aria-selected="false" data-p="p3">導讀</button>
-    <button role="tab" id="t2" aria-selected="false" data-p="p2">文獻</button>
+    <button role="tab" aria-selected="true" data-p="p1">羅經</button>
+    <button role="tab" aria-selected="false" data-p="p4">檢核</button>
+    <button role="tab" aria-selected="false" data-p="p3">導讀</button>
+    <button role="tab" aria-selected="false" data-p="p2">文獻</button>
   </nav>
 
   <div class="page on" id="p1">
@@ -137,7 +94,6 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
       <div class="row"><div><select id="imodeuse">
         <option value="修方興修">修方興修（陽宅・興造修方）</option>
         <option value="開山造葬">開山造葬（陰宅・立穴安葬）</option></select></div></div>
-      <div class="cap" style="margin:0 0 18px">分類逐字取自《協紀》年表綱目——開山立向修方吉／凶、開山凶、立向凶、修方凶。選定用途後只列該用途所忌者。</div>
     </section>
 
     <section>
@@ -145,40 +101,47 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
       <div class="row">
         <div><label>年</label><input id="iy" type="number" value="2026"></div>
         <div><label>月</label><input id="im" type="number" value="8"></div>
-        <div><label>日</label><input id="id" type="number" value="19"></div>
+        <div><label>日</label><input id="id" type="number" value="22"></div>
         <div><label>時</label><input id="ih" type="number" value="12"></div>
         <div><label>分</label><input id="ii" type="number" value="0"></div>
       </div>
-      <div class="row"><div><label>經度（東經為正）</label><input id="ilon" type="number" step="0.1" value="121.5"></div><div><label>緯度（北緯為正）</label><input id="ilat" type="number" step="0.1" value="25.0"></div></div><div class="tog"><input id="iauto" type="checkbox" checked><label for="iauto" style="margin:0">磁偏角依 WMM2025 自動求（限二〇二五至二〇三〇）</label></div>
-      <div class="row"><div><button class="go" id="now" style="padding:9px;letter-spacing:.1em;font-size:13px">凍結此刻</button></div></div>
+      <div class="row">
+        <div><label>經度</label><input id="ilon" type="number" step="0.1" value="121.5"></div>
+        <div><label>緯度</label><input id="ilat" type="number" step="0.1" value="25.0"></div>
+        <div><label>建成／入住年</label><input id="ibuilt" type="number" value="2026"></div>
+      </div>
+      <button class="gh" id="now">凍結此刻</button>
       <div class="tog"><input id="its" type="checkbox" checked><label for="its" style="margin:0">真太陽時</label></div>
       <div class="tog"><input id="ilz" type="checkbox" checked><label for="ilz" style="margin:0">夜子時歸翌日</label></div>
     </section>
 
     <section>
       <h2>坐向</h2>
-      <div class="cap" style="margin:0 0 14px;line-height:1.85">
-        <b style="color:var(--gold)">坐山怎麼取</b><br>
-        坐山是<b>房子整體背靠的方向</b>，不是大門朝的方向，也不是「站在門口背對門」。<br>
-        實務取<b>採光面或主氣口的反向</b>——整層最大的採光面（落地窗、主陽台、最寬的窗牆）朝哪，那是「向」，其反向即「坐」。若採光面不明顯，取整棟建築正面（門廳、招牌、路衝面）的反向。<br>
-        <b>量的位置</b>：站在屋子中心（單層取棟柱之中；有前後段者取中段或天井），羅盤水平，讀數對準向方。<br>
-        <b>量幾次</b>：同一屋內相距一兩公尺各量三點。三點散布小於二度才採信；大於二度表示有鋼筋或電器干擾，請退到陽台或屋外重量。
-      </div>
+      <div class="cap" style="margin:0 0 12px">坐山＝<b style="color:var(--gold)">面對主要採光面的反向</b>。站屋子中心、羅盤水平，取三點各量一次。</div>
       <div class="row">
         <div><label>羅盤讀數（度）</label><input id="ib" type="number" step="0.1" value="172.5"></div>
-        <div><label>判讀基準</label><select id="imode"><option value="magnetic">磁方位（古法）</option><option value="true">真方位</option></select></div>
+        <div><label>磁偏角</label><input id="idec" type="number" step="0.01" value="-5.04"></div>
       </div>
       <div class="row">
-        <div><label>磁偏角（東偏為正）</label><input id="idec" type="number" step="0.01" value="-5.04"></div>
-        
+        <div><label>判讀基準</label><select id="imode">
+          <option value="magnetic">磁方位（古法）</option><option value="true">真方位</option></select></div>
+        <div><label>家庭組成</label><select id="ifam">
+          <option value="">不指定</option><option>夫妻二人</option><option>夫妻與子</option>
+          <option>夫妻與女</option><option>夫妻一子一女</option><option>單身男</option>
+          <option>單身女</option><option>三代同堂</option></select></div>
       </div>
-      <div class="row"><div><label>建成或入住之年（玄空宅運）</label><input id="ibuilt" type="number" value="2026"></div></div>
-      <div class="row">
-        <div><button class="go" id="live" style="padding:9px;font-size:13px;letter-spacing:.1em;background:transparent;border:1px solid var(--line);color:var(--gold)">用手機羅盤讀取</button></div>
-        <div><button class="go" id="sample" style="padding:9px;font-size:13px;letter-spacing:.1em;background:transparent;border:1px solid var(--line);color:var(--dim)">記錄此點</button></div>
-      </div>
-      <div id="liveBox" class="cap" style="margin:0 0 12px"></div>
+      <div class="tog"><input id="imanual" type="checkbox"><label for="imanual" style="margin:0">手動輸入（關閉手機羅盤）</label></div>
+      <div class="row"><div><button class="gh" id="sample">記錄此點</button></div></div>
+      <div id="liveBox" class="cap"></div>
       <button class="go" id="go">起算</button>
+    </section>
+
+    <section>
+      <h2>羅經</h2>
+      <svg id="dial" viewBox="0 0 340 340" width="340" height="340" role="img"></svg>
+      <div class="cap">外圈色塊為該方位今年吉凶——青為值吉神、朱為值凶神。<b>點任一方位</b>可展開該方位的全部內容。<br>
+        三層同心圈為三針：外縫針（消砂納水）、中正針（定向・判讀基準）、內中針（格龍）。三針各差七度半即半個山。</div>
+      <div id="detail"></div>
     </section>
 
     <section>
@@ -187,295 +150,50 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.1em}
     </section>
 
     <section>
-      <h2 style="color:var(--dim)">以下為盤面細節</h2>
-      <svg id="dial" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="二十四山三針盤"></svg>
-      <div class="read" id="read"></div>
+      <h2>細節</h2>
+      <details><summary>四柱與曆法</summary><div id="dt1" class="cap" style="font-size:13px"></div></details>
+      <details><summary>玄空全盤</summary><div id="dt2"></div></details>
+      <details><summary>本年全部年神</summary><div id="dt3" class="chk"></div></details>
+      <details><summary>本月全部月神</summary><div id="dt4" class="chk"></div></details>
+      <details><summary>自檢</summary><div id="chk" class="chk"></div></details>
     </section>
+  </div>
 
-    <section>
-      <h2>四柱</h2>
-      <div class="four" id="four"></div>
-      <div id="lines"></div>
-      <div class="cap" id="cap"></div>
-      <div class="warn" id="warn"></div>
-    </section>
-
-    <section>
-      <h2>年神方位</h2>
-      <div id="nsHit"></div>
-      <details><summary>本年全部年神</summary><div id="nsAll" class="chk"></div></details>
-    </section>
-
-    <section>
-      <h2>月神方位</h2>
-      <div id="ysHit"></div>
-      <details><summary>本月全部月神</summary><div id="ysAll" class="chk"></div></details>
-    </section>
-
-    <section>
-      <h2>月飛宮</h2>
-      <div id="fgHead" class="ns"></div>
-      <div class="grid9" id="fg"></div>
-      <div class="cap">上為北。宮中大字為月紫白，下列該宮所值之飛宮神煞。每宮筦三山。</div>
-    </section>
-
-    <section>
-      <h2>玄空飛星</h2>
-      <div id="xkHead" class="ns"></div>
-      <div class="grid9 xk" id="xk"></div>
-      <div class="cap" id="xkCap"></div>
-    </section>
-
-    <section>
-      <h2>玄空流年</h2>
-      <div id="lnHead" class="ns"></div>
-      <div class="grid9 xk" id="ln"></div>
-      <div class="cap" id="lnCap"></div>
-    </section>
-
-    <section>
-      <h2>室內配屬（倪氏）</h2>
-      <div class="row"><div><label>家庭組成</label><select id="ifam">
-        <option value="">不指定</option><option>夫妻二人</option><option>夫妻與子</option>
-        <option>夫妻與女</option><option>夫妻一子一女</option><option>單身男</option>
-        <option>單身女</option><option>三代同堂</option></select></div></div>
-      <div id="famPlan" class="cap"></div>
-      <div id="nhHead" class="ns"></div>
-      <div class="grid9" id="nh"></div>
-      <div class="cap" id="nhCap"></div>
-    </section>
-
-    <section>
-      <h2>凶宅檢核</h2>
-      <div id="chk2" class="rd"></div>
-      <div class="cap">逐項自答，屬形勢與格局之判斷，非計算所能得。出處同倪氏配屬層。</div>
-    </section>
-
-    <section>
-      <h2 id="byTitle">八宅</h2>
-      <div id="bzHead" class="ns"></div>
-      <div class="grid9" id="bz"></div>
-      <div class="cap" id="bzCap"></div>
-      <div class="cap">上為北。同組相配為吉，東西交錯為凶——卷二〈本原二〉大遊年變卦。<br>
-        生氣：活力進取　天醫：健康貴人　延年：和睦長久　伏位：安穩守成<br>
-        五鬼：耗損　六煞：是非　禍害：口舌　絕命：重大損耗</div>
-    </section>
+  <div class="page" id="p4">
+    <div class="doc">
+      <h3>凶宅檢核</h3>
+      <p>以下屬形勢與格局之判斷，算不出來，須對著房子自答。出處同倪氏配屬層。</p>
+      <div id="chk2"></div>
+      <div id="chk2sum" class="box"></div>
+    </div>
   </div>
 
   <div class="page" id="p3">
     <div class="doc">
       <h3>這是什麼</h3>
-      <p>一具堪輿理氣的計算器。你給它一個<b>時間</b>和一個<b>坐向</b>，它把古籍裡的規則算完，把該時該向所值的吉凶神、宅卦、飛星盤列出來。</p>
-      <p>它<b>只負責算得對</b>——每一條規則都註明出自哪本書哪一卷，算完還拿古書自己的表回頭校對。至於這些規則靈不靈，那是另一回事，本引擎不表示意見，也不替你做決定。</p>
+      <p>一具堪輿理氣的計算器。給它一個<b>時間</b>與一個<b>坐向</b>，它把古籍的規則算完，列出該時該向所值的吉凶神、宅卦與飛星盤。</p>
+      <p>它<b>只負責算得對</b>——每條規則註明出自哪本書哪一卷，算完再拿古書自己的表回頭校對。規則靈不靈是另一回事，本引擎不表示意見。</p>
 
       <h3>怎麼用</h3>
-      <p><b>第一步·事時</b>　填年月日時。這決定四柱、當令的三元九運、以及該年該月的神煞分布。經度用來算真太陽時（實際的太陽位置，不是鐘面時間）。</p>
-      <p><b>第二步·坐向</b>　填羅盤讀數（度數，正北為零、順時針）。<b>坐向指的是「坐山」——房子背後所靠的方向</b>，不是大門朝的方向。門向與坐山恰好相差一百八十度，引擎會自動算出向。</p>
-      <p>用針三選一：定向用正針，看來脈用中針，看去水用縫針——這是《協紀》卷二定的，不是隨便選。磁偏角在二〇二五至二〇三〇之間會自動求得。</p>
-      <p><b>坐山不是大門朝向。</b>坐山是房子整體背靠的方向，實務取採光面或主氣口的反向。整層最大的採光面朝哪，那是「向」，其反向即「坐」。站在屋子中心量，同一屋內取三點，散布小於二度才採信——手機磁力計在室內可能因鋼筋而穩定地偏移，數值不跳不代表準確。</p>
-      <p><b>第三步·看盤</b>　由上而下依序是羅經、四柱、年神方位、月神方位、月飛宮、玄空飛星、八宅。</p>
+      <p><b>一·用途</b>　興修（陽宅）或造葬（陰宅）。協紀年表本就按此分類，選定後只列該用途所忌。</p>
+      <p><b>二·事時</b>　預設當下。決定四柱、當令三元九運、該年該月的神煞分布。建成年決定玄空宅運，與事時是兩回事。</p>
+      <p><b>三·坐向</b>　坐山是面對主要採光面的反向，不是大門朝向。手機羅盤預設開啟；室內鋼筋會讓磁力計<b>穩定地偏移</b>，數值不跳不代表準，所以要多點取樣看散布。</p>
+      <p><b>四·點盤</b>　起算後羅盤外圈會依吉凶著色。點任一方位，下面展開該方位的年神、月神、飛宮、玄空三星、八宅遊年、倪氏人倫——<b>全部集中在一處，不必在六張圖之間比對</b>。</p>
 
-      <h3>每一區在講什麼</h3>
-      <p><b>羅經</b>　三個同心圈是三針。同一個讀數在三圈上會落在不同的山——這正是要注意的地方：三針相差七度半（半個山），比台灣的磁偏角（約五度）還大。</p>
-      <p><b>四柱</b>　年月日時的干支，加建除十二直（該日的十二種性質之一，如建、除、滿、平）。年柱以立春換年，不是元旦。</p>
-      <p><b>年神方位・月神方位</b>　傳統擇日書把每一年、每一月的吉神凶煞分派到二十四山上。這兩區告訴你：你填的那個坐山，今年、這個月各值到哪些神煞。青色為吉、朱色為凶。</p>
-      <p><b>月飛宮</b>　有一些神煞不固定，逐月在九宮之間飛動。九宮圖上為北，格子裡的大字是該宮的月紫白星，下面列該宮這個月值到的飛動神煞。</p>
-      <p><b>玄空飛星</b>　另一套系統。以房子建成的元運起盤，每宮三個數字：左青為山星（主人丁），中為運星，右朱為向星（主財）。下方標的四種格局是玄空判斷的主要依據。坐向若偏出本山中間九度就轉用替卦，引擎會自動判別並標示。</p>
-      <p><b>八宅</b>　最簡單的一層。坐山決定宅卦，宅卦決定八個方位各是什麼——生氣、天醫、延年、伏位為吉，五鬼、六煞、禍害、絕命為凶。同屬東四或同屬西四即吉，交錯即凶。</p>
+      <h3>各層在算什麼</h3>
+      <p><b>四柱</b>　年月日時的干支。年以立春換、月以節氣換，不是元旦與初一。建除十二直是該日的性質（建、除、滿、平⋯⋯），擇日用。</p>
+      <p><b>年神・月神</b>　傳統擇日書把每年每月的吉神凶煞分派到二十四山上。管的是「這一年這個方位能不能敲牆動土」，<b>不管你睡哪間、家具怎麼擺</b>。</p>
+      <p><b>飛宮</b>　部分神煞不固定，逐月在九宮之間飛動。</p>
+      <p><b>玄空</b>　以建成之運起盤：山星主人丁、向星主財、運星為底。宅盤定了就不再變，逐年變的是加臨其上的流年星——<b>所以配置一次定，不必年年搬家</b>。</p>
+      <p><b>八宅</b>　坐山定宅卦，宅卦定八方吉凶。四吉宜居臥，四凶傳統置廁所儲藏。</p>
+      <p><b>倪氏配屬</b>　依後天八卦絕對方位定人倫，西北恆為父、正東恆為長子，不隨坐山改變。與八宅必然牴牾，兩家並列。</p>
 
       <h3>名詞白譯</h3>
-      <p>下列為術數傳統的說法，載此以便閱讀盤面，非事實斷言。</p>
       <div id="glossBox" class="chk"></div>
     </div>
   </div>
 
-  <div class="page" id="p2">
-    <div class="doc">
-      <h3>曆象底層</h3>
-      <p>儒略日、ΔT、章動、太陽與月亮視黃經、均時差、解角器、定朔平朔、定氣平氣、農曆——逐字移植自「占星四系同參」引擎之 XY／XYD 兩模組，未改一字。該引擎之外證（一九九九年商用星盤全項對照、Meeus 例 33.a 金星差萬分之一度）於此同時成立。</p>
-
-      <h3>立春換年</h3>
-      <p>原引擎之年干支以西曆年推，未計立春前後之別，其自註在案。堪輿不可如此——三元九運、年紫白、八宅命卦皆以立春為界。本層改以立春分年，原引擎不動，符「只加不改」之例。</p>
-
-      <h3>節氣精度</h3>
-      <p>太陽視黃經採低階級數，節氣時刻誤差約在十分鐘內。實測二〇二五年冬至、二〇二五與二〇二六年立春皆與曆書相合至數分鐘。凡事時落在節氣前後十分鐘者，年柱或月柱可能翻邊，羅經頁已出警示，須另以高精度曆書複核。此為精度未達標而不擋工，同七政四餘土星之例。</p>
-
-      <h3>日干支錨</h3>
-      <p>以一九四九年十月一日為甲子日，沿用既有引擎之錨，未另立新說。</p>
-
-      <h3>三針進退</h3>
-      <p>正針（地盤）以磁北為準，中針（人盤）逆七度半，縫針（天盤）順七度半。此為通行說，各家記述互異，故寫為參數而不寫死，日後可並列異說。要緊處：三針之差為半山（七度半），而台灣磁偏角約四度——<b>派別之擇先於偏角之校</b>。</p>
-
-      <h3>室內配屬層（倪海厦一系）</h3>
-      <p>此層與八宅、玄空<b>判準根本不同</b>：八宅依坐山推宅卦，同一方位隨坐山而異吉凶；倪氏依後天八卦之絕對方位定人倫，西北恆為乾恆為父，不隨坐山改變。二者必生牴牾，本引擎並列而不合一。</p>
-      <p><b>可算之核心</b>：八宮只取天元龍八山——子（正北）、艮（東北）、卯（正東）、巽（東南）、午（正南）、坤（西南）、酉（正西）、乾（西北），各佔十五度；其餘十六山為<b>無人帶</b>。廚廁宜置於無人帶而不占人宮，此為該系統之樞紐，亦是其可計算之處。</p>
-      <p>人倫配屬：乾西北為父（夫妻主臥）、坤西南為母、震正東為長子（東宮太子）、巽東南為長女、坎正北為中男、離正南為中女、兌正西為少女、艮東北為少男。南半球南北互換，主臥改西南。</p>
-      <p><b>八煞黃泉</b>：坎不立辰、坤不立卯、震不立申、巽不立酉、乾不立午、兌不立巳、艮不立寅、離不立亥。<b>三吉六秀</b>：六秀為丙丁辛艮巽兌，三吉為巽艮兌。</p>
-      <p><b>來源自身之矛盾一處</b>：同一份資料既云「廚房在北方死兒子」，又云「廚房最好在正北或正西」。以無人帶之說解之則通——正北之人宮為子山十五度，其左右壬癸二山屬無人帶，廚房當在壬癸而非子。此為本引擎之理解，非原文明言，記此存疑。</p>
-      <p><b>兩來源實為同一份資料之鏡像，不構成互證。</b>所提供之二網站文字幾乎逐句相同，含同一處內部矛盾（廚房宜正北與廚房在北方傷子並存）。故本層之依據為單一來源，非二重外證，與本引擎他層之標準不同，特此標明。</p>
-      <p><b>未實作者</b>：該系統另有以床位方位選擇生育性別、以及宣稱可「糾正」性傾向之說。此類主張本引擎不予實作，亦不列入判讀——非因門派之見，而是不宜以計算之名為此類斷言背書。峦頭、陵線、樓層、缺角諸說屬形勢判斷，不可算，同不實作。</p>
-
-      <h3>用途兩模式</h3>
-      <p>協紀年表本以「開山立向修方吉／開山立向修方凶／開山凶／立向凶／修方凶」五類編排，分類非本引擎所立。逐年抽取各類所轄之神煞，六十年取多數為準，得二十五、五、五、二、十九共五十六項。造葬取開山與立向所忌，興修取修方與立向所忌，兩者共取通類。</p>
-
-      <h3>小遊年</h3>
-      <p>卷二明列大小遊年之對應——「貪狼與小遊同亦曰生氣；廉貞即小遊之巨門亦曰五鬼；武曲即小遊之絕體又曰延年；文曲與小遊同又曰六煞；祿存即小遊之五鬼又曰禍害；巨門即小遊之福德亦曰天醫；破軍輔弼與小遊同」。故小遊年由大遊年逐位換算而得，不另立翻卦次第，亦不臆補。八宮自驗：各得八名無重，本宮恆在本位。</p>
-      <p><b>吉凶兩家並列。</b>卷二云地理家從龍上起，以貪狼巨門武曲廉貞為吉、祿存文曲破軍輔弼為凶；選擇家從向上起，以貪狼巨門武曲文曲為吉、祿存廉貞破軍輔弼為凶。二家於廉貞與文曲二星正相反，每宮恰有二位吉凶互異。本引擎預設地理家（造葬所用），並將相異之位標出。</p>
-
-      <h3>五行三系</h3>
-      <p>正五行、雙山五行（即三合五行）、洪範五行三者，逐字取自卷二，二十四山三系全備。洪範原文以卦名稱四正——坎即子、離即午、震即卯、兌即酉。卷二並云「正五行乃五行之質，雙山五行乃五行之氣，故推龍氣之生旺用雙山而不用正五行」。</p>
-      <p><b>年剋山家未能改算。</b>非單純以年之納音剋山之洪範五行——甲子年表列水山與土山兩組，而戊子、辛卯二年更作「二十四並無剋，冬至後剋乾亥兌丁」，另有冬至之限。規則較預期複雜，維持查表。</p>
-
-      <h3>消砂納水與分金未作（底本所限）</h3>
-      <p>卷三十三僅述羅經層數之屬——「六層穿山七十二龍正針分金也……九層六十龍皆屬中針所以格龍者也，十層縫針二十四山，十一層六十龍，十二層一百二十分金，皆屬縫針所以消砂納水者也」——言其何針所屬而未出其法。消砂納水之實際規則（生旺墓輔星水法之屬）與六十龍、七十二龍、一百二十分金之表，協紀俱不載，須另據三合家專書。此非算法所限，係底本所缺。</p>
-
-      <h3>玄空飛星（下卦）</h3>
-      <p>運盤以運數入中順飛；山盤取坐山所在宮之運星入中，向盤取向所在宮之運星入中，順逆各依「該運星所指之宮中，與坐山同元龍之山」之陰陽——陽順陰逆。</p>
-      <p>所需之三事皆有據：一卦筦三山與二十四山之立，見《協紀》卷二〈本原二〉；九宮飛佈之序，即本引擎飛佈層所用之中乾兌艮離坎坤震巽；三元龍與陰陽之分（地元甲庚丙壬陽、辰戌丑未陰；天元乾坤艮巽陽、子午卯酉陰；人元寅申巳亥陽、乙辛丁癸陰）為玄空一家之制。</p>
-      <p><b>結構自驗</b>：九運二十四山合二百一十六局，運山向三盤各皆九星無重無漏；格局分布為旺山旺向四十八、上山下水四十八、雙星到向六十、雙星到坐六十——旺山旺向與上山下水數同，雙星到向與到坐數同，全盤對稱。另八運子山午向算得雙星到向，與通行盤例相合。</p>
-      <h3>替卦（起星）</h3>
-      <p>二十四山每山十五度，中九度用下卦，兩旁各三度為兼向、用替卦。本引擎依坐向偏中心之度數自動判別。</p>
-      <p>替星訣依沈竹礽據姜垚資料所整理者：子癸並甲申，貪狼一路行；壬卯乙未坤，五位為巨門；乾亥辰巽巳，連戌武曲名；酉辛丑艮丙，天星說破軍；寅午庚丁上，右弼四星臨。用法為——運盤既定，取坐山（向首）所在宮之運星，於該星所指之宮中尋與本山同元龍之山，查其替星，以替星入中飛佈；順逆仍依原下卦所得元龍之陰陽，不從替星。</p>
-      <p><b>驗證</b>：八運壬山丙向兼亥巳，本引擎得山盤六入中逆飛、向盤一入中順飛，與坊間所傳之算例相同。</p>
-      <p><b>沈氏訣與中州訣其表實同。</b>中州派謂「替星只用十三星」，另有十一山無替。本引擎逐山比對沈氏替星與該山本宮之數，相異者恰為十三山——丑、艮、寅、甲、卯、乙、辰、巽、巳、丙、申、庚、壬——與中州所列全同。是知所謂「無替可尋」者，即沈氏替星與本宮數相同而替之無異；二說之表並無差別。<b>真正之分歧在起替之條件而不在表</b>：沈氏逾中九度即用替；中州則謂同宮同陰陽不替、陰陽互兼始替、出卦必替。本引擎採沈氏之條件，中州之條件並記於此。</p>
-
-      <h3>五入中（前版待考，今已解）</h3>
-      <p>山盤或向盤之入中星為五時，五無定位、中宮無山可稽，順逆之定坊間有二說：其一從本山之陰陽，其二從運數所在之宮中同元龍之山。前版標為待考。</p>
-      <p><b>今逐局比對，二說於二百一十六局中無一局相異。</b>其故可證：運盤以運數 n 入中順飛，某宮得五者，其宮位恆與 n 所在之宮同屬四正或同屬四維——n 為一得離、二得艮、三得兌、四得乾、六得巽、七得震、八得坤、九得坎，而一坎二坤三震四巽六乾七兌八艮九離，兩兩相配，四正對四正、四維對四維。四正之天元為子午卯酉皆陰、四維之天元為乾坤艮巽皆陽，地元人元同理，故陰陽必同。二說遂殊途同歸，非擇一不可。</p>
-      <p>又五運之時，得五者惟中宮，而坐向必不在中宮，故五運反無此問題。</p>
-      <p>另加二標記：山或向盤五入中順飛者，全盤與元旦盤字字相同，是為<b>伏吟</b>；山或向盤與元旦盤字字合十者，標<b>合十</b>。</p>
-      <p>元運預設從事時之三元九運，亦可另選——玄空論宅以建成入住之運為主，非以問事之年。</p>
-
-      <h3>磁偏角</h3>
-      <p>現為手動輸入。地磁模型（WMM）係數尚未接入；接入後可由經緯度與年份自動求得。npm 之 geomagnetism 套件附係數與解析器，惟僅至 WMM-2020，已逾效期，須另覓現行係數檔。</p>
-
-      <h3>底本：欽定協紀辨方書</h3>
-      <p>四庫全書本，維基文庫錄文，三十六卷全，人工錄文非 OCR，繁體正確、句讀完整，約二十七萬九千字。中國哲學書電子化計劃之同書為未校 OCR（卷二十已成亂碼），不取。</p>
-      <p><b>年表六卷完整，且為空間層。</b>卷十四至十九逐年列神煞，其綱目即：</p>
-      <p class="q">開山立向修方吉／開山立向修方凶／開山凶／立向凶／修方凶</p>
-      <p>「開山、立向、修方」即二十四山方位。年表之下有歲德、歲祿、歲馬、奏書、博士、<b>三元紫白</b>、蓋山黃道、通天竅、走馬六壬、四利三元、太歲、歲破、三煞、坐煞向煞、浮天空亡、年剋山家、陰府太歲、巡山羅睺、天官符、地官符、大將軍、力士、蠶室、歲刑、黃幡等。是知三元紫白非玄空所獨有，官修擇日書本有之。六十年全備，可為六十筆驗證語料。</p>
-      <p><b>月表十二卷僅存骨架。</b>每卷約千一百字，止有月建月破月厭、天德月德月空、長星短星、四絕往亡、月將，及六十干支之納音與建除十二直。逐日宜忌全缺——原文自云「其神煞吉凶用事宜忌具於表」，而表未錄。卷九〈立成〉同樣僅存十六條篇目，表身全缺。二者皆為立成表，可由卷三至卷八〈義例〉之規則實算，故不擋工，惟月表之驗證語料就此失去。</p>
-
-      <h3>校記：月表干支序列</h3>
-      <p>六十干支可自驗。十二卷應七百二十條，實得七百零六條。</p>
-      <table class="k">
-        <tr><th>類別</th><th>內容</th></tr>
-        <tr><td>訛字一處</td><td>卷二十第十八位作「辛<b>己</b>」，當作「辛巳」（己巳形近）</td></tr>
-        <tr><td>缺條十四</td><td>卷二三、三一缺戊子己丑；卷二四缺戊子；卷二五缺乙亥；卷二七、二八缺庚戌辛亥；卷二九缺甲午乙未庚戌辛亥</td></tr>
-      </table>
-      <p>錄文混用異體字，比對前須正字化：嵗歲、隂陰、徳德、専專、収收、劔劍、夘卯、恊協、寳寶、栁柳、栢柏、鑪爐。</p>
-
-      <h3>年神方位層</h3>
-      <p>表出卷十四至十九年表，逐年五十四項，分「開山立向修方吉／凶、開山凶、立向凶、修方凶」四類。本引擎不查原表而以年干或年支為鍵重建查表，其鍵由六十年語料反推而得，非臆定。</p>
-      <p>錄文有三類問題，皆已處理：</p>
-      <p class="q">一、太歲標題訛字三處——巳卯、巳丑、巳亥當作己卯、己丑、己亥。原文自帶「幹土」二字可證，故據以自動改正。<br>
-      二、〈〉分隔錯位十四年——丁卯、癸酉、甲戌、丙子、戊寅、辛巳、壬午、甲申、己丑、丁酉、癸卯、丙午、甲寅、己未。成因為「年剋山家」之山字被劃出括號，其後神煞名值遂整段錯開一位。已依名次重新配對，並以卷三、卷八之義例規則反證：修復後死符、病符、弔客、白虎、大將軍、力士、蠶室、大煞、巡山羅睺九項各合六十分之六十，修復成立。<br>
-      三、形近訛字——歲德癸未作「戌」當作「戊」，龍德丁卯作「戊」當作「戌」，三煞甲辰作「己午未」當作「巳午未」，六害壬寅作「已」當作「巳」。己巳、戊戌兩組形近，同皇極經世所見之族。</p>
-      <p>錯位之修復經二輪。首輪名次表漏列喪門，致飛廉、喪門二項未能歸位；補正名次後二項各歸六十分之六十。第二輪並處理段末——金神長度可變，故前段自陰府太歲順取、末段自破敗五鬼逆取，中間餘量歸金神。</p>
-      <p>五十五項中三十項純度百分之百。其餘以各鍵多數決取值，並分兩級標示：</p>
-      <p class="q">「校」——武曲、文曲、五鬼三項，最弱之鍵仍有五分之三支持，多數決穩固，值可用而標示存疑。<br>
-      「疑」——破敗五鬼、獨火、金神三項，最弱之鍵僅三分之六或五分之二，無穩固多數，僅供參考不足為據。</p>
-      <p>段末三項難以完全復原，係因錯位之末字被推出區塊之外——原文於該十四年之段末可見一枚孤立之〈開山凶〉，即被誤劃入括號之標題，其應有之值已佚。此非算法可補，須另據書影。</p>
-      <p>另丙午、甲寅二年之歲刑、黃幡、豹尾一行仍有次級錯位，未修。</p>
-
-      <h3>卷二所載之理氣</h3>
-      <p>初判「協紀為擇日書、堪輿須另覓底本」，經全文檢索為誤。玄空、挨星、飛星三詞全書零見，惟其餘理氣要件卷二〈本原二〉俱在：</p>
-      <p class="q">二十四山之立（四維八干十二支，一卦筦三山）、正五行、雙山五行（即三合五行）、洪範五行、大遊年變卦與小遊年變卦。</p>
-      <p><b>三針之定義得原典。</b>卷二云：正針乃二十四山之正位，定向用之；中針其子位在正針壬子二位之中，格龍用之；縫針其子位在子癸二位之縫，消砂納水用之。本引擎前版所採之進退方向與此相合，惟前版稱之為「通行說」，今可改稱有據。更要者，三針各有其用而非任選——定向用正針、格龍用中針、消砂納水用縫針。</p>
-      <p><b>八宅之法亦全。</b>大遊年翻卦：上一爻變為生氣貪狼、下二爻變為天醫巨門、三爻俱變為延年武曲、三爻俱不變為伏位輔弼；乾兌老陽、艮坤老陰為西四宅，離震少陰、巽坎少陽為東四宅。是八宅可逕依協紀而作，不待《陽宅三要》。</p>
-      <p><b>年剋山家亦可算。</b>年表所列之長串山名，即洪範五行之某一行——卷二載甲寅辰巽戌坎辛申八山屬水、離壬丙乙四山屬火、震艮巳三山屬木、乾亥兌丁四山屬金、丑癸坤庚未五山屬土。</p>
-      <p>另卷三十三、三十四〈利用〉二卷為施用之篇，坐山、消砂納水、分金、紫白入中宮皆在其中；卷八之入中宮順飛逆飛凡四十餘見，九宮飛佈之機括完備。所缺者惟玄空挨星一系，本晚出而在官修之外。</p>
-
-      <h3>室內配屬層（倪海厦一系）</h3>
-      <p>此層與八宅、玄空<b>判準根本不同</b>：八宅依坐山推宅卦，同一方位隨坐山而異吉凶；倪氏依後天八卦之絕對方位定人倫，西北恆為乾恆為父，不隨坐山改變。二者必生牴牾，本引擎並列而不合一。</p>
-      <p><b>可算之核心</b>：八宮只取天元龍八山——子（正北）、艮（東北）、卯（正東）、巽（東南）、午（正南）、坤（西南）、酉（正西）、乾（西北），各佔十五度；其餘十六山為<b>無人帶</b>。廚廁宜置於無人帶而不占人宮，此為該系統之樞紐，亦是其可計算之處。</p>
-      <p>人倫配屬：乾西北為父（夫妻主臥）、坤西南為母、震正東為長子（東宮太子）、巽東南為長女、坎正北為中男、離正南為中女、兌正西為少女、艮東北為少男。南半球南北互換，主臥改西南。</p>
-      <p><b>八煞黃泉</b>：坎不立辰、坤不立卯、震不立申、巽不立酉、乾不立午、兌不立巳、艮不立寅、離不立亥。<b>三吉六秀</b>：六秀為丙丁辛艮巽兌，三吉為巽艮兌。</p>
-      <p><b>來源自身之矛盾一處</b>：同一份資料既云「廚房在北方死兒子」，又云「廚房最好在正北或正西」。以無人帶之說解之則通——正北之人宮為子山十五度，其左右壬癸二山屬無人帶，廚房當在壬癸而非子。此為本引擎之理解，非原文明言，記此存疑。</p>
-      <p><b>兩來源實為同一份資料之鏡像，不構成互證。</b>所提供之二網站文字幾乎逐句相同，含同一處內部矛盾（廚房宜正北與廚房在北方傷子並存）。故本層之依據為單一來源，非二重外證，與本引擎他層之標準不同，特此標明。</p>
-      <p><b>未實作者</b>：該系統另有以床位方位選擇生育性別、以及宣稱可「糾正」性傾向之說。此類主張本引擎不予實作，亦不列入判讀——非因門派之見，而是不宜以計算之名為此類斷言背書。峦頭、陵線、樓層、缺角諸說屬形勢判斷，不可算，同不實作。</p>
-
-      <h3>用途兩模式</h3>
-      <p>協紀年表本以「開山立向修方吉／開山立向修方凶／開山凶／立向凶／修方凶」五類編排，分類非本引擎所立。逐年抽取各類所轄之神煞，六十年取多數為準，得二十五、五、五、二、十九共五十六項。造葬取開山與立向所忌，興修取修方與立向所忌，兩者共取通類。</p>
-
-      <h3>小遊年</h3>
-      <p>卷二明列大小遊年之對應——「貪狼與小遊同亦曰生氣；廉貞即小遊之巨門亦曰五鬼；武曲即小遊之絕體又曰延年；文曲與小遊同又曰六煞；祿存即小遊之五鬼又曰禍害；巨門即小遊之福德亦曰天醫；破軍輔弼與小遊同」。故小遊年由大遊年逐位換算而得，不另立翻卦次第，亦不臆補。八宮自驗：各得八名無重，本宮恆在本位。</p>
-      <p><b>吉凶兩家並列。</b>卷二云地理家從龍上起，以貪狼巨門武曲廉貞為吉、祿存文曲破軍輔弼為凶；選擇家從向上起，以貪狼巨門武曲文曲為吉、祿存廉貞破軍輔弼為凶。二家於廉貞與文曲二星正相反，每宮恰有二位吉凶互異。本引擎預設地理家（造葬所用），並將相異之位標出。</p>
-
-      <h3>五行三系</h3>
-      <p>正五行、雙山五行（即三合五行）、洪範五行三者，逐字取自卷二，二十四山三系全備。洪範原文以卦名稱四正——坎即子、離即午、震即卯、兌即酉。卷二並云「正五行乃五行之質，雙山五行乃五行之氣，故推龍氣之生旺用雙山而不用正五行」。</p>
-      <p><b>年剋山家未能改算。</b>非單純以年之納音剋山之洪範五行——甲子年表列水山與土山兩組，而戊子、辛卯二年更作「二十四並無剋，冬至後剋乾亥兌丁」，另有冬至之限。規則較預期複雜，維持查表。</p>
-
-      <h3>消砂納水與分金未作（底本所限）</h3>
-      <p>卷三十三僅述羅經層數之屬——「六層穿山七十二龍正針分金也……九層六十龍皆屬中針所以格龍者也，十層縫針二十四山，十一層六十龍，十二層一百二十分金，皆屬縫針所以消砂納水者也」——言其何針所屬而未出其法。消砂納水之實際規則（生旺墓輔星水法之屬）與六十龍、七十二龍、一百二十分金之表，協紀俱不載，須另據三合家專書。此非算法所限，係底本所缺。</p>
-
-      <h3>玄空飛星（下卦）</h3>
-      <p>運盤以運數入中順飛；山盤取坐山所在宮之運星入中，向盤取向所在宮之運星入中，順逆各依「該運星所指之宮中，與坐山同元龍之山」之陰陽——陽順陰逆。</p>
-      <p>所需之三事皆有據：一卦筦三山與二十四山之立，見《協紀》卷二〈本原二〉；九宮飛佈之序，即本引擎飛佈層所用之中乾兌艮離坎坤震巽；三元龍與陰陽之分（地元甲庚丙壬陽、辰戌丑未陰；天元乾坤艮巽陽、子午卯酉陰；人元寅申巳亥陽、乙辛丁癸陰）為玄空一家之制。</p>
-      <p><b>結構自驗</b>：九運二十四山合二百一十六局，運山向三盤各皆九星無重無漏；格局分布為旺山旺向四十八、上山下水四十八、雙星到向六十、雙星到坐六十——旺山旺向與上山下水數同，雙星到向與到坐數同，全盤對稱。另八運子山午向算得雙星到向，與通行盤例相合。</p>
-      <h3>替卦（起星）</h3>
-      <p>二十四山每山十五度，中九度用下卦，兩旁各三度為兼向、用替卦。本引擎依坐向偏中心之度數自動判別。</p>
-      <p>替星訣依沈竹礽據姜垚資料所整理者：子癸並甲申，貪狼一路行；壬卯乙未坤，五位為巨門；乾亥辰巽巳，連戌武曲名；酉辛丑艮丙，天星說破軍；寅午庚丁上，右弼四星臨。用法為——運盤既定，取坐山（向首）所在宮之運星，於該星所指之宮中尋與本山同元龍之山，查其替星，以替星入中飛佈；順逆仍依原下卦所得元龍之陰陽，不從替星。</p>
-      <p><b>驗證</b>：八運壬山丙向兼亥巳，本引擎得山盤六入中逆飛、向盤一入中順飛，與坊間所傳之算例相同。</p>
-      <p><b>沈氏訣與中州訣其表實同。</b>中州派謂「替星只用十三星」，另有十一山無替。本引擎逐山比對沈氏替星與該山本宮之數，相異者恰為十三山——丑、艮、寅、甲、卯、乙、辰、巽、巳、丙、申、庚、壬——與中州所列全同。是知所謂「無替可尋」者，即沈氏替星與本宮數相同而替之無異；二說之表並無差別。<b>真正之分歧在起替之條件而不在表</b>：沈氏逾中九度即用替；中州則謂同宮同陰陽不替、陰陽互兼始替、出卦必替。本引擎採沈氏之條件，中州之條件並記於此。</p>
-
-      <h3>五入中（前版待考，今已解）</h3>
-      <p>山盤或向盤之入中星為五時，五無定位、中宮無山可稽，順逆之定坊間有二說：其一從本山之陰陽，其二從運數所在之宮中同元龍之山。前版標為待考。</p>
-      <p><b>今逐局比對，二說於二百一十六局中無一局相異。</b>其故可證：運盤以運數 n 入中順飛，某宮得五者，其宮位恆與 n 所在之宮同屬四正或同屬四維——n 為一得離、二得艮、三得兌、四得乾、六得巽、七得震、八得坤、九得坎，而一坎二坤三震四巽六乾七兌八艮九離，兩兩相配，四正對四正、四維對四維。四正之天元為子午卯酉皆陰、四維之天元為乾坤艮巽皆陽，地元人元同理，故陰陽必同。二說遂殊途同歸，非擇一不可。</p>
-      <p>又五運之時，得五者惟中宮，而坐向必不在中宮，故五運反無此問題。</p>
-      <p>另加二標記：山或向盤五入中順飛者，全盤與元旦盤字字相同，是為<b>伏吟</b>；山或向盤與元旦盤字字合十者，標<b>合十</b>。</p>
-      <p>元運預設從事時之三元九運，亦可另選——玄空論宅以建成入住之運為主，非以問事之年。</p>
-
-      <h3>磁偏角</h3>
-      <p>採世界地磁模型 WMM2025（曆元二〇二五·〇），係數取自 NOAA 與英國地質調查所發布之 WMM2025.COF，經其官方測值一百筆比對，磁偏角中位偏差〇·〇〇二三度、最大〇·〇〇五度。</p>
-      <p><b>真方位為主軌，磁方位為第二軌。</b>模型有效區間二〇二五至二〇三〇，區間外一律不外推——古盤請自行填入磁偏角或逕用真方位。此非保守，係因地磁逐年而變，以二〇二五之偏角套一二〇〇年之盤，錯得無聲無息。若日後須及於古代，一五九〇至一九九〇有 gufm1、更早有考古地磁模型，屬另案。</p>
-
-      <h3>年神改算不查表</h3>
-      <p>五項神煞原以年表多數決取值，今得起例，改算不查表，並以六十年語料反驗：</p>
-      <p class="q">天官符＝三合五行之臨官（申子辰水臨官在亥之類），五十九合，不合之一為戊戌年表作「己」當作「巳」——己巳訛字第八例。<br>
-      地官符＝歲前四辰，六十合。<br>
-      大煞＝三合五行之帝旺，六十合。此即「打頭火」，協紀以其名不雅馴而改稱飛大煞。<br>
-      五鬼＝子年起辰逆行，四十六合。<br>
-      破敗五鬼＝年干納卦之衝（乾納甲壬、坤納乙癸、艮納丙、兌納丁、坎納戊、離納己、震納庚、巽納辛；乾巽相衝、坤艮相衝、坎離相衝、震兌相衝），四十六合。</p>
-      <p><b>後二者不合之十四筆，正是前所判之分隔錯位十四年。</b>換言之，改算不但補回了段末佚失之值，還反過來再證那十四年確係錄文之誤而非別本之異。此二項遂由「多數決存疑」升為「有例可算」，介面之「校」「疑」標記隨之撤除。</p>
-      <p>金神與獨火二項仍無起例可據——通書所載者為制煞之法而非起例——故維持多數決並存疑標記。</p>
-
-      <h3>月神層</h3>
-      <p>依卷四至卷六義例，逐項以算式出之而不查表，再以卷二十至三十一之月表逐月反驗——十二月十四項並建除共一百七十二筆，一百七十合。</p>
-      <p class="q">月建自寅順行、月破為其沖、月厭自戌逆行、月將自亥逆行；月刑依三刑、月害依六害；劫煞為三合局之絕位，災煞月煞順次二位；月德取三合五行之陽干（火局丙、木局甲、水局壬、金局庚），月德合為其干合、月空為其干沖；天德十二位依卷五，在維卦者無合。建除十二直以月建之支為建日，日支順行。</p>
-      <p><b>不合之二筆皆訛字，且為同一族。</b>四月月建表作「己」當作「巳」，六月天德合表作「巳」當作「己」，適成互倒。連同前所見之年表四處、月表干支序列一處，己巳、戊戌兩組形近訛字全書已得七例。此再證以算式反驗錄文之法可行——算式不是為了省事，是為了讓錄文的錯自己浮出來。</p>
-
-      <h3>九宮飛佈層</h3>
-      <p>依卷八。順飛之宮序為中、乾、兌、艮、離、坎、坤、震、巽，即五六七八九一二三四。所實作者五項，各以原文之算例反驗，逐例相符：</p>
-      <p class="q">三元年九星——上元甲子一白，逐年逆行。<b>此項另以年表之「三元紫白」行全面對照：六十年三元四星共七百零五筆，全合。</b>年紫白之曆元、逆行、飛佈序三者同時得證。<br>
-      三元月九星——子午卯酉年正月八白、辰戌丑未年正月五黃、寅申巳亥年正月二黑，逐月逆轉。此為卷八依《元經》改正之例，並明斥《選擇宗鏡》誤用天干起例，謂其「惟甲子至癸酉十年與元經合」。<br>
-      小月建——陽年正月起中五、陰年正月起離九，順飛。原文算例：陽年正二三月中五、乾六、兌七；陰年離九、坎一、坤二。<br>
-      月遊火——太歲前一辰所屬之宮為正月位，逐月順飛，不以月建入中。原文算例：子丑年正月艮八、二月離九、三月坎一；寅年正月震三、二月巽四、三月中五。<br>
-      丙丁獨火——月建干支入中宮，順數天干，丙丁所到之宮。原文算例：丙寅月丙在中五、丁在乾六；丁卯月丙又在中五。<br>
-      飛天祿、飛天馬、飛宮貴人——先以五虎遁取本年真祿馬貴之干支，次以月建干支入中宮順飛。原文算例：丁卯月入中則丙寅在坎一；己卯月入中則丁亥在巽四；庚辰月入中則己卯在坎一、丁亥在震三。此採《選擇宗鏡》兼取本遁天干之法，即協紀所定；通書止取地支一字，兩法並存而協紀取前者。</p>
-      <p><b>前版未作之四項今已補齊</b>：</p>
-      <p class="q">飛天官符、飛地官符、飛大煞——以月建之支入中宮順飛九宮，年神所占之支落於何宮，該宮三山即為本月之位。卷八算例：子年天官符在亥，正月寅建入中順數，復至中宮遇亥，故正月在中宮；三月辰建入中順數，至震三遇亥，故三月在甲震乙。二例皆合。<br>
-      大月建——子午卯酉年正月起艮八、辰戌丑未年正月起中五、寅申巳亥年正月起坤二，逐月逆轉。其數與月九星入中之星相同，蓋協紀自云「月建即三元月九星入中宮之一星」。協紀依《元經》改正此例，並斥《選擇宗鏡》之甲丁庚癸天干起例為誤，謂「惟甲子至癸酉十年與元經合」。本引擎從協紀之改正。</p>
-
-      <h3>八宅層</h3>
-      <p>依卷二大遊年變卦。以爻位取值——上爻四、中爻二、初爻一——則本宮與他宮之異或即變爻之數，一數對一名：不變者伏位、變上爻者生氣、變下二爻者天醫、三爻俱變者延年，此四者卷二明文；其餘四者由乾宮翻卦次第定之（乾上爻變兌貪狼、兌中爻變震五鬼、震下爻變坤武曲、坤中爻變坎文曲、坎上爻變巽祿存、巽中爻變艮巨門、艮下爻變離破軍、離中爻變復乾輔弼），得變上中二爻者五鬼、變上初二爻者六煞、變初爻者禍害、變中爻者絕命。</p>
-      <p>此法自帶一重驗證：卷二又云「二老相配為西四宅，二少相配為東四宅，東西各自相配為吉，交錯相配為凶」。以爻變所得之八名逐宮比對東西四宅之分組，八宮六十四配全合，無一例外——兩條規則各自獨立而結論相同。</p>
-      <p>宅卦由坐山定，一卦筦三山（戌乾亥屬乾、壬子癸屬坎、丑艮寅屬艮、甲卯乙屬震、辰巽巳屬巽、丙午丁屬離、未坤申屬坤、庚酉辛屬兌），亦卷二明文。</p>
-      <p><b>不做命卦。</b>三元年命卦之推法不見於協紀。卷二論小遊年時僅云「後世借以為男女生命合婚之用」，並未出其例。故本引擎只出宅卦一層，命卦待別有底本時再議。</p>
-      <p><b>小遊年未做。</b>卷二另載小遊年變卦，與大遊年名同而實異，且其吉凶兩家不一——「地理家從龍上起，以貪狼巨門武曲廉貞為吉，祿存文曲破軍輔弼為凶；選擇家從向上起，以貪狼巨門武曲文曲為吉，祿存廉貞破軍輔弼為凶」。兩家於廉貞、文曲二星正相反。此為並列不強合之候選，俟翻卦次第取足再作。</p>
-
-      <h3>三元之曆元</h3>
-      <p>卷八〈義例六〉明書「康熙二十三年甲子為上元」。康熙二十三年即一六八四年，適為甲子。一六八四加一百八十得一八六四，本引擎三元九運之曆元與此同相位，是為外證。同卷並列三元太歲所在之九星表（上元甲子一白、中元甲子四綠、下元甲子七赤，逐年逆行九星），可知三元紫白非玄空所獨有，官修擇日書本有之。</p>
-
-      <h3>尚未實作</h3>
-      <p>理氣盤式（玄空飛星、三合、八宅）、神煞層（協紀義例六卷）、巒頭圖鑑。玄空之算法層尚無乾淨電子文本——經文（青囊經、天玉經）雖可得而為隱語，推不出飛星法；《沈氏玄空學》須排印本。</p>
-
-      <details>
-        <summary>自檢</summary>
-        <div class="chk" id="chk"></div>
-      </details>
-    </div>
-  </div>
+  <div class="page" id="p2"><div class="doc" id="docBox"></div></div>
 </div>
 <script>
 var GEOMAG=(()=>{var M=(t,h)=>()=>(h||t((h={exports:{}}).exports,h),h.exports);var Z=M((u0,I)=>{var Q=D();I.exports=P;function P(t){this.x=t.x,this.y=t.y,this.z=t.z}P.prototype.toGeodetic=function(t){var h=this.z<0?-t.b:t.b,a=this.x,i=this.y,e=this.z,n=Math.sqr(a*a+i*i),r=(h*e-(t.a*t.a-h*h))/(t.a*n),d=(h*e+(t.a*t.a-h*h))/(t.a*n),s=4/3*(r*d+1),l=2*(r*r+d*d),_=s*s*s+l*l,o;_>0?o=Math.pow(Math.sqrt(_)-l,1/3)-Math.pow(Math.sqrt(_)+l,1/3):o=2*Math.sqrt(-s)*Math.cos(Math.acos(l/(s*Math.sqrt(-s)))/3),o*o<Math.abs(s)&&(o=-(o*o*o+2*l)/3*s);var c=(Math.sqrt(r*r+o)+r)/2,v=Math.sqrt(c*c+(d-o*c)/(2*c-r))-c,f=Math.atan(t.a*(1-v*v)/(2*h*v)),u=Math.atan2(i,a);u<0&&(u+=2*Math.PI);var p=(n-t.a*v)*Math.cos(f)+(e-h)*Math.sin(f),m=u*Math.PI/180;return m>180&&(m-=360),new Q({lambda:m,phi:f*Math.PI/180,height_above_ellipsoid:p,ellipsoid:t})}});var S=M((g0,C)=>{C.exports=R;function R(t,h){var a=Math.sin(Math.PI/180*t.phig),i;h<=16||1-Math.abs(a)<1e-10?i=X(a,h):i=$(a,h),this.pcup=i.pcup,this.dpcup=i.dpcup}function X(t,h){var a,i,e,n,r,d,s,l,_=[1],o=[1],c=[0];for(i=Math.sqrt((1-t)*(1+t)),l=(h+1)*(h+2)/2,e=1;e<=h;e++)for(n=0;n<=e;n++)r=e*(e+1)/2+n,e==n?(d=(e-1)*e/2+n-1,o[r]=i*o[d],c[r]=i*c[d]+t*o[d]):e==1&&n==0?(d=(e-1)*e/2+n,o[r]=t*o[d],c[r]=t*c[d]-i*o[d]):e>1&&e!=n&&(d=(e-2)*(e-1)/2+n,s=(e-1)*e/2+n,n>e-2?(o[r]=t*o[s],c[r]=t*c[s]-i*o[s]):(a=((e-1)*(e-1)-n*n)/((2*e-1)*(2*e-3)),o[r]=t*o[s]-a*o[d],c[r]=t*c[s]-i*o[s]-a*c[d]));for(e=1;e<=h;e++)for(r=e*(e+1)/2,d=(e-1)*e/2,_[r]=_[d]*(2*e-1)/e,n=1;n<=e;n++)r=e*(e+1)/2+n,d=e*(e+1)/2+n-1,_[r]=_[d]*Math.sqrt((e-n+1)*(n==1?2:1)/(e+n));for(e=1;e<=h;e++)for(n=0;n<=e;n++)r=e*(e+1)/2+n,o[r]*=_[r],c[r]*=-_[r];return{pcup:o,dpcup:c}}function $(t,h){if(Math.abs(t)==1)throw new Error("Error in PcupHigh: derivative cannot be calculated at poles");var a,i,e,n=(h+1)*(h+2)/2,r=[],d=[],s=[],l=1e-280;for(a=0;a<=2*h+1;++a)s[a]=Math.sqrt(a);for(e=2,a=0;a<=h;a++){for(e++,r[e]=(2*a-1)/a,d[e]=(a-1)/a,i=1;i<=a-2;i++)e++,r[e]=(2*a-1)/s[a+i]/s[a-i],d[e]=s[a-i-1]*s[a+i-1]/s[a+i]/s[a-i];e+=2}var _=Math.sqrt((1-t)*(1+t)),o,c=t,v=1,f=[1,c],u=[0,_];if(h==0)throw new Error("Error in PcupHigh: n_max must be greater than 0");for(e=1,a=2;a<=h;a++)e=e+a,o=r[e]*t*c-d[e]*v,f[e]=o,u[e]=a*(c-t*o)/_,v=c,c=o;for(var p=s[2]*l,m=1/l,g=0,i=1;i<=h-1;++i)for(m*=_,g=g+i+1,p=p*s[2*i+1]/s[2*i],f[g]=p*m/s[2*i+1],u[g]=-(i*t*f[g]/_),v=p/s[2*i+1],e=g+i+1,c=t*s[2*i+1]*v,f[e]=c*m,u[e]=(v*m*s[2*i+1]-t*(i+1)*f[e])/_,a=i+2;a<=h;++a)e=e+a,o=t*r[e]*c-d[e]*v,f[e]=o*m,u[e]=(s[a+i]*s[a-i]*c*m-a*t*f[e])/_,v=c,c=o;return m=m*_,g=g+i+1,p=p/s[2*h],f[g]=p*m,u[g]=-h*t*f[g]/_,{pcup:f,dpcup:u}}});var G=M((M0,E)=>{var t0=Z(),e0=S();E.exports=z;function z(t){this.lambda=t.lambda,this.phig=t.phig,this.r=t.r}z.prototype.toCartesian=function(){var t=this.phig*Math.PI/180,h=this.lambda*Math.PI/180;return new t0({x:this.r*cos(t)*cos(h),y:this.r*cos(t)*sin(h),z:this.r*sin(t)})};z.prototype.toGeodetic=function(t){return this.toCartesian().toGeodetic(t)};z.prototype.getHarmonicVariables=function(t,h){var a,i,e=Math.cos(Math.PI/180*this.lambda),n=Math.sin(Math.PI/180*this.lambda),r=[1,e],d=[0,n],s=[t.re/this.r*(t.re/this.r)];for(i=1;i<=h;i++)s[i]=s[i-1]*(t.re/this.r);for(a=2;a<=h;a++)r[a]=r[a-1]*e-d[a-1]*n,d[a]=r[a-1]*n+d[a-1]*e;return{relative_radius_power:s,cos_mlambda:r,sin_mlambda:d}};z.prototype.getLegendreFunction=function(t){return new e0(this,t)}});var F=M((p0,V)=>{V.exports=a0;function a0(t){t=t||{a:6378.137,b:6356.7523142,fla:1/298.257223563,re:6371.2},this.a=t.a,this.b=t.b,this.fla=t.fla,this.re=t.re,this.eps=Math.sqrt(1-this.b*this.b/(this.a*this.a)),this.epssq=this.eps*this.eps}});var D=M((b0,H)=>{var r0=G(),i0=F();H.exports=q;function q(t){this.options=t,this.lambda=t.lambda||t.lon,this.phi=t.phi||t.lat,this.height_above_ellipsoid=t.height_above_ellipsoid||0,this.ellipsoid=t.ellipsoid||new i0}q.prototype.toSpherical=function(){var t=this.ellipsoid,h=Math.cos(this.phi*Math.PI/180),a=Math.sin(this.phi*Math.PI/180),i=t.a/Math.sqrt(1-t.epssq*a*a),e=(i+this.height_above_ellipsoid)*h,n=(i*(1-t.epssq)+this.height_above_ellipsoid)*a,r=Math.sqrt(e*e+n*n);return new r0({r,phig:180/Math.PI*Math.asin(n/r),lambda:this.lambda})};q.prototype.clone=function(){return new q(this.options)}});var O=M((y0,L)=>{L.exports=b;function b(t){this.x=t.x,this.y=t.y,this.z=t.z,this.h=t.h,this.f=t.f,this.incl=t.incl,this.decl=t.decl,this.gv=t.gv,this.xdot=t.xdot,this.ydot=t.ydot,this.zdot=t.zdot,this.hdot=t.hdot,this.fdot=t.fdot,this.incldot=t.incldot,this.decldot=t.decldot,this.gvdot=t.gvdot}b.prototype.clone=function(){return new b(this)};b.prototype.scale=function(t){return new b({x:this.x*t,y:this.y*t,z:this.z*t,h:this.h*t,f:this.f*t,incl:this.incl*t,decl:this.decl*t,gv:this.gv*t,xdot:this.xdot*t,ydot:this.ydot*t,zdot:this.zdot*t,hdot:this.hdot*t,fdot:this.fdot*t,incldot:this.incldot*t,decldot:this.decldot*t,gvdot:this.gvdot*t})};b.prototype.subtract=function(t){return new b({x:this.x-t.x,y:this.y-t.y,z:this.z-t.z,h:this.h-t.h,f:this.f-t.f,incl:this.incl-t.incl,decl:this.decl-t.decl,gv:this.gv-t.gv,xdot:this.xdot-t.xdot,ydot:this.ydot-t.ydot,zdot:this.zdot-t.zdot,hdot:this.hdot-t.hdot,fdot:this.fdot-t.fdot,incldot:this.incldot-t.incldot,decldot:this.decldot-t.decldot,gvdot:this.gvdot-t.gvdot})};b.fromGeoMagneticVector=function(t){var h=t.bx,a=t.by,i=t.bz,e=Math.sqrt(h*h+a*a);return new b({x:h,y:a,z:i,h:e,f:Math.sqrt(e*e+i*i),decl:180/Math.PI*Math.atan2(a,h),incl:180/Math.PI*Math.atan2(i,e)})};b.fromSecularVariationVector=function(t){var h=t.bx,a=t.by,i=t.bz;return new b({xdot:h,ydot:a,zdot:i,hdot:(this.x*h+this.y*a)/this.h,fdot:(this.x*h+this.y*a+this.z*i)/this.f,decldot:180/Math.PI*(this.x*this.ydot-this.y*this.xdot)/(this.h*this.h),incldot:180/Math.PI*(this.h*this.zdot-this.z*this.hdot)/(this.f*this.f),gvdot:this.decldot})}});var W=M((w0,k)=>{k.exports=T;function T(t){this.bx=t.bx,this.by=t.by,this.bz=t.bz}T.prototype.rotate=function(t,h){var a=Math.PI/180*(t.phig-h.phi);return new T({bz:this.bx*Math.sin(a)+this.bz*Math.cos(a),bx:this.bx*Math.cos(a)-this.bz*Math.sin(a),by:this.by})}});var U=M((z0,B)=>{var h0=D(),s0=O(),o0=W();B.exports=x;function x(t){this.epoch=t.epoch,this.start_date=new Date(t.start_date),this.end_date=new Date(t.end_date),this.name=t.name||"",this.main_field_coeff_g=t.main_field_coeff_g||[0],this.main_field_coeff_h=t.main_field_coeff_h||[0],this.secular_var_coeff_g=t.secular_var_coeff_g||[0],this.secular_var_coeff_h=t.secular_var_coeff_h||[0],this.n_max=t.n_max||0,this.n_max_sec_var=t.n_max_sec_var||0,this.num_terms=this.n_max*(this.n_max+1)/2+this.n_max}x.prototype.getTimedModel=function(t,h=!1){var a=t.getUTCFullYear(),i=(t.valueOf()-Date.UTC(a))/(1e3*3600*24*365),e=a+i,n=e-this.epoch;if(t<this.start_date||t>this.end_date)if(h)console.error("Model is only valid from "+this.start_date.toDateString()+" to "+this.end_date.toDateString());else throw new Error("Model is only valid from "+this.start_date.toDateString()+" to "+this.end_date.toDateString());for(var r=new x({epoch:this.epoch,n_max:this.n_max,n_max_sec_var:this.n_max_sec_var,name:this.name,start_date:this.start_date,end_date:this.end_date}),d=r.n_max_sec_var,s=d*(d+1)/2+d,l=1;l<=this.n_max;l++)for(var _=0;_<=l;_++){var o=l*(l+1)/2+_,c=this.main_field_coeff_h[o],v=this.main_field_coeff_g[o],f=this.secular_var_coeff_h[o],u=this.secular_var_coeff_g[o];o<=s?(r.main_field_coeff_h[o]=c+n*f,r.main_field_coeff_g[o]=v+n*u,r.secular_var_coeff_h[o]=f,r.secular_var_coeff_g[o]=u):(r.main_field_coeff_h[o]=c,r.main_field_coeff_g[o]=v)}return r};x.prototype.getSummation=function(t,h,a){var i=0,e=0,n=0,r,d,s,l,_=h.relative_radius_power,o=h.cos_mlambda,c=h.sin_mlambda,v=this.main_field_coeff_g,f=this.main_field_coeff_h;for(r=1;r<=this.n_max;r++)for(d=0;d<=r;d++)s=r*(r+1)/2+d,n-=_[r]*(v[s]*o[d]+f[s]*c[d])*(r+1)*t.pcup[s],e+=_[r]*(v[s]*c[d]-f[s]*o[d])*d*t.pcup[s],i-=_[r]*(v[s]*o[d]+f[s]*c[d])*t.dpcup[s];var u=Math.cos(Math.PI/180*a.phig);if(Math.abs(u)>1e-10)e=e/u;else{e=0;var p=1,m,g,w=[1],N=Math.sin(Math.PI/180*a.phig);for(r=1;r<=this.n_max;r++)s=r*(r+1)/2+1,m=p*(2*r-1)/r,g=m*Math.sqrt(2*r/(r+1)),p=m,r==1?w[r]=w[r-1]:(l=((r-1)*(r-1)-1)/((2*r-1)*(2*r-3)),w[r]=N*w[r-1]-l*w[r-2]),e+=_[r]*(v[s]*c[1]-f[s]*o[1])*w[r]*g}return new o0({bx:i,by:e,bz:n})};x.prototype.point=function(t){var h=t.length>2&&typeof t[2]=="number"?t[2]:0,a=new h0({lat:t[0],lon:t[1],height_above_ellipsoid:h}),i=a.toSpherical(),e=i.getLegendreFunction(this.n_max),n=i.getHarmonicVariables(a.ellipsoid,this.n_max),r=this.getSummation(e,n,i),d=r.rotate(i,a);return s0.fromGeoMagneticVector(d)}});var Y=M((x0,n0)=>{n0.exports={main_field_coeff_g:[0,-29351.8,-1410.8,-2556.6,2951.1,1649.3,1361,-2404.1,1243.8,453.6,895,799.5,55.7,-281.1,12.1,-233.2,368.9,187.2,-138.7,-142,20.9,64.4,63.8,76.9,-115.7,-40.9,14.9,-60.7,79.5,-77,-8.8,59.3,15.8,2.5,-11.1,14.2,23.2,10.8,-17.5,2,-21.7,16.9,15,-16.8,.9,4.6,7.8,3,-.2,-2.5,-13.1,2.4,8.6,-8.7,-12.9,-1.3,-6.4,.2,2,-1,-.6,-.9,1.5,.9,-2.7,-3.9,2.9,-1.5,-2.5,2.4,-.6,-.1,-.6,-.1,1.1,-1,-.2,2.6,-2,-.2,.3,1.2,-1.3,.6,.6,.5,-.1,-.4,-.2,-1.3,-.7],main_field_coeff_h:[0,0,4545.4,0,-3133.6,-815.1,0,-56.6,237.5,-549.5,0,278.6,-133.9,212,-375.6,0,45.4,220.2,-122.9,43,106.1,0,-18.4,16.8,48.8,-59.8,10.9,72.7,0,-48.9,-14.4,-1,23.4,-7.4,-25.1,-2.3,0,7.1,-12.6,11.4,-9.7,12.7,.7,-5.2,3.9,0,-24.8,12.2,8.3,-3.3,-5.2,7.2,-.6,.8,10,0,3.3,0,2.4,5.3,-9.1,.4,-4.2,-3.8,.9,-9.1,0,0,2.9,-.6,.2,.5,-.3,-1.2,-1.7,-2.9,-1.8,-2.3,0,-1.3,.7,1,-1.4,0,.6,-.1,.8,.1,-1,.1,.2],secular_var_coeff_g:[0,12,9.7,-11.6,-5.2,-8,-1.3,-4.2,.4,-15.6,-1.6,-2.4,-6,5.6,-7,.6,1.4,0,.6,2.2,.9,-.2,-.4,.9,1.2,-.9,.3,.9,0,-.1,-.1,.5,-.1,-.8,-.8,.8,-.1,.2,0,.5,-.1,.3,.2,0,.2,0,-.1,.1,.3,-.3,0,.3,-.1,.1,-.1,.1,0,.1,.1,0,-.3,0,-.1,-.1,0,0,0,0,0,0,0,-.1,0,0,-.1,-.1,-.1,-.1,0,0,0,0,0,0,.1,0,0,0,-.1,0,-.1],secular_var_coeff_h:[0,0,-21.5,0,-27.7,-12.1,0,4,-.3,-4.1,0,-1.1,4.1,1.6,-4.4,0,-.5,2.2,.4,1.7,1.9,0,.3,-1.6,-.4,.9,.7,.9,0,.6,.5,-.8,0,-1,.6,-.2,0,-.2,.5,-.4,.4,-.5,-.6,.3,.2,0,-.3,.3,-.3,.3,.2,-.1,-.2,.4,.1,0,0,0,-.2,.1,-.1,.1,0,-.1,.2,0,0,0,.1,0,.1,0,0,.1,0,0,0,0,0,0,0,-.1,.1,0,0,0,0,0,0,0,-.1],n_max:12,n_max_sec_var:12,epoch:2025,name:"WMM-2025",start_date:"2024-11-13T03:00:00.000Z",end_date:"2029-11-13T03:00:00.000Z"}});var j=M((q0,d0)=>{d0.exports={main_field_coeff_g:[0,-29404.5,-1450.7,-2500,2982,1676.8,1363.9,-2381,1236.2,525.7,903.1,809.4,86.2,-309.4,47.9,-234.4,363.1,187.8,-140.7,-151.2,13.7,65.9,65.6,73,-121.5,-36.2,13.5,-64.7,80.6,-76.8,-8.3,56.5,15.8,6.4,-7.2,9.8,23.6,9.8,-17.5,-.4,-21.1,15.3,13.7,-16.5,-.3,5,8.2,2.9,-1.4,-1.1,-13.3,1.1,8.9,-9.3,-11.9,-1.9,-6.2,-.1,1.7,-.9,.6,-.9,1.9,1.4,-2.4,-3.9,3,-1.4,-2.5,2.4,-.9,.3,-.7,-.1,1.4,-.6,.2,3.1,-2,-.1,.5,1.3,-1.2,.7,.3,.5,-.2,-.5,.1,-1.1,-.3],main_field_coeff_h:[0,0,4652.9,0,-2991.6,-734.8,0,-82.2,241.8,-542.9,0,282,-158.4,199.8,-350.1,0,47.7,208.4,-121.3,32.2,99.1,0,-19.1,25,52.7,-64.4,9,68.1,0,-51.4,-16.8,2.3,23.5,-2.2,-27.2,-1.9,0,8.4,-15.3,12.8,-11.8,14.9,3.6,-6.9,2.8,0,-23.3,11.1,9.8,-5.1,-6.2,7.8,.4,-1.5,9.7,0,3.4,-.2,3.5,4.8,-8.6,-.1,-4.2,-3.4,-.1,-8.8,0,0,2.6,-.5,-.4,.6,-.2,-1.7,-1.6,-3,-2,-2.6,0,-1.2,.5,1.3,-1.8,.1,.7,-.1,.6,.2,-.9,0,.5],secular_var_coeff_g:[0,6.7,7.7,-11.5,-7.1,-2.2,2.8,-6.2,3.4,-12.2,-1.1,-1.6,-6,5.4,-5.5,-.3,.6,-.7,.1,1.2,1,-.6,-.4,.5,1.4,-1.4,0,.8,-.1,-.3,-.1,.7,.2,-.5,-.8,1,-.1,.1,-.1,.5,-.1,.4,.5,0,.4,-.1,-.2,0,.4,-.3,0,.3,0,0,-.4,0,0,0,.2,-.1,-.2,0,-.1,-.2,-.1,0,0,-.1,0,0,0,-.1,0,0,-.1,-.1,-.1,-.1,0,0,0,0,0,0,0,0,0,0,0,0,-.1],secular_var_coeff_h:[0,0,-25.1,0,-30.2,-23.9,0,5.7,-1,1.1,0,.2,6.9,3.7,-5.6,0,.1,2.5,-.9,3,.5,0,.1,-1.8,-1.4,.9,.1,1,0,.5,.6,-.7,-.2,-1.2,.2,.3,0,-.3,.7,-.2,.5,-.3,-.5,.4,.1,0,-.3,.2,-.4,.4,.1,0,-.2,.5,.2,0,0,.1,-.3,.1,-.2,.1,0,-.1,.2,0,0,0,.1,0,.2,0,0,.1,0,-.1,0,0,0,0,0,-.1,.1,0,0,0,.1,0,0,0,-.1],n_max:12,n_max_sec_var:12,epoch:2020,name:"WMM-2020",start_date:"2019-12-10T08:00:00.000Z",end_date:"2024-12-10T08:00:00.000Z"}});var A=M((D0,c0)=>{c0.exports={main_field_coeff_g:[0,-29438.2,-1493.5,-2444.5,3014.7,1679,1351.8,-2351.6,1223.6,582.3,907.5,814.8,117.8,-335.6,69.7,-232.9,360.1,191.7,-141.3,-157.2,7.7,69.4,67.7,72.3,-129.1,-28.4,13.6,-70.3,81.7,-75.9,-7.1,52.2,15,9.1,-3,5.9,24.2,8.9,-16.9,-3.1,-20.7,13.3,11.6,-16.3,-2.1,5.5,8.8,3,-3.2,.6,-13.2,-.1,8.7,-9.1,-10.4,-2,-6.1,.2,.6,-.5,1.8,-.7,2.2,2.4,-1.8,-3.6,3,-1.4,-2.3,2.1,-.8,.6,-.7,.1,1.7,-.2,.4,3.5,-2,-.1,.5,1.2,-.9,.9,.1,.6,-.4,-.5,.2,-.9,0],main_field_coeff_h:[0,0,4796.3,0,-2842.4,-638.8,0,-113.7,246.5,-537.4,0,283.3,-188.6,180.7,-330,0,46.9,196.5,-119.9,16,100.6,0,-20.1,32.8,59.1,-67.1,8.1,61.9,0,-54.3,-19.5,6,24.5,3.5,-27.7,-2.9,0,10.1,-18.3,13.3,-14.5,16.2,6,-9.2,2.4,0,-21.8,10.7,11.8,-6.8,-6.9,7.9,1,-3.9,8.5,0,3.3,-.4,4.6,4.4,-7.9,-.6,-4.2,-2.9,-1.1,-8.8,0,0,2.1,-.6,-1.1,.7,-.2,-2.1,-1.5,-2.6,-2,-2.3,0,-1,.3,1.8,-2.2,.3,.7,-.1,.3,.2,-.9,-.2,.8],secular_var_coeff_g:[0,7,9,-11,-6.2,.3,2.4,-5.7,2,-11,-.8,-.9,-6.5,5.2,-4,-.3,.6,-.8,.1,1.2,1.4,-.8,-.5,-.1,1.6,-1.6,0,1.2,-.3,-.2,-.3,.9,.1,-.6,-.9,.7,-.1,.2,-.2,.5,-.1,.4,.4,-.1,.4,-.1,-.1,0,.4,-.4,0,.3,0,0,-.3,0,0,-.1,.2,-.1,-.2,0,-.1,-.2,-.1,0,0,0,0,0,0,-.1,0,0,0,-.1,0,-.1,0,0,0,0,-.1,0,0,0,0,0,0,0,-.1],secular_var_coeff_h:[0,0,-30.2,0,-29.6,-17.3,0,6.5,-.8,-2,0,-.4,5.8,3.8,-3.5,0,.2,2.3,0,3.3,-.6,0,.3,-1.5,-1.2,.4,.2,1.3,0,.6,.5,-.8,-.2,-1.1,.1,.2,0,-.4,.6,-.1,.6,-.2,-.5,.5,.1,0,-.3,.1,-.4,.3,.1,0,-.1,.5,.2,0,0,.1,-.2,.1,-.1,.1,0,-.1,.2,0,0,0,.1,0,.1,0,0,.1,0,-.1,0,-.1,0,0,0,-.1,.1,0,0,0,0,0,0,0,-.1],n_max:12,n_max_sec_var:12,epoch:2015,name:"WMM-2015v2",start_date:"2018-09-18T06:00:00.000Z",end_date:"2023-09-18T06:00:00.000Z"}});var J=M((T0,_0)=>{_0.exports={main_field_coeff_g:[0,-29438.5,-1501.1,-2445.3,3012.5,1676.6,1351.1,-2352.3,1225.6,581.9,907.2,813.7,120.3,-335,70.3,-232.6,360.1,192.4,-141,-157.4,4.3,69.5,67.4,72.8,-129.8,-29,13.2,-70.9,81.6,-76.1,-6.8,51.9,15,9.3,-2.8,6.7,24,8.6,-16.9,-3.2,-20.6,13.3,11.7,-16,-2,5.4,8.8,3.1,-3.1,.6,-13.3,-.1,8.7,-9.1,-10.5,-1.9,-6.5,.2,.6,-.6,1.7,-.7,2.1,2.3,-1.8,-3.6,3.1,-1.5,-2.3,2.1,-.9,.6,-.7,.2,1.7,-.2,.4,3.5,-2,-.3,.4,1.3,-.9,.9,.1,.5,-.4,-.4,.2,-.9,0],main_field_coeff_h:[0,0,4796.2,0,-2845.6,-642,0,-115.3,245,-538.3,0,283.4,-188.6,180.9,-329.5,0,47.4,196.9,-119.4,16.1,100.1,0,-20.7,33.2,58.8,-66.5,7.3,62.5,0,-54.1,-19.4,5.6,24.4,3.3,-27.5,-2.3,0,10.2,-18.1,13.2,-14.6,16.2,5.7,-9.1,2.2,0,-21.6,10.8,11.7,-6.8,-6.9,7.8,1,-3.9,8.5,0,3.3,-.3,4.6,4.4,-7.9,-.6,-4.1,-2.8,-1.1,-8.7,0,-.1,2.1,-.7,-1.1,.7,-.2,-2.1,-1.5,-2.5,-2,-2.3,0,-1,.5,1.8,-2.2,.3,.7,-.1,.3,.2,-.9,-.2,.7],secular_var_coeff_g:[0,10.7,17.9,-8.6,-3.3,2.4,3.1,-6.2,-.4,-10.4,-.4,.8,-9.2,4,-4.2,-.2,.1,-1.4,0,1.3,3.8,-.5,-.2,-.6,2.4,-1.1,.3,1.5,.2,-.2,-.4,1.3,.2,-.4,-.9,.3,0,.1,-.5,.5,-.2,.4,.2,-.4,.3,0,-.1,-.1,.4,-.5,-.2,.1,0,-.2,-.1,0,0,-.1,.3,-.1,-.1,-.1,0,-.2,-.1,-.2,0,0,-.1,.1,0,0,0,0,0,0,-.1,-.1,.1,0,0,.1,-.1,0,.1,0,0,0,0,0,0],secular_var_coeff_h:[0,0,-26.8,0,-27.1,-13.3,0,8.4,-.4,2.3,0,-.6,5.3,3,-5.3,0,.4,1.6,-1.1,3.3,.1,0,0,-2.2,-.7,.1,1,1.3,0,.7,.5,-.2,-.1,-.7,.1,.1,0,-.3,.3,.3,.6,-.1,-.2,.3,0,0,-.2,-.1,-.2,.1,.1,0,-.2,.4,.3,0,.1,-.1,0,0,-.2,.1,-.1,-.2,.1,-.1,0,0,.1,0,.1,0,0,.1,0,-.1,0,-.1,0,0,0,-.1,0,0,0,0,0,0,0,0,0],n_max:12,n_max_sec_var:12,epoch:2015,name:"WMM-2015",start_date:"2014-12-15T07:00:00.000Z",end_date:"2019-12-15T07:00:00.000Z"}});var v0=M((P0,K)=>{var f0=U(),l0=K.exports={},y=[{file:Y(),startDate:new Date("2024-11-13T03:00:00.000Z"),endDate:new Date("2029-11-13T03:00:00.000Z")},{file:j(),startDate:new Date("2019-12-10T08:00:00.000Z"),endDate:new Date("2024-12-10T08:00:00.000Z")},{file:A(),startDate:new Date("2018-09-18T06:00:00.000Z"),endDate:new Date("2023-09-18T06:00:00.000Z")},{file:J(),startDate:new Date("2014-12-15T07:00:00.000Z"),endDate:new Date("2019-12-15T07:00:00.000Z")}];l0.model=function(t,h={}){t=t||new Date;let a=t.getTime(),i=h&&h.allowOutOfBoundsModel||!1,e=y.find(r=>a>=r.startDate.getTime()&&a<=r.endDate.getTime());return!e&&a<y[y.length-1].startDate.getTime()?e=y[y.length-1]:!e&&a>y[0].endDate.getTime()&&(e=y[0]),e||(e=y[0]),new f0(e.file).getTimedModel(t,i)}});return v0();})();
@@ -1705,262 +1423,287 @@ var NH = (function (KY, BZ) {
   NH.KITCHEN_OK = ['正北', '正西', '東北', '無人帶'];
 })(NH);
 
+var DOCTEXT="\n      <h3>曆象底層</h3>\n      <p>儒略日、ΔT、章動、太陽與月亮視黃經、均時差、解角器、定朔平朔、定氣平氣、農曆——逐字移植自「占星四系同參」引擎之 XY／XYD 兩模組，未改一字。該引擎之外證（一九九九年商用星盤全項對照、Meeus 例 33.a 金星差萬分之一度）於此同時成立。</p>\n\n      <h3>立春換年</h3>\n      <p>原引擎之年干支以西曆年推，未計立春前後之別，其自註在案。堪輿不可如此——三元九運、年紫白、八宅命卦皆以立春為界。本層改以立春分年，原引擎不動，符「只加不改」之例。</p>\n\n      <h3>節氣精度</h3>\n      <p>太陽視黃經採低階級數，節氣時刻誤差約在十分鐘內。實測二〇二五年冬至、二〇二五與二〇二六年立春皆與曆書相合至數分鐘。凡事時落在節氣前後十分鐘者，年柱或月柱可能翻邊，羅經頁已出警示，須另以高精度曆書複核。此為精度未達標而不擋工，同七政四餘土星之例。</p>\n\n      <h3>日干支錨</h3>\n      <p>以一九四九年十月一日為甲子日，沿用既有引擎之錨，未另立新說。</p>\n\n      <h3>三針進退</h3>\n      <p>正針（地盤）以磁北為準，中針（人盤）逆七度半，縫針（天盤）順七度半。此為通行說，各家記述互異，故寫為參數而不寫死，日後可並列異說。要緊處：三針之差為半山（七度半），而台灣磁偏角約四度——<b>派別之擇先於偏角之校</b>。</p>\n\n      <h3>室內配屬層（倪海厦一系）</h3>\n      <p>此層與八宅、玄空<b>判準根本不同</b>：八宅依坐山推宅卦，同一方位隨坐山而異吉凶；倪氏依後天八卦之絕對方位定人倫，西北恆為乾恆為父，不隨坐山改變。二者必生牴牾，本引擎並列而不合一。</p>\n      <p><b>可算之核心</b>：八宮只取天元龍八山——子（正北）、艮（東北）、卯（正東）、巽（東南）、午（正南）、坤（西南）、酉（正西）、乾（西北），各佔十五度；其餘十六山為<b>無人帶</b>。廚廁宜置於無人帶而不占人宮，此為該系統之樞紐，亦是其可計算之處。</p>\n      <p>人倫配屬：乾西北為父（夫妻主臥）、坤西南為母、震正東為長子（東宮太子）、巽東南為長女、坎正北為中男、離正南為中女、兌正西為少女、艮東北為少男。南半球南北互換，主臥改西南。</p>\n      <p><b>八煞黃泉</b>：坎不立辰、坤不立卯、震不立申、巽不立酉、乾不立午、兌不立巳、艮不立寅、離不立亥。<b>三吉六秀</b>：六秀為丙丁辛艮巽兌，三吉為巽艮兌。</p>\n      <p><b>來源自身之矛盾一處</b>：同一份資料既云「廚房在北方死兒子」，又云「廚房最好在正北或正西」。以無人帶之說解之則通——正北之人宮為子山十五度，其左右壬癸二山屬無人帶，廚房當在壬癸而非子。此為本引擎之理解，非原文明言，記此存疑。</p>\n      <p><b>兩來源實為同一份資料之鏡像，不構成互證。</b>所提供之二網站文字幾乎逐句相同，含同一處內部矛盾（廚房宜正北與廚房在北方傷子並存）。故本層之依據為單一來源，非二重外證，與本引擎他層之標準不同，特此標明。</p>\n      <p><b>未實作者</b>：該系統另有以床位方位選擇生育性別、以及宣稱可「糾正」性傾向之說。此類主張本引擎不予實作，亦不列入判讀——非因門派之見，而是不宜以計算之名為此類斷言背書。峦頭、陵線、樓層、缺角諸說屬形勢判斷，不可算，同不實作。</p>\n\n      <h3>用途兩模式</h3>\n      <p>協紀年表本以「開山立向修方吉／開山立向修方凶／開山凶／立向凶／修方凶」五類編排，分類非本引擎所立。逐年抽取各類所轄之神煞，六十年取多數為準，得二十五、五、五、二、十九共五十六項。造葬取開山與立向所忌，興修取修方與立向所忌，兩者共取通類。</p>\n\n      <h3>小遊年</h3>\n      <p>卷二明列大小遊年之對應——「貪狼與小遊同亦曰生氣；廉貞即小遊之巨門亦曰五鬼；武曲即小遊之絕體又曰延年；文曲與小遊同又曰六煞；祿存即小遊之五鬼又曰禍害；巨門即小遊之福德亦曰天醫；破軍輔弼與小遊同」。故小遊年由大遊年逐位換算而得，不另立翻卦次第，亦不臆補。八宮自驗：各得八名無重，本宮恆在本位。</p>\n      <p><b>吉凶兩家並列。</b>卷二云地理家從龍上起，以貪狼巨門武曲廉貞為吉、祿存文曲破軍輔弼為凶；選擇家從向上起，以貪狼巨門武曲文曲為吉、祿存廉貞破軍輔弼為凶。二家於廉貞與文曲二星正相反，每宮恰有二位吉凶互異。本引擎預設地理家（造葬所用），並將相異之位標出。</p>\n\n      <h3>五行三系</h3>\n      <p>正五行、雙山五行（即三合五行）、洪範五行三者，逐字取自卷二，二十四山三系全備。洪範原文以卦名稱四正——坎即子、離即午、震即卯、兌即酉。卷二並云「正五行乃五行之質，雙山五行乃五行之氣，故推龍氣之生旺用雙山而不用正五行」。</p>\n      <p><b>年剋山家未能改算。</b>非單純以年之納音剋山之洪範五行——甲子年表列水山與土山兩組，而戊子、辛卯二年更作「二十四並無剋，冬至後剋乾亥兌丁」，另有冬至之限。規則較預期複雜，維持查表。</p>\n\n      <h3>消砂納水與分金未作（底本所限）</h3>\n      <p>卷三十三僅述羅經層數之屬——「六層穿山七十二龍正針分金也……九層六十龍皆屬中針所以格龍者也，十層縫針二十四山，十一層六十龍，十二層一百二十分金，皆屬縫針所以消砂納水者也」——言其何針所屬而未出其法。消砂納水之實際規則（生旺墓輔星水法之屬）與六十龍、七十二龍、一百二十分金之表，協紀俱不載，須另據三合家專書。此非算法所限，係底本所缺。</p>\n\n      <h3>玄空飛星（下卦）</h3>\n      <p>運盤以運數入中順飛；山盤取坐山所在宮之運星入中，向盤取向所在宮之運星入中，順逆各依「該運星所指之宮中，與坐山同元龍之山」之陰陽——陽順陰逆。</p>\n      <p>所需之三事皆有據：一卦筦三山與二十四山之立，見《協紀》卷二〈本原二〉；九宮飛佈之序，即本引擎飛佈層所用之中乾兌艮離坎坤震巽；三元龍與陰陽之分（地元甲庚丙壬陽、辰戌丑未陰；天元乾坤艮巽陽、子午卯酉陰；人元寅申巳亥陽、乙辛丁癸陰）為玄空一家之制。</p>\n      <p><b>結構自驗</b>：九運二十四山合二百一十六局，運山向三盤各皆九星無重無漏；格局分布為旺山旺向四十八、上山下水四十八、雙星到向六十、雙星到坐六十——旺山旺向與上山下水數同，雙星到向與到坐數同，全盤對稱。另八運子山午向算得雙星到向，與通行盤例相合。</p>\n      <h3>替卦（起星）</h3>\n      <p>二十四山每山十五度，中九度用下卦，兩旁各三度為兼向、用替卦。本引擎依坐向偏中心之度數自動判別。</p>\n      <p>替星訣依沈竹礽據姜垚資料所整理者：子癸並甲申，貪狼一路行；壬卯乙未坤，五位為巨門；乾亥辰巽巳，連戌武曲名；酉辛丑艮丙，天星說破軍；寅午庚丁上，右弼四星臨。用法為——運盤既定，取坐山（向首）所在宮之運星，於該星所指之宮中尋與本山同元龍之山，查其替星，以替星入中飛佈；順逆仍依原下卦所得元龍之陰陽，不從替星。</p>\n      <p><b>驗證</b>：八運壬山丙向兼亥巳，本引擎得山盤六入中逆飛、向盤一入中順飛，與坊間所傳之算例相同。</p>\n      <p><b>沈氏訣與中州訣其表實同。</b>中州派謂「替星只用十三星」，另有十一山無替。本引擎逐山比對沈氏替星與該山本宮之數，相異者恰為十三山——丑、艮、寅、甲、卯、乙、辰、巽、巳、丙、申、庚、壬——與中州所列全同。是知所謂「無替可尋」者，即沈氏替星與本宮數相同而替之無異；二說之表並無差別。<b>真正之分歧在起替之條件而不在表</b>：沈氏逾中九度即用替；中州則謂同宮同陰陽不替、陰陽互兼始替、出卦必替。本引擎採沈氏之條件，中州之條件並記於此。</p>\n\n      <h3>五入中（前版待考，今已解）</h3>\n      <p>山盤或向盤之入中星為五時，五無定位、中宮無山可稽，順逆之定坊間有二說：其一從本山之陰陽，其二從運數所在之宮中同元龍之山。前版標為待考。</p>\n      <p><b>今逐局比對，二說於二百一十六局中無一局相異。</b>其故可證：運盤以運數 n 入中順飛，某宮得五者，其宮位恆與 n 所在之宮同屬四正或同屬四維——n 為一得離、二得艮、三得兌、四得乾、六得巽、七得震、八得坤、九得坎，而一坎二坤三震四巽六乾七兌八艮九離，兩兩相配，四正對四正、四維對四維。四正之天元為子午卯酉皆陰、四維之天元為乾坤艮巽皆陽，地元人元同理，故陰陽必同。二說遂殊途同歸，非擇一不可。</p>\n      <p>又五運之時，得五者惟中宮，而坐向必不在中宮，故五運反無此問題。</p>\n      <p>另加二標記：山或向盤五入中順飛者，全盤與元旦盤字字相同，是為<b>伏吟</b>；山或向盤與元旦盤字字合十者，標<b>合十</b>。</p>\n      <p>元運預設從事時之三元九運，亦可另選——玄空論宅以建成入住之運為主，非以問事之年。</p>\n\n      <h3>磁偏角</h3>\n      <p>現為手動輸入。地磁模型（WMM）係數尚未接入；接入後可由經緯度與年份自動求得。npm 之 geomagnetism 套件附係數與解析器，惟僅至 WMM-2020，已逾效期，須另覓現行係數檔。</p>\n\n      <h3>底本：欽定協紀辨方書</h3>\n      <p>四庫全書本，維基文庫錄文，三十六卷全，人工錄文非 OCR，繁體正確、句讀完整，約二十七萬九千字。中國哲學書電子化計劃之同書為未校 OCR（卷二十已成亂碼），不取。</p>\n      <p><b>年表六卷完整，且為空間層。</b>卷十四至十九逐年列神煞，其綱目即：</p>\n      <p class=\"q\">開山立向修方吉／開山立向修方凶／開山凶／立向凶／修方凶</p>\n      <p>「開山、立向、修方」即二十四山方位。年表之下有歲德、歲祿、歲馬、奏書、博士、<b>三元紫白</b>、蓋山黃道、通天竅、走馬六壬、四利三元、太歲、歲破、三煞、坐煞向煞、浮天空亡、年剋山家、陰府太歲、巡山羅睺、天官符、地官符、大將軍、力士、蠶室、歲刑、黃幡等。是知三元紫白非玄空所獨有，官修擇日書本有之。六十年全備，可為六十筆驗證語料。</p>\n      <p><b>月表十二卷僅存骨架。</b>每卷約千一百字，止有月建月破月厭、天德月德月空、長星短星、四絕往亡、月將，及六十干支之納音與建除十二直。逐日宜忌全缺——原文自云「其神煞吉凶用事宜忌具於表」，而表未錄。卷九〈立成〉同樣僅存十六條篇目，表身全缺。二者皆為立成表，可由卷三至卷八〈義例〉之規則實算，故不擋工，惟月表之驗證語料就此失去。</p>\n\n      <h3>校記：月表干支序列</h3>\n      <p>六十干支可自驗。十二卷應七百二十條，實得七百零六條。</p>\n      <table class=\"k\">\n        <tr><th>類別</th><th>內容</th></tr>\n        <tr><td>訛字一處</td><td>卷二十第十八位作「辛<b>己</b>」，當作「辛巳」（己巳形近）</td></tr>\n        <tr><td>缺條十四</td><td>卷二三、三一缺戊子己丑；卷二四缺戊子；卷二五缺乙亥；卷二七、二八缺庚戌辛亥；卷二九缺甲午乙未庚戌辛亥</td></tr>\n      </table>\n      <p>錄文混用異體字，比對前須正字化：嵗歲、隂陰、徳德、専專、収收、劔劍、夘卯、恊協、寳寶、栁柳、栢柏、鑪爐。</p>\n\n      <h3>年神方位層</h3>\n      <p>表出卷十四至十九年表，逐年五十四項，分「開山立向修方吉／凶、開山凶、立向凶、修方凶」四類。本引擎不查原表而以年干或年支為鍵重建查表，其鍵由六十年語料反推而得，非臆定。</p>\n      <p>錄文有三類問題，皆已處理：</p>\n      <p class=\"q\">一、太歲標題訛字三處——巳卯、巳丑、巳亥當作己卯、己丑、己亥。原文自帶「幹土」二字可證，故據以自動改正。<br>\n      二、〈〉分隔錯位十四年——丁卯、癸酉、甲戌、丙子、戊寅、辛巳、壬午、甲申、己丑、丁酉、癸卯、丙午、甲寅、己未。成因為「年剋山家」之山字被劃出括號，其後神煞名值遂整段錯開一位。已依名次重新配對，並以卷三、卷八之義例規則反證：修復後死符、病符、弔客、白虎、大將軍、力士、蠶室、大煞、巡山羅睺九項各合六十分之六十，修復成立。<br>\n      三、形近訛字——歲德癸未作「戌」當作「戊」，龍德丁卯作「戊」當作「戌」，三煞甲辰作「己午未」當作「巳午未」，六害壬寅作「已」當作「巳」。己巳、戊戌兩組形近，同皇極經世所見之族。</p>\n      <p>錯位之修復經二輪。首輪名次表漏列喪門，致飛廉、喪門二項未能歸位；補正名次後二項各歸六十分之六十。第二輪並處理段末——金神長度可變，故前段自陰府太歲順取、末段自破敗五鬼逆取，中間餘量歸金神。</p>\n      <p>五十五項中三十項純度百分之百。其餘以各鍵多數決取值，並分兩級標示：</p>\n      <p class=\"q\">「校」——武曲、文曲、五鬼三項，最弱之鍵仍有五分之三支持，多數決穩固，值可用而標示存疑。<br>\n      「疑」——破敗五鬼、獨火、金神三項，最弱之鍵僅三分之六或五分之二，無穩固多數，僅供參考不足為據。</p>\n      <p>段末三項難以完全復原，係因錯位之末字被推出區塊之外——原文於該十四年之段末可見一枚孤立之〈開山凶〉，即被誤劃入括號之標題，其應有之值已佚。此非算法可補，須另據書影。</p>\n      <p>另丙午、甲寅二年之歲刑、黃幡、豹尾一行仍有次級錯位，未修。</p>\n\n      <h3>卷二所載之理氣</h3>\n      <p>初判「協紀為擇日書、堪輿須另覓底本」，經全文檢索為誤。玄空、挨星、飛星三詞全書零見，惟其餘理氣要件卷二〈本原二〉俱在：</p>\n      <p class=\"q\">二十四山之立（四維八干十二支，一卦筦三山）、正五行、雙山五行（即三合五行）、洪範五行、大遊年變卦與小遊年變卦。</p>\n      <p><b>三針之定義得原典。</b>卷二云：正針乃二十四山之正位，定向用之；中針其子位在正針壬子二位之中，格龍用之；縫針其子位在子癸二位之縫，消砂納水用之。本引擎前版所採之進退方向與此相合，惟前版稱之為「通行說」，今可改稱有據。更要者，三針各有其用而非任選——定向用正針、格龍用中針、消砂納水用縫針。</p>\n      <p><b>八宅之法亦全。</b>大遊年翻卦：上一爻變為生氣貪狼、下二爻變為天醫巨門、三爻俱變為延年武曲、三爻俱不變為伏位輔弼；乾兌老陽、艮坤老陰為西四宅，離震少陰、巽坎少陽為東四宅。是八宅可逕依協紀而作，不待《陽宅三要》。</p>\n      <p><b>年剋山家亦可算。</b>年表所列之長串山名，即洪範五行之某一行——卷二載甲寅辰巽戌坎辛申八山屬水、離壬丙乙四山屬火、震艮巳三山屬木、乾亥兌丁四山屬金、丑癸坤庚未五山屬土。</p>\n      <p>另卷三十三、三十四〈利用〉二卷為施用之篇，坐山、消砂納水、分金、紫白入中宮皆在其中；卷八之入中宮順飛逆飛凡四十餘見，九宮飛佈之機括完備。所缺者惟玄空挨星一系，本晚出而在官修之外。</p>\n\n      <h3>室內配屬層（倪海厦一系）</h3>\n      <p>此層與八宅、玄空<b>判準根本不同</b>：八宅依坐山推宅卦，同一方位隨坐山而異吉凶；倪氏依後天八卦之絕對方位定人倫，西北恆為乾恆為父，不隨坐山改變。二者必生牴牾，本引擎並列而不合一。</p>\n      <p><b>可算之核心</b>：八宮只取天元龍八山——子（正北）、艮（東北）、卯（正東）、巽（東南）、午（正南）、坤（西南）、酉（正西）、乾（西北），各佔十五度；其餘十六山為<b>無人帶</b>。廚廁宜置於無人帶而不占人宮，此為該系統之樞紐，亦是其可計算之處。</p>\n      <p>人倫配屬：乾西北為父（夫妻主臥）、坤西南為母、震正東為長子（東宮太子）、巽東南為長女、坎正北為中男、離正南為中女、兌正西為少女、艮東北為少男。南半球南北互換，主臥改西南。</p>\n      <p><b>八煞黃泉</b>：坎不立辰、坤不立卯、震不立申、巽不立酉、乾不立午、兌不立巳、艮不立寅、離不立亥。<b>三吉六秀</b>：六秀為丙丁辛艮巽兌，三吉為巽艮兌。</p>\n      <p><b>來源自身之矛盾一處</b>：同一份資料既云「廚房在北方死兒子」，又云「廚房最好在正北或正西」。以無人帶之說解之則通——正北之人宮為子山十五度，其左右壬癸二山屬無人帶，廚房當在壬癸而非子。此為本引擎之理解，非原文明言，記此存疑。</p>\n      <p><b>兩來源實為同一份資料之鏡像，不構成互證。</b>所提供之二網站文字幾乎逐句相同，含同一處內部矛盾（廚房宜正北與廚房在北方傷子並存）。故本層之依據為單一來源，非二重外證，與本引擎他層之標準不同，特此標明。</p>\n      <p><b>未實作者</b>：該系統另有以床位方位選擇生育性別、以及宣稱可「糾正」性傾向之說。此類主張本引擎不予實作，亦不列入判讀——非因門派之見，而是不宜以計算之名為此類斷言背書。峦頭、陵線、樓層、缺角諸說屬形勢判斷，不可算，同不實作。</p>\n\n      <h3>用途兩模式</h3>\n      <p>協紀年表本以「開山立向修方吉／開山立向修方凶／開山凶／立向凶／修方凶」五類編排，分類非本引擎所立。逐年抽取各類所轄之神煞，六十年取多數為準，得二十五、五、五、二、十九共五十六項。造葬取開山與立向所忌，興修取修方與立向所忌，兩者共取通類。</p>\n\n      <h3>小遊年</h3>\n      <p>卷二明列大小遊年之對應——「貪狼與小遊同亦曰生氣；廉貞即小遊之巨門亦曰五鬼；武曲即小遊之絕體又曰延年；文曲與小遊同又曰六煞；祿存即小遊之五鬼又曰禍害；巨門即小遊之福德亦曰天醫；破軍輔弼與小遊同」。故小遊年由大遊年逐位換算而得，不另立翻卦次第，亦不臆補。八宮自驗：各得八名無重，本宮恆在本位。</p>\n      <p><b>吉凶兩家並列。</b>卷二云地理家從龍上起，以貪狼巨門武曲廉貞為吉、祿存文曲破軍輔弼為凶；選擇家從向上起，以貪狼巨門武曲文曲為吉、祿存廉貞破軍輔弼為凶。二家於廉貞與文曲二星正相反，每宮恰有二位吉凶互異。本引擎預設地理家（造葬所用），並將相異之位標出。</p>\n\n      <h3>五行三系</h3>\n      <p>正五行、雙山五行（即三合五行）、洪範五行三者，逐字取自卷二，二十四山三系全備。洪範原文以卦名稱四正——坎即子、離即午、震即卯、兌即酉。卷二並云「正五行乃五行之質，雙山五行乃五行之氣，故推龍氣之生旺用雙山而不用正五行」。</p>\n      <p><b>年剋山家未能改算。</b>非單純以年之納音剋山之洪範五行——甲子年表列水山與土山兩組，而戊子、辛卯二年更作「二十四並無剋，冬至後剋乾亥兌丁」，另有冬至之限。規則較預期複雜，維持查表。</p>\n\n      <h3>消砂納水與分金未作（底本所限）</h3>\n      <p>卷三十三僅述羅經層數之屬——「六層穿山七十二龍正針分金也……九層六十龍皆屬中針所以格龍者也，十層縫針二十四山，十一層六十龍，十二層一百二十分金，皆屬縫針所以消砂納水者也」——言其何針所屬而未出其法。消砂納水之實際規則（生旺墓輔星水法之屬）與六十龍、七十二龍、一百二十分金之表，協紀俱不載，須另據三合家專書。此非算法所限，係底本所缺。</p>\n\n      <h3>玄空飛星（下卦）</h3>\n      <p>運盤以運數入中順飛；山盤取坐山所在宮之運星入中，向盤取向所在宮之運星入中，順逆各依「該運星所指之宮中，與坐山同元龍之山」之陰陽——陽順陰逆。</p>\n      <p>所需之三事皆有據：一卦筦三山與二十四山之立，見《協紀》卷二〈本原二〉；九宮飛佈之序，即本引擎飛佈層所用之中乾兌艮離坎坤震巽；三元龍與陰陽之分（地元甲庚丙壬陽、辰戌丑未陰；天元乾坤艮巽陽、子午卯酉陰；人元寅申巳亥陽、乙辛丁癸陰）為玄空一家之制。</p>\n      <p><b>結構自驗</b>：九運二十四山合二百一十六局，運山向三盤各皆九星無重無漏；格局分布為旺山旺向四十八、上山下水四十八、雙星到向六十、雙星到坐六十——旺山旺向與上山下水數同，雙星到向與到坐數同，全盤對稱。另八運子山午向算得雙星到向，與通行盤例相合。</p>\n      <h3>替卦（起星）</h3>\n      <p>二十四山每山十五度，中九度用下卦，兩旁各三度為兼向、用替卦。本引擎依坐向偏中心之度數自動判別。</p>\n      <p>替星訣依沈竹礽據姜垚資料所整理者：子癸並甲申，貪狼一路行；壬卯乙未坤，五位為巨門；乾亥辰巽巳，連戌武曲名；酉辛丑艮丙，天星說破軍；寅午庚丁上，右弼四星臨。用法為——運盤既定，取坐山（向首）所在宮之運星，於該星所指之宮中尋與本山同元龍之山，查其替星，以替星入中飛佈；順逆仍依原下卦所得元龍之陰陽，不從替星。</p>\n      <p><b>驗證</b>：八運壬山丙向兼亥巳，本引擎得山盤六入中逆飛、向盤一入中順飛，與坊間所傳之算例相同。</p>\n      <p><b>沈氏訣與中州訣其表實同。</b>中州派謂「替星只用十三星」，另有十一山無替。本引擎逐山比對沈氏替星與該山本宮之數，相異者恰為十三山——丑、艮、寅、甲、卯、乙、辰、巽、巳、丙、申、庚、壬——與中州所列全同。是知所謂「無替可尋」者，即沈氏替星與本宮數相同而替之無異；二說之表並無差別。<b>真正之分歧在起替之條件而不在表</b>：沈氏逾中九度即用替；中州則謂同宮同陰陽不替、陰陽互兼始替、出卦必替。本引擎採沈氏之條件，中州之條件並記於此。</p>\n\n      <h3>五入中（前版待考，今已解）</h3>\n      <p>山盤或向盤之入中星為五時，五無定位、中宮無山可稽，順逆之定坊間有二說：其一從本山之陰陽，其二從運數所在之宮中同元龍之山。前版標為待考。</p>\n      <p><b>今逐局比對，二說於二百一十六局中無一局相異。</b>其故可證：運盤以運數 n 入中順飛，某宮得五者，其宮位恆與 n 所在之宮同屬四正或同屬四維——n 為一得離、二得艮、三得兌、四得乾、六得巽、七得震、八得坤、九得坎，而一坎二坤三震四巽六乾七兌八艮九離，兩兩相配，四正對四正、四維對四維。四正之天元為子午卯酉皆陰、四維之天元為乾坤艮巽皆陽，地元人元同理，故陰陽必同。二說遂殊途同歸，非擇一不可。</p>\n      <p>又五運之時，得五者惟中宮，而坐向必不在中宮，故五運反無此問題。</p>\n      <p>另加二標記：山或向盤五入中順飛者，全盤與元旦盤字字相同，是為<b>伏吟</b>；山或向盤與元旦盤字字合十者，標<b>合十</b>。</p>\n      <p>元運預設從事時之三元九運，亦可另選——玄空論宅以建成入住之運為主，非以問事之年。</p>\n\n      <h3>磁偏角</h3>\n      <p>採世界地磁模型 WMM2025（曆元二〇二五·〇），係數取自 NOAA 與英國地質調查所發布之 WMM2025.COF，經其官方測值一百筆比對，磁偏角中位偏差〇·〇〇二三度、最大〇·〇〇五度。</p>\n      <p><b>真方位為主軌，磁方位為第二軌。</b>模型有效區間二〇二五至二〇三〇，區間外一律不外推——古盤請自行填入磁偏角或逕用真方位。此非保守，係因地磁逐年而變，以二〇二五之偏角套一二〇〇年之盤，錯得無聲無息。若日後須及於古代，一五九〇至一九九〇有 gufm1、更早有考古地磁模型，屬另案。</p>\n\n      <h3>年神改算不查表</h3>\n      <p>五項神煞原以年表多數決取值，今得起例，改算不查表，並以六十年語料反驗：</p>\n      <p class=\"q\">天官符＝三合五行之臨官（申子辰水臨官在亥之類），五十九合，不合之一為戊戌年表作「己」當作「巳」——己巳訛字第八例。<br>\n      地官符＝歲前四辰，六十合。<br>\n      大煞＝三合五行之帝旺，六十合。此即「打頭火」，協紀以其名不雅馴而改稱飛大煞。<br>\n      五鬼＝子年起辰逆行，四十六合。<br>\n      破敗五鬼＝年干納卦之衝（乾納甲壬、坤納乙癸、艮納丙、兌納丁、坎納戊、離納己、震納庚、巽納辛；乾巽相衝、坤艮相衝、坎離相衝、震兌相衝），四十六合。</p>\n      <p><b>後二者不合之十四筆，正是前所判之分隔錯位十四年。</b>換言之，改算不但補回了段末佚失之值，還反過來再證那十四年確係錄文之誤而非別本之異。此二項遂由「多數決存疑」升為「有例可算」，介面之「校」「疑」標記隨之撤除。</p>\n      <p>金神與獨火二項仍無起例可據——通書所載者為制煞之法而非起例——故維持多數決並存疑標記。</p>\n\n      <h3>月神層</h3>\n      <p>依卷四至卷六義例，逐項以算式出之而不查表，再以卷二十至三十一之月表逐月反驗——十二月十四項並建除共一百七十二筆，一百七十合。</p>\n      <p class=\"q\">月建自寅順行、月破為其沖、月厭自戌逆行、月將自亥逆行；月刑依三刑、月害依六害；劫煞為三合局之絕位，災煞月煞順次二位；月德取三合五行之陽干（火局丙、木局甲、水局壬、金局庚），月德合為其干合、月空為其干沖；天德十二位依卷五，在維卦者無合。建除十二直以月建之支為建日，日支順行。</p>\n      <p><b>不合之二筆皆訛字，且為同一族。</b>四月月建表作「己」當作「巳」，六月天德合表作「巳」當作「己」，適成互倒。連同前所見之年表四處、月表干支序列一處，己巳、戊戌兩組形近訛字全書已得七例。此再證以算式反驗錄文之法可行——算式不是為了省事，是為了讓錄文的錯自己浮出來。</p>\n\n      <h3>九宮飛佈層</h3>\n      <p>依卷八。順飛之宮序為中、乾、兌、艮、離、坎、坤、震、巽，即五六七八九一二三四。所實作者五項，各以原文之算例反驗，逐例相符：</p>\n      <p class=\"q\">三元年九星——上元甲子一白，逐年逆行。<b>此項另以年表之「三元紫白」行全面對照：六十年三元四星共七百零五筆，全合。</b>年紫白之曆元、逆行、飛佈序三者同時得證。<br>\n      三元月九星——子午卯酉年正月八白、辰戌丑未年正月五黃、寅申巳亥年正月二黑，逐月逆轉。此為卷八依《元經》改正之例，並明斥《選擇宗鏡》誤用天干起例，謂其「惟甲子至癸酉十年與元經合」。<br>\n      小月建——陽年正月起中五、陰年正月起離九，順飛。原文算例：陽年正二三月中五、乾六、兌七；陰年離九、坎一、坤二。<br>\n      月遊火——太歲前一辰所屬之宮為正月位，逐月順飛，不以月建入中。原文算例：子丑年正月艮八、二月離九、三月坎一；寅年正月震三、二月巽四、三月中五。<br>\n      丙丁獨火——月建干支入中宮，順數天干，丙丁所到之宮。原文算例：丙寅月丙在中五、丁在乾六；丁卯月丙又在中五。<br>\n      飛天祿、飛天馬、飛宮貴人——先以五虎遁取本年真祿馬貴之干支，次以月建干支入中宮順飛。原文算例：丁卯月入中則丙寅在坎一；己卯月入中則丁亥在巽四；庚辰月入中則己卯在坎一、丁亥在震三。此採《選擇宗鏡》兼取本遁天干之法，即協紀所定；通書止取地支一字，兩法並存而協紀取前者。</p>\n      <p><b>前版未作之四項今已補齊</b>：</p>\n      <p class=\"q\">飛天官符、飛地官符、飛大煞——以月建之支入中宮順飛九宮，年神所占之支落於何宮，該宮三山即為本月之位。卷八算例：子年天官符在亥，正月寅建入中順數，復至中宮遇亥，故正月在中宮；三月辰建入中順數，至震三遇亥，故三月在甲震乙。二例皆合。<br>\n      大月建——子午卯酉年正月起艮八、辰戌丑未年正月起中五、寅申巳亥年正月起坤二，逐月逆轉。其數與月九星入中之星相同，蓋協紀自云「月建即三元月九星入中宮之一星」。協紀依《元經》改正此例，並斥《選擇宗鏡》之甲丁庚癸天干起例為誤，謂「惟甲子至癸酉十年與元經合」。本引擎從協紀之改正。</p>\n\n      <h3>八宅層</h3>\n      <p>依卷二大遊年變卦。以爻位取值——上爻四、中爻二、初爻一——則本宮與他宮之異或即變爻之數，一數對一名：不變者伏位、變上爻者生氣、變下二爻者天醫、三爻俱變者延年，此四者卷二明文；其餘四者由乾宮翻卦次第定之（乾上爻變兌貪狼、兌中爻變震五鬼、震下爻變坤武曲、坤中爻變坎文曲、坎上爻變巽祿存、巽中爻變艮巨門、艮下爻變離破軍、離中爻變復乾輔弼），得變上中二爻者五鬼、變上初二爻者六煞、變初爻者禍害、變中爻者絕命。</p>\n      <p>此法自帶一重驗證：卷二又云「二老相配為西四宅，二少相配為東四宅，東西各自相配為吉，交錯相配為凶」。以爻變所得之八名逐宮比對東西四宅之分組，八宮六十四配全合，無一例外——兩條規則各自獨立而結論相同。</p>\n      <p>宅卦由坐山定，一卦筦三山（戌乾亥屬乾、壬子癸屬坎、丑艮寅屬艮、甲卯乙屬震、辰巽巳屬巽、丙午丁屬離、未坤申屬坤、庚酉辛屬兌），亦卷二明文。</p>\n      <p><b>不做命卦。</b>三元年命卦之推法不見於協紀。卷二論小遊年時僅云「後世借以為男女生命合婚之用」，並未出其例。故本引擎只出宅卦一層，命卦待別有底本時再議。</p>\n      <p><b>小遊年未做。</b>卷二另載小遊年變卦，與大遊年名同而實異，且其吉凶兩家不一——「地理家從龍上起，以貪狼巨門武曲廉貞為吉，祿存文曲破軍輔弼為凶；選擇家從向上起，以貪狼巨門武曲文曲為吉，祿存廉貞破軍輔弼為凶」。兩家於廉貞、文曲二星正相反。此為並列不強合之候選，俟翻卦次第取足再作。</p>\n\n      <h3>三元之曆元</h3>\n      <p>卷八〈義例六〉明書「康熙二十三年甲子為上元」。康熙二十三年即一六八四年，適為甲子。一六八四加一百八十得一八六四，本引擎三元九運之曆元與此同相位，是為外證。同卷並列三元太歲所在之九星表（上元甲子一白、中元甲子四綠、下元甲子七赤，逐年逆行九星），可知三元紫白非玄空所獨有，官修擇日書本有之。</p>\n\n      <h3>尚未實作</h3>\n      <p>理氣盤式（玄空飛星、三合、八宅）、神煞層（協紀義例六卷）、巒頭圖鑑。玄空之算法層尚無乾淨電子文本——經文（青囊經、天玉經）雖可得而為隱語，推不出飛星法；《沈氏玄空學》須排印本。</p>\n\n      ";
 </script>
 <script>
 (function(){
-  var $=function(i){return document.getElementById(i)};
-  var SHAN=KY.SHAN, RINGS=[{n:'縫針',r:150,fs:12},{n:'正針',r:120,fs:13},{n:'中針',r:90,fs:12}];
+var $=function(i){return document.getElementById(i)};
+var SHAN=KY.SHAN, sel=null, last=null;
 
-  Array.prototype.forEach.call(document.querySelectorAll('nav button'),function(b){
-    b.addEventListener('click',function(){
-      Array.prototype.forEach.call(document.querySelectorAll('nav button'),function(x){x.setAttribute('aria-selected',x===b)});
-      Array.prototype.forEach.call(document.querySelectorAll('.page'),function(p){p.classList.toggle('on',p.id===b.dataset.p)});
-      window.scrollTo(0,0);
-    });
+Array.prototype.forEach.call(document.querySelectorAll('nav button'),function(b){
+  b.addEventListener('click',function(){
+    Array.prototype.forEach.call(document.querySelectorAll('nav button'),function(x){x.setAttribute('aria-selected',x===b)});
+    Array.prototype.forEach.call(document.querySelectorAll('.page'),function(p){p.classList.toggle('on',p.id===b.dataset.p)});
+    window.scrollTo(0,0);
   });
+});
 
-  function drawDial(bearing){
-    var s='',cx=160,cy=160;
-    s+='<circle cx="160" cy="160" r="157" fill="#1E1A15" stroke="#3A322A"/>';
-    RINGS.forEach(function(R){
-      var off=KY.NEEDLE[R.n];
-      s+='<circle cx="160" cy="160" r="'+R.r+'" fill="none" stroke="#3A322A"/>';
-      for(var i=0;i<24;i++){
-        var ang=i*15-off, rad=(ang-90)*Math.PI/180;
-        var tx=cx+(R.r-13)*Math.cos(rad), ty=cy+(R.r-13)*Math.sin(rad);
-        var bd=(ang-7.5-90)*Math.PI/180;
-        s+='<line x1="'+(cx+(R.r-26)*Math.cos(bd)).toFixed(1)+'" y1="'+(cy+(R.r-26)*Math.sin(bd)).toFixed(1)
-          +'" x2="'+(cx+R.r*Math.cos(bd)).toFixed(1)+'" y2="'+(cy+R.r*Math.sin(bd)).toFixed(1)
-          +'" stroke="#3A322A" stroke-width="0.7"/>';
-        var col=(SHAN[i]==='子'||SHAN[i]==='午'||SHAN[i]==='卯'||SHAN[i]==='酉')?'#C9A24B':'#C4342B';
-        s+='<text x="'+tx.toFixed(1)+'" y="'+ty.toFixed(1)+'" fill="'+col+'" font-size="'+R.fs
-          +'" text-anchor="middle" dominant-baseline="central" font-family="Noto Serif TC,serif">'+SHAN[i]+'</text>';
-      }
-    });
-    var br=(bearing-90)*Math.PI/180;
-    s+='<line x1="'+(cx-40*Math.cos(br)).toFixed(1)+'" y1="'+(cy-40*Math.sin(br)).toFixed(1)
-      +'" x2="'+(cx+157*Math.cos(br)).toFixed(1)+'" y2="'+(cy+157*Math.sin(br)).toFixed(1)
-      +'" stroke="#E9E1D0" stroke-width="1.6"/>';
-    s+='<circle cx="160" cy="160" r="26" fill="#14110E" stroke="#C9A24B"/>';
-    s+='<text x="160" y="160" fill="#8C8071" font-size="10" text-anchor="middle" dominant-baseline="central" letter-spacing="2">天池</text>';
-    $('dial').innerHTML=s;
+/* ---------- 羅盤 ---------- */
+var RINGS=[{n:'縫針',r:158},{n:'正針',r:130},{n:'中針',r:102}];
+function polar(cx,cy,r,deg){var a=(deg-90)*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];}
+function arc(cx,cy,r0,r1,a0,a1){
+  var p0=polar(cx,cy,r1,a0),p1=polar(cx,cy,r1,a1),p2=polar(cx,cy,r0,a1),p3=polar(cx,cy,r0,a0);
+  return 'M'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+'A'+r1+' '+r1+' 0 0 1 '+p1[0].toFixed(1)+' '+p1[1].toFixed(1)
+    +'L'+p2[0].toFixed(1)+' '+p2[1].toFixed(1)+'A'+r0+' '+r0+' 0 0 0 '+p3[0].toFixed(1)+' '+p3[1].toFixed(1)+'Z';
+}
+function drawDial(bearing,tone){
+  var s='',cx=170,cy=170;
+  s+='<circle cx="170" cy="170" r="168" fill="#1E1A15" stroke="#3A322A"/>';
+  /* 最外圈：吉凶色塊，可點 */
+  for(var i=0;i<24;i++){
+    var a0=i*15-7.5,a1=i*15+7.5, t=tone[SHAN[i]]||0;
+    var fill=t>0?'rgba(78,131,145,.30)':(t<0?'rgba(196,52,43,.28)':'rgba(255,255,255,.03)');
+    s+='<path d="'+arc(cx,cy,168,140,a0,a1)+'" fill="'+fill+'" stroke="#3A322A" stroke-width="0.6" '
+      +'data-shan="'+SHAN[i]+'" style="cursor:pointer"/>';
+    var p=polar(cx,cy,154,i*15);
+    s+='<text x="'+p[0].toFixed(1)+'" y="'+p[1].toFixed(1)+'" fill="'+(SHAN[i]===sel?'#E9E1D0':'#C9A24B')
+      +'" font-size="12" font-weight="'+(SHAN[i]===sel?'700':'400')+'" text-anchor="middle" dominant-baseline="central" '
+      +'font-family="Noto Serif TC,serif" data-shan="'+SHAN[i]+'" style="cursor:pointer">'+SHAN[i]+'</text>';
   }
-
-  function run(){
-    var v={y:+$('iy').value,m:+$('im').value,d:+$('id').value,hh:+$('ih').value,mi:+$('ii').value,
-      lon:+$('ilon').value,trueSolar:$('its').checked,lateZi:$('ilz').checked};
-    var P;
-    try{ P=KY.pillars(v); }catch(e){ $('warn').textContent='起算失敗：'+e.message; return; }
-
-    var decNote='';
-    if($('iauto').checked && typeof GEOMAG!=='undefined'){
-      if(v.y>=2025 && v.y<=2030){
-        try{
-          var gm=GEOMAG.model(new Date(Date.UTC(v.y,(v.m||1)-1,v.d||1)));
-          var dd=gm.point([+$('ilat').value, +$('ilon').value, 0]).decl;
-          $('idec').value=dd.toFixed(2); decNote='WMM2025 求得';
-        }catch(e){ decNote='WMM 求值失敗，用手填值'; }
-      } else decNote='事時在 WMM2025 有效區間（二〇二五–二〇三〇）之外，不外推，改用手填值';
+  /* 三針圈 */
+  RINGS.forEach(function(R){
+    if(R.r>140) return;
+    s+='<circle cx="170" cy="170" r="'+R.r+'" fill="none" stroke="#3A322A"/>';
+    for(var k=0;k<24;k++){
+      var off=KY.NEEDLE[R.n], bd=k*15-off-7.5;
+      var q0=polar(cx,cy,R.r-9,bd),q1=polar(cx,cy,R.r,bd);
+      s+='<line x1="'+q0[0].toFixed(1)+'" y1="'+q0[1].toFixed(1)+'" x2="'+q1[0].toFixed(1)+'" y2="'+q1[1].toFixed(1)
+        +'" stroke="#3A322A" stroke-width="0.7"/>';
     }
-    var b=+$('ib').value, sel='正針', opt={needle:sel,decl:+$('idec').value,mode:$('imode').value};
-    var S=KY.shanOf(b,opt);
-    drawDial(S.magnetic);
+  });
+  /* 東南西北 */
+  [['北',0],['東',90],['南',180],['西',270]].forEach(function(d){
+    var p=polar(cx,cy,120,d[1]);
+    s+='<text x="'+p[0].toFixed(1)+'" y="'+p[1].toFixed(1)+'" fill="#8C8071" font-size="13" letter-spacing="2" '
+      +'text-anchor="middle" dominant-baseline="central">'+d[0]+'</text>';
+  });
+  /* 指針 */
+  var n0=polar(cx,cy,-38,bearing), n1=polar(cx,cy,168,bearing);
+  s+='<line x1="'+n0[0].toFixed(1)+'" y1="'+n0[1].toFixed(1)+'" x2="'+n1[0].toFixed(1)+'" y2="'+n1[1].toFixed(1)
+    +'" stroke="#E9E1D0" stroke-width="1.8"/>';
+  s+='<circle cx="170" cy="170" r="30" fill="#14110E" stroke="#C9A24B"/>';
+  s+='<text x="170" y="163" fill="#C9A24B" font-size="14" text-anchor="middle" font-family="Noto Serif TC,serif">'
+    +(sel||'—')+'</text>';
+  s+='<text x="170" y="180" fill="#8C8071" font-size="9" text-anchor="middle" letter-spacing="1">'
+    +bearing.toFixed(1)+'°</text>';
+  $('dial').innerHTML=s;
+  Array.prototype.forEach.call($('dial').querySelectorAll('[data-shan]'),function(el){
+    el.addEventListener('click',function(){ sel=el.getAttribute('data-shan'); render(); });
+  });
+}
 
-    $('read').innerHTML=RINGS.map(function(R){
-      var r=KY.shanOf(b,{needle:R.n,decl:opt.decl,mode:opt.mode});
-      return '<div class="'+(R.n===sel?'main':'')+'"><b>'+r.shan+'</b><span>'+R.n+'　'+r.gua+'</span></div>';
-    }).join('');
-
-    var W=WX.of(S.shan);
-    var g=[P.year.gz,P.month.gz,P.day.gz,P.hour.gz], nm=['年','月','日','時'];
-    $('four').innerHTML=g.map(function(x,i){return '<div><b>'+x+'</b><span>'+nm[i]+'</span></div>'}).join('');
-
-    var Y=KY.yunOf(P.year.solarYear);
-    $('lines').innerHTML=
-      '<div class="line"><em>月建</em><span>'+P.month.jie+'節後　'+P.month.zhi+'月</span></div>'+
-      (function(){var j=YS.jianchu(P.month.zhi,P.day.gz.charAt(1));
-        return '<div class="line"><em>建除十二直</em><b>'+j+'日</b></div>'
-        +'<div class="cap" style="margin:0 0 8px">　'+j+'——'+(GL.of(j)||'')+'</div>';})()+
-      '<div class="line"><em>三元九運</em><b>'+Y.yuan+Y.yun+'運</b></div>'+
-      '<div class="line"><em>坐向</em><b>'+S.shan+'山</b></div>'+
-      '<div class="line"><em>卦位</em><span>'+S.gua+'　偏中心 '+S.offset.toFixed(1)+'°</span></div>'+
-      '<div class="line"><em>山之五行</em><span>正五行'+W.正五行+'　雙山'+W.雙山五行+'　洪範'+W.洪範五行+'</span></div>';
-
-    $('cap').textContent = Y.star+'　'+Y.from+'–'+Y.to+'　·　'+sel+
-      '　磁 '+S.magnetic.toFixed(1)+'° ／ 真 '+S['true'].toFixed(1)+'°'+
-      (v.trueSolar?'　·　真太陽時已修正 '+P.corr.toFixed(1)+' 分':'　·　未用真太陽時')
-      +(decNote?'　·　磁偏角 '+decNote:'');
-
-    var YG=P.year.gz, useMode=$('imodeuse').value, H=NS.atShanMode(YG,S.shan,useMode);
-    function chips(list,cls){ return list.length? list.map(function(x){
-        return '<span class="'+cls+'" title="'+(GL.of(x.name)||'')+'">'+x.name+(x.weak?'<sup>疑</sup>':x.doubt?'<sup>校</sup>':'')+'</span>'}).join('')
-      : '<span class="none">無</span>'; }
-    function glossLines(list){ return list.map(function(x){var g=GL.of(x.name); return g?'　'+x.name+'——'+g:null})
-      .filter(Boolean).join('<br>'); }
-    $('nsHit').innerHTML='<div class="ns"><em>'+YG+'年　'+S.shan+'山　'+useMode+'　吉神</em>'+chips(H['吉'],'j')+'</div>'
-      +'<div class="ns"><em>凶神</em>'+chips(H['凶'],'x')+'</div>'
-      +((H['吉'].length+H['凶'].length)?'<div class="cap">'+glossLines(H['吉'].concat(H['凶']))+'</div>':'');
-    var A=NS.byMode(YG,useMode);
-    $('nsAll').innerHTML=['吉','凶'].map(function(c){
-      return '<i>'+c+'神</i><br>'+A[c].map(function(x){
-        return '　'+x.name+'〈'+x.value+'〉<span style="color:var(--dim)">·'+(x.cat||'')+'</span>'+(x.weak?' <span class="fail">疑</span>':x.doubt?' <span class="fail">校</span>':'')}).join('<br>');
-    }).join('<br><br>');
-
-    var Zs='子丑寅卯辰巳午未申酉戌亥', mIdx=(Zs.indexOf(P.month.zhi)-2+12)%12+1;
-    var Y=YS.of(mIdx), JI={天德:1,天德合:1,月德:1,月德合:1,月空:1,月將:1};
-    var yj=[], yx=[];
-    ['天德','天德合','月德','月德合','月空','月建','月破','月厭','月刑','月害','劫煞','災煞','月煞'].forEach(function(k){
-      var v=Y[k]; if(!v) return;
-      if(v===S.shan||(v===S.gua)) (JI[k]?yj:yx).push(k+'〈'+v+'〉');
-    });
-    $('ysHit').innerHTML='<div class="ns"><em>'+P.month.gz+'月　天道'+Y.天道+'行　月將'+Y.月將+'　'+S.shan+'山吉神</em>'
-      +(yj.length?yj.map(function(t){return '<span class="j">'+t+'</span>'}).join(''):'<span class="none">無</span>')+'</div>'
-      +'<div class="ns"><em>凶神</em>'+(yx.length?yx.map(function(t){return '<span class="x">'+t+'</span>'}).join(''):'<span class="none">無</span>')+'</div>'
-      +((yj.length+yx.length)?'<div class="cap">'+yj.concat(yx).map(function(t){var n=t.split('〈')[0],g=GL.of(n);
-        return g?'　'+n+'——'+g:null}).filter(Boolean).join('<br>')+'</div>':'');
-    $('ysAll').innerHTML='<i>吉</i><br>'+['天德','天德合','月德','月德合','月空','月將'].map(function(k){
-        return '　'+k+'〈'+(Y[k]||'—')+'〉'}).join('<br>')
-      +'<br><br><i>凶</i><br>'+['月建','月破','月厭','月刑','月害','劫煞','災煞','月煞'].map(function(k){
-        return '　'+k+'〈'+Y[k]+'〉'}).join('<br>')
-      +'<br><br><i>天道</i>　'+Y.天道+'行，宜向'+Y.天道+'、宜修造'+Y.天道+'方　<i>三合局</i>　'+Y.三合局;
-    var F=FG.of(YG,P.month.gz,mIdx), mark={};
-    function put(g,t){ if(!g) return; (mark[g]=mark[g]||[]).push(t); }
-    put(F.小月建,'小月建'); put(F.大月建,'大月建'); put(F.月遊火,'月遊火');
-    put(F.飛天官符,'飛天官符'); put(F.飛地官符,'飛地官符'); put(F.飛大煞,'飛大煞');
-    put(F.丙丁獨火['丙'],'丙獨火'); put(F.丙丁獨火['丁'],'丁獨火');
-    for(var kk in F.飛) put(F.飛[kk],kk);
-    $('fgHead').innerHTML='<em>'+YG+'年　'+P.month.gz+'月（'+mIdx+'月）　年紫白 '+FG.NAME[FG.yearStar(P.year.solarYear)-1]+'入中　月紫白 '+FG.NAME[F.月紫白-1]+'入中</em>';
-    var LAY9=[6,1,8,7,5,3,2,9,4];
-    $('fg').innerHTML=LAY9.map(function(g){
-      var st=FG.starAt(F.月紫白,g), tags=(mark[g]||[]);
-      var cls=tags.some(function(t){return t==='小月建'||t==='月遊火'||t.indexOf('獨火')>=0})?'x':(tags.length?'j':'');
-      return '<div class="'+cls+'"><b>'+FG.NAME[st-1]+'</b><u>'+FG.GUA[g]+g+(FG.SHAN3[g]?'　'+FG.SHAN3[g]:'')+'</u>'
-        +(tags.length?'<u style="color:var(--xuan);margin-top:5px">'+tags.join('・')+'</u>':'')+'</div>';
-    }).join('');
-
-    var builtY=+$('ibuilt').value||v.y, useYun=KY.yunOf(builtY).yun;
-    var jian=Math.abs(S.offset)>4.5;
-    var XC=XK.chart(useYun,S.shan,{jian:jian});
-    if(XC){
-      $('xkHead').innerHTML='<em>'+useYun+'運　'+XC.zuo+'山'+XC.xiang+'向（'+XC.yuanLong+'龍）　'+XC.mode
-        +'　<b style="color:var(--gold)">'+XC.pattern+'</b>'+(XC.fuyin?'　<b style="color:var(--vermilion)">伏吟</b>':'')
-        +(XC.heshi?'　<b style="color:var(--azure)">合十</b>':'')+'</em>';
-      var LAYX=[6,1,8,7,5,3,2,9,4];
-      $('xk').innerHTML=LAYX.map(function(g){
-        var mark=(g===XC.zuoGong?'坐':(g===XC.xiangGong?'向':''));
-        return '<div><b><span class="s">'+XC.shanPan[g]+'</span>　<i>'+XC.yunPan[g]+'</i>　<span class="x">'+XC.xiangPan[g]+'</span></b>'
-          +'<u>'+FG.GUA[g]+(mark?'　'+mark:'')+'</u></div>';
-      }).join('');
-      $('xkCap').innerHTML='左青為山星、中為運星、右朱為向星。山盤'+XC.shanRu+'入中'+(XC.shanShun?'順':'逆')+'飛'
-        +(XC.shanNote?'（'+XC.shanNote+'）':'')+'，向盤'+XC.xiangRu+'入中'+(XC.xiangShun?'順':'逆')+'飛'
-        +(XC.xiangNote?'（'+XC.xiangNote+'）':'')+'。'
-        +'<br>坐向偏中心 '+S.offset.toFixed(2)+'°，'+(jian?'逾中九度，用替卦（兼向）':'在中九度內，用下卦')+'。'
-        +'<br>　'+XC.pattern+'——'+(GL.of(XC.pattern)||'')
-        +(XC.fuyin?'<br>　伏吟——'+GL.of('伏吟'):'')+(XC.heshi?'<br>　合十——'+GL.of('合十'):'');
-    }
-
-    if(XC){
-      var LN=XK.liunian(XC,P.year.solarYear,mIdx);
-      $('lnHead').innerHTML='<em>'+P.year.solarYear+'年　流年'+FG.NAME[LN.年星入中-1]+'入中　流月'+FG.NAME[LN.月星入中-1]+'入中'
-        +(LN.入囚?'　<b style="color:var(--vermilion)">入囚</b>':'')+'</em>';
-      $('ln').innerHTML=[6,1,8,7,5,3,2,9,4].map(function(g){
-        var q=LN.宮[g];
-        return '<div><b><span class="s">'+q.山+'</span>　<i>'+q.運+'</i>　<span class="x">'+q.向+'</span></b>'
-          +'<u style="color:var(--gold)">年'+q.流年+'　月'+q.流月+'</u><u>'+FG.GUA[g]+'</u></div>';
-      }).join('');
-      $('lnCap').innerHTML='宅盤（山運向）固定不變，流年流月逐時加臨其上——配置一次定，逐年只看加臨之星。'
-        +(LN.入囚?'<br><span class="warn">入囚：當運之向星入中宮，傳統視為宅氣受困之期。</span>'
-          :'<br>本宅入囚之運期：'+XK.ruqiuYears(XC).join('、')+'。');
-    }
-
-    var south=false, R=NH.forHemisphere(south);
-    var LAYN=['乾','坎','艮','兌',null,'震','坤','離','巽'];
-    var CF=NH.conflict(S.shan)||[], cfmap={}; CF.forEach(function(x){cfmap[x.gua]=x});
-    $('nhHead').innerHTML='<em>後天八卦人倫定位　依絕對方位，不隨坐山而變</em>';
-    $('nh').innerHTML=LAYN.map(function(g){
-      if(!g) return '<div class="c"><b>中宮</b><u>忌廁所</u></div>';
-      var r=R[g], c=cfmap[g];
-      return '<div class="'+(c&&!c.八宅吉?'x':'j')+'"><b style="font-size:14px">'+r.role.split('・')[0]+'</b>'
-        +'<u>'+r.dir+'　'+g+'</u>'+(c?'<u style="color:var(--dim)">八宅'+c.八宅+'</u>':'')+'</div>';
-    }).join('');
-    (function(){
-      var fam=$('ifam').value, p=fam?NH.PLAN[fam]:null;
-      if(!p){ $('famPlan').innerHTML=''; return; }
-      $('famPlan').innerHTML='<b style="color:var(--gold)">'+fam+'</b> 建議配屬：<br>'
-        +p.map(function(x){return '　'+NH.REN[x[0]].dir+'（'+x[0]+'宮）　'+x[1]}).join('<br>')
-        +'<br>廚房宜置於無人帶或正北、正西、東北；廁所忌在中宮。';
-    })();
-    var kk=NH.kitchenAt(S.shan), bs=NH.bashaCheck(S.shan,XC?XC.xiang:''), xs=NH.xiuCheck(S.shan);
-    var clash=CF.filter(function(x){return !x.八宅吉 && (x.gua==='乾'||x.gua==='震'||x.gua==='巽');});
-    $('nhCap').innerHTML='無人帶（十六山）：'+NH.WUREN.join('')+'——倪氏謂廚廁宜置於此，不占人宮。'
-      +'<br>本坐山（'+S.shan+'）'+(kk.ok?'屬無人帶':'屬'+kk.gua+'宮·'+kk.role)+'。'
-      +(xs.三吉?'　此山為三吉之一。':(xs.六秀?'　此山為六秀之一。':''))
-      +(bs.hit?'<br><span class="warn">犯八煞黃泉：'+bs.gua+'卦不立'+bs.forbid+'向。</span>'
-        :'<br>八煞黃泉：'+bs.gua+'卦忌'+bs.forbid+'向，本向為'+(XC?XC.xiang:'—')+'，未犯。')
-      +(clash.length?'<br><span class="warn">與八宅牴牾：'+clash.map(function(x){return x.dir+'（倪氏'+x.倪氏.split('・')[0]+'，八宅'+x.八宅+'）'}).join('、')
-        +'。二家判準不同，不合一——倪氏依絕對方位論人倫，八宅依坐山論吉凶。</span>':'');
-
-    var HS=BZ.houseOf(S.shan);
-    if(HS){
-      var zang=(useMode==='開山造葬');
-      $('byTitle').textContent=zang?'小遊年':'八宅（大遊年）';
-      var list=zang?BZ.xiaoyou(HS.gua,'地理家'):HS.list;
-      var map={}; list.forEach(function(x){map[x.gua]=x});
-      $('bzHead').innerHTML='<em>'+S.shan+'山　'+HS.gua+'宮　'+(zang?'小遊年·地理家':HS.group)+'</em>';
-      var LAY=['乾','坎','艮','兌',null,'震','坤','離','巽'];
-      $('bz').innerHTML=LAY.map(function(g){
-        if(!g) return '<div class="c"><b>'+HS.gua+'</b><u>'+(zang?'本宮':HS.group)+'</u></div>';
-        var x=map[g];
-        return '<div class="'+(x.ji?'j':'x')+'"><b>'+x.name+'</b><u>'+g+'　'+(x.shan||BZ.GUA3[g])+'</u></div>';
-      }).join('');
-      if(zang){
-        var sel=BZ.xiaoyou(HS.gua,'選擇家'), d=list.filter(function(x,i){return x.ji!==sel[i].ji});
-        $('bzCap').innerHTML='小遊年吉凶兩家不一：地理家從龍上起以貪狼巨門武曲廉貞為吉，選擇家從向上起以貪狼巨門武曲文曲為吉。'
-          +'本圖用地理家。二家相異之位：'+d.map(function(x){return x.gua+x.name}).join('、')+'。';
-      } else $('bzCap').innerHTML='';
-    }
-
-    var byList, byTitle, byGua, byGroup;
-    if(HS){ var zang2=(useMode==='開山造葬');
-      byTitle=zang2?'小遊年（陰宅）':'八宅八方'; byGua=HS.gua;
-      byGroup=zang2?null:HS.group; byList=zang2?BZ.xiaoyou(HS.gua,'地理家'):HS.list; }
-    var LNx = XC?XK.liunian(XC,P.year.solarYear,mIdx):null;
-    var blocks=RD.compose({
-      bearing:b, mode:opt.mode, shan:S.shan, xiang:XC?XC.xiang:'', gua:S.gua,
-      edge:S.edge, offset:S.offset,
-      yearGZ:YG, monthGZ:P.month.gz, solarYear:P.year.solarYear,
-      nianJ:H['吉'], nianX:H['凶'],
-      yueJ:yj.map(function(t){return t.split('〈')[0]}), yueX:yx.map(function(t){return t.split('〈')[0]}),
-      jianchu:YS.jianchu(P.month.zhi,P.day.gz.charAt(1)),
-      builtYear:builtY, yun:useYun, pattern:XC?XC.pattern:'', xkMode:XC?XC.mode:'',
-      fuyin:XC&&XC.fuyin, heshi:XC&&XC.heshi,
-      lnStar:LNx?LNx.年星入中:1, ruqiu:LNx&&LNx.入囚, ruqiuYears:XC?XK.ruqiuYears(XC).join('、'):'',
-      by:byList, byTitle:byTitle, byGua:byGua, byGroup:byGroup
-    });
-    (function(){
-      var cf=NH.conflict(S.shan)||[];
-      var clash=cf.filter(function(x){return !x.八宅吉 && (x.gua==='乾'||x.gua==='震'||x.gua==='巽')});
-      var kk2=NH.kitchenAt(S.shan), bs2=NH.bashaCheck(S.shan,XC?XC.xiang:'');
-      var t='另有一家判法與八宅根本不同——<b>倪海厦一系依後天八卦之絕對方位定人倫</b>，'
-        +'西北恆為父（夫妻主臥）、西南恆為母、正東恆為長子、東南恆為長女，<b>不隨坐山改變</b>。'
-        +'<br>此系之樞紐在「無人帶」：八宮只取天元龍八山（子艮卯巽午坤酉乾）各十五度，'
-        +'其餘十六山無人所主，<b>廚廁宜置於此而不占人宮</b>。'
-        +(bs2.hit?'<br><span class="warn">本向犯八煞黃泉（'+bs2.gua+'卦不立'+bs2.forbid+'向）。</span>':'')
-        +(clash.length?'<br><span class="warn">兩家在此宅牴牾：'+clash.map(function(x){
-            return x.dir+'——倪氏為'+x.倪氏.split('・')[0]+'之位，八宅judge判'+x.八宅}).join('；')
-          +'。同一角落，一家說最該住，一家說最不該住。二家判準不同，本引擎並列不裁決。</span>'
-          :'<br>此宅兩家無明顯牴牾。');
-      blocks.push({h:'另一家的看法（倪氏配屬）', t:t.replace('judge','')});
-    })();
-    $('rd').innerHTML=blocks.map(function(x){return '<div class="b"><em>'+x.h+'</em>'+x.t+'</div>'}).join('');
-
-    var w=[];
-    if(S.edge) w.push('坐向逼近山界（距界 '+(7.5-Math.abs(S.offset)).toFixed(2)+'°），宜複核羅盤讀數與磁偏角。');
-    var d=Math.min(XY.mod(P.sunLon-315,30), 30-XY.mod(P.sunLon-315,30));
-    if(d<0.008) w.push('事時逼近節氣分界，年柱或月柱可能翻邊，須以高精度曆書複核。');
-    $('warn').innerHTML=w.join('<br>');
+/* ---------- 方位詳情 ---------- */
+function detailOf(shan,C){
+  if(!shan) return '<div class="cap">尚未選取方位——點羅盤外圈任一山。</div>';
+  var g=BZ.guaOfShan(shan), gong={坎:1,坤:2,震:3,巽:4,乾:6,兌:7,艮:8,離:9}[g];
+  var W=WX.of(shan);
+  var nh=NH.kitchenAt(shan), bz=C.bzMap[g], nhr=NH.REN[g];
+  var H=NS.atShanMode(C.yearGZ,shan,C.mode);
+  var ym=[]; ['天德','天德合','月德','月德合','月空','月建','月破','月厭','月刑','月害','劫煞','災煞','月煞'].forEach(function(k){
+    var v=C.Y[k]; if(v&&(v===shan||v===g)) ym.push({n:k,j:'天德天德合月德月德合月空'.indexOf(k)>=0});
+  });
+  var fg=[]; for(var k in C.fmark){ if(+k===gong) fg=C.fmark[k]; }
+  var h='<div class="box">';
+  h+='<b style="color:var(--gold);font-size:17px;font-family:\'Noto Serif TC\',serif">'+shan+'山</b>'
+    +'　<span class="cap" style="display:inline">'+g+'宮・'+RD.dirOf(g)+'　正五行'+W.正五行+'／雙山'+W.雙山五行+'／洪範'+W.洪範五行+'</span>';
+  h+='<div class="chips" style="margin-top:8px"><span style="color:var(--dim);border:0;padding-left:0">今年</span>'
+    +(H['吉'].length?H['吉'].map(function(x){return '<span class="j">'+x.name+'</span>'}).join(''):'')
+    +(H['凶'].length?H['凶'].map(function(x){return '<span class="x">'+x.name+'</span>'}).join(''):'')
+    +(H['吉'].length+H['凶'].length?'':'<span>無</span>')+'</div>';
+  h+='<div class="chips"><span style="color:var(--dim);border:0;padding-left:0">本月</span>'
+    +(ym.length?ym.map(function(x){return '<span class="'+(x.j?'j':'x')+'">'+x.n+'</span>'}).join(''):'<span>無</span>')+'</div>';
+  h+='<div class="chips"><span style="color:var(--dim);border:0;padding-left:0">飛宮</span>'
+    +(fg.length?fg.map(function(t){return '<span class="x">'+t+'</span>'}).join(''):'<span>無</span>')+'</div>';
+  if(C.XC&&gong){
+    var q=C.LN.宮[gong];
+    h+='<div style="margin-top:6px">玄空　<b class="mono" style="color:var(--azure)">山'+q.山+'</b>　'
+      +'<span class="mono">運'+q.運+'</span>　<b class="mono" style="color:var(--vermilion)">向'+q.向+'</b>'
+      +'　<span class="mono" style="color:var(--gold)">流年'+q.流年+'・流月'+q.流月+'</span></div>';
   }
+  if(bz) h+='<div style="margin-top:4px">'+C.byTitle+'　<b class="'+(bz.ji?'pass':'fail')+'">'+bz.name+'</b>　'
+    +'<span class="cap" style="display:inline">'+(GL.of(bz.name,'bazhai')||'')+'</span></div>';
+  h+='<div style="margin-top:4px">倪氏　'+(nh.ok?'<b>無人帶</b>　<span class="cap" style="display:inline">無人所主，宜置廚廁</span>'
+    :'<b>'+nhr.role+'</b>　<span class="cap" style="display:inline">'+nhr.dir+'　'+nhr.deg+'°</span>')+'</div>';
+  h+='</div>';
+  return h;
+}
 
+/* ---------- 主流程 ---------- */
+function render(){ if(last) paint(last); }
+function paint(C){
+  drawDial(C.bearing,C.tone);
+  $('detail').innerHTML=detailOf(sel,C);
+  $('rd').innerHTML=C.blocks.map(function(x){return '<div class="b"><em>'+x.h+'</em>'+x.t+'</div>'}).join('');
+}
+
+function run(){
+  var v={y:+$('iy').value,m:+$('im').value,d:+$('id').value,hh:+$('ih').value,mi:+$('ii').value,
+    lon:+$('ilon').value,trueSolar:$('its').checked,lateZi:$('ilz').checked};
+  var P; try{ P=KY.pillars(v);}catch(e){ $('rd').textContent='起算失敗：'+e.message; return; }
+  /* 磁偏角 */
+  var decNote='';
+  if(v.y>=2025&&v.y<=2030&&typeof GEOMAG!=='undefined'){
+    try{ var dd=GEOMAG.model(new Date(Date.UTC(v.y,(v.m||1)-1,v.d||1))).point([+$('ilat').value,+$('ilon').value,0]).decl;
+      $('idec').value=dd.toFixed(2); decNote='WMM2025 自動求得'; }catch(e){}
+  } else decNote='事時在 WMM2025 有效區間外，不外推，用手填值';
+
+  var mode=$('imodeuse').value, b=+$('ib').value;
+  var opt={needle:'正針',decl:+$('idec').value,mode:$('imode').value};
+  var S=KY.shanOf(b,opt);
+  if(!sel) sel=S.shan;
+  var builtY=+$('ibuilt').value||v.y, yun=KY.yunOf(builtY).yun;
+  var jian=Math.abs(S.offset)>4.5;
+  var XC=XK.chart(yun,S.shan,{jian:jian});
+  var Zs='子丑寅卯辰巳午未申酉戌亥', mIdx=(Zs.indexOf(P.month.zhi)-2+12)%12+1;
+  var Y=YS.of(mIdx), F=FG.of(P.year.gz,P.month.gz,mIdx), LN=XK.liunian(XC,P.year.solarYear,mIdx);
+  /* 飛宮標記 */
+  var fmark={}; function put(g,t){ if(!g)return;(fmark[g]=fmark[g]||[]).push(t); }
+  put(F.小月建,'小月建');put(F.大月建,'大月建');put(F.月遊火,'月遊火');
+  put(F.丙丁獨火['丙'],'丙獨火');put(F.丙丁獨火['丁'],'丁獨火');
+  put(F.飛天官符,'飛天官符');put(F.飛地官符,'飛地官符');put(F.飛大煞,'飛大煞');
+  for(var kk in F.飛) put(F.飛[kk],kk);
+  /* 八宅或小遊年 */
+  var HS=BZ.houseOf(S.shan), zang=(mode==='開山造葬');
+  var byList=zang?BZ.xiaoyou(HS.gua,'地理家'):HS.list, bzMap={};
+  byList.forEach(function(x){bzMap[x.gua]=x});
+  /* 外圈吉凶著色 */
+  var tone={}; SHAN.forEach(function(sh){
+    var h=NS.atShanMode(P.year.gz,sh,mode);
+    tone[sh]=h['凶'].length?-1:(h['吉'].length?1:0);
+  });
+  /* 白話判讀 */
+  var H=NS.atShanMode(P.year.gz,S.shan,mode);
+  var yj=[],yx=[];
+  ['天德','天德合','月德','月德合','月空'].forEach(function(k){ if(Y[k]&&(Y[k]===S.shan||Y[k]===S.gua)) yj.push(k); });
+  ['月建','月破','月厭','月刑','月害','劫煞','災煞','月煞'].forEach(function(k){ if(Y[k]===S.shan) yx.push(k); });
+  var jc=YS.jianchu(P.month.zhi,P.day.gz.charAt(1));
+  var HEAVY=RD.HEAVY, hv=H['凶'].filter(function(x){return HEAVY.indexOf(x.name)>=0});
+  var lt=H['凶'].filter(function(x){return HEAVY.indexOf(x.name)<0});
+  var lc=NH.lineCheck(S.offset), bs=NH.bashaCheck(S.shan,XC?XC.xiang:'');
+  var blocks=[];
+  blocks.push({h:'坐向',t:b.toFixed(1)+'°（'+($('imode').value==='true'?'真方位':'磁方位')+'），落在<b>'+S.shan
+    +'山</b>、面朝'+XC.xiang+'——通稱「'+S.shan+'山'+XC.xiang+'向」。此山屬'+S.gua+'宮（'+RD.dirOf(S.gua)+'）。'
+    +(lc.risky?'<br><span class="warn">距山界僅 '+lc.toEdge.toFixed(1)+'°，即倪氏所謂分金煞，宜換位置重量三次。</span>':'')
+    +(bs.hit?'<br><span class="warn">犯八煞黃泉：'+bs.gua+'卦不立'+bs.forbid+'向。</span>':'')});
+  blocks.push({h:'今年此方宜忌',t:(hv.length?'今年（'+P.year.gz+'）此方值<b>'+hv.map(function(x){return x.name}).join('、')
+      +'</b>，忌動土興修'+(lt.length?'；另值'+lt.map(function(x){return x.name}).join('、')+'，屬次一級。':'。')
+    :(lt.length?'今年（'+P.year.gz+'）此方未值重煞，僅值'+lt.map(function(x){return x.name}).join('、')+'，可制可用。'
+      :'今年（'+P.year.gz+'）此方未值凶神。'))
+    +(H['吉'].length?'吉神值<b>'+H['吉'].map(function(x){return x.name}).join('、')+'</b>。':'')
+    +'<br><span style="color:var(--dim)">年月神煞管的是「這一年這個方位能不能敲牆動土」，搬動家具、更換陳設不在此限。</span>'});
+  blocks.push({h:'本月與今日',t:'本月（'+P.month.gz+'）此方'+(yx.length?'值<b>'+yx.join('、')+'</b>':'未值月家凶神')
+    +(yj.length?'，另值'+yj.join('、'):'')+'。<br>今日為<b>'+jc+'日</b>——<span class="box" style="display:inline-block;padding:4px 10px;margin:2px 0">'
+    +(GL.of(jc)||'')+'</span>'});
+  blocks.push({h:'玄空宅盤',t:'以 <b>'+builtY+'</b> 年建成入住計，屬 <b>'+yun+' 運</b>。<br>'
+    +S.shan+'山'+XC.xiang+'向'+(jian?'（兼向，用替卦）':'')+'，格局為<b>'+XC.pattern+'</b>——'+(GL.of(XC.pattern)||'')
+    +(XC.fuyin?'，並見伏吟':'')+(XC.heshi?'，並見合十':'')+'。<br>'
+    +'宅盤一經定盤即不再變，逐年變的是加臨其上的流年星。<br>'+P.year.solarYear+' 年流年 <b>'+FG.NAME[LN.年星入中-1]+'</b> 入中。'
+    +(LN.入囚?'<br><span class="warn">本宅現正入囚。</span>':'<br>本宅入囚之運期為 '+XK.ruqiuYears(XC).join('、')+'。')});
+  var ji=byList.filter(function(x){return x.ji}), xi=byList.filter(function(x){return !x.ji});
+  var byTitle=zang?'小遊年（陰宅）':'八宅八方';
+  blocks.push({h:byTitle,t:'以'+S.shan+'山論，此宅屬<b>'+HS.gua+'宮</b>'+(zang?'':'（'+HS.group+'）')+'。'
+    +'<div class="g33">'+['乾','坎','艮','兌',null,'震','坤','離','巽'].map(function(g){
+      if(!g) return '<div><b style="color:var(--gold);font-size:13px">'+HS.gua+'宮</b><u>'+(zang?'本宮':HS.group)+'</u></div>';
+      var x=bzMap[g];
+      return '<div class="'+(x.ji?'j':'x')+'"><b>'+x.name+'</b><u>'+RD.dirOf(g)+'</u></div>';
+    }).join('')+'</div>'});
+  var fam=$('ifam').value, plan=fam?NH.PLAN[fam]:null;
+  blocks.push({h:'倪海厦配屬',t:'依後天八卦之絕對方位定人倫。<br>西北恆為父（夫妻主臥）、西南恆為母、正東恆為長子、東南恆為長女，不隨坐山改變。<br>'
+    +'樞紐在「無人帶」：八宮只取天元龍八山（子艮卯巽午坤酉乾）各十五度，其餘十六山無人所主，<br>廚廁宜置於此而不占人宮。'
+    +(plan?'<div class="box"><b style="color:var(--gold)">'+fam+'</b><br>'
+      +plan.map(function(x){return '　'+NH.REN[x[0]].dir+'（'+x[0]+'宮）　'+x[1]}).join('<br>')
+      +'<br>　廚房宜無人帶或正北、正西、東北；廁所忌中宮。</div>':'')
+    +'<br><span class="warn">兩家配屬互有牴觸，請自行參考。</span>'});
+
+  /* 細節區 */
+  $('dt1').innerHTML='四柱　<b class="mono" style="font-size:16px;color:var(--gold)">'+P.year.gz+'　'+P.month.gz+'　'+P.day.gz+'　'+P.hour.gz+'</b>'
+    +'<br>年以立春換、月以節氣換，非元旦與初一。'
+    +'<br>月建　'+P.month.jie+'節後　'+P.month.zhi+'月　｜　建除十二直　<b>'+jc+'日</b>'
+    +'<br>三元九運　'+KY.yunOf(P.year.solarYear).yuan+KY.yunOf(P.year.solarYear).yun+'運（'+FG.NAME[FG.yearStar(P.year.solarYear)-1]+'）'
+    +'<br>太陽視黃經 '+P.sunLon.toFixed(3)+'°　真太陽時修正 '+(v.trueSolar?P.corr.toFixed(1)+' 分':'未用')
+    +'　磁偏角 '+decNote;
+  $('dt2').innerHTML='<div class="g33">'+[6,1,8,7,5,3,2,9,4].map(function(g){
+    var q=LN.宮[g];
+    return '<div><b style="font-size:13px"><span style="color:var(--azure)">'+q.山+'</span> '+q.運
+      +' <span style="color:var(--vermilion)">'+q.向+'</span></b><u>'+FG.GUA[g]+'　年'+q.流年+'</u></div>';
+  }).join('')+'</div>';
+  var A=NS.byMode(P.year.gz,mode);
+  $('dt3').innerHTML=['吉','凶'].map(function(c){return '<i>'+c+'</i><br>'+A[c].map(function(x){
+    return '　'+x.name+'〈'+x.value+'〉'+(x.weak?' <span class="fail">疑</span>':'')}).join('<br>')}).join('<br><br>');
+  $('dt4').innerHTML='<i>吉</i><br>'+['天德','天德合','月德','月德合','月空','月將'].map(function(k){return '　'+k+'〈'+(Y[k]||'—')+'〉'}).join('<br>')
+    +'<br><br><i>凶</i><br>'+['月建','月破','月厭','月刑','月害','劫煞','災煞','月煞'].map(function(k){return '　'+k+'〈'+Y[k]+'〉'}).join('<br>')
+    +'<br><br><i>天道</i>　'+Y.天道+'行';
+
+  last={bearing:S.magnetic,tone:tone,blocks:blocks,XC:XC,LN:LN,Y:Y,fmark:fmark,bzMap:bzMap,
+    byTitle:byTitle,yearGZ:P.year.gz,mode:mode};
+  paint(last);
+}
+
+/* ---------- 手機羅盤 ---------- */
+var liveOn=false,liveH=null,samples=[];
+function spread(){ if(samples.length<2) return 0; return Math.max.apply(null,samples)-Math.min.apply(null,samples); }
+function onOrient(e){
+  var h=null;
+  if(typeof e.webkitCompassHeading==='number') h=e.webkitCompassHeading;
+  else if(e.absolute&&typeof e.alpha==='number') h=(360-e.alpha)%360;
+  if(h===null) return;
+  liveH=h; $('ib').value=h.toFixed(1);
+  var s=KY.shanOf(h,{needle:'正針',decl:+$('idec').value,mode:$('imode').value});
+  if(last){ last.bearing=s.magnetic; drawDial(s.magnetic,last.tone); }
+  $('liveBox').innerHTML='<b style="color:var(--gold)">'+h.toFixed(1)+'°</b>　'+s.shan+'山　距界 '+(7.5-Math.abs(s.offset)).toFixed(1)+'°'
+    +(samples.length?'　｜已錄 '+samples.length+' 點，散布 '+spread().toFixed(1)+'°'
+      +(spread()>2?' <span class="warn">逾二度，疑有干擾</span>':' <span class="pass">合格</span>'):'');
+}
+function stopLive(){
+  window.removeEventListener('deviceorientationabsolute',onOrient,true);
+  window.removeEventListener('deviceorientation',onOrient,true);
+  liveOn=false;
+}
+function startLive(){
+  if(liveOn) return;
+  function go(){ liveOn=true;
+    window.addEventListener('deviceorientationabsolute',onOrient,true);
+    window.addEventListener('deviceorientation',onOrient,true); }
+  if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){
+    DeviceOrientationEvent.requestPermission().then(function(r){
+      if(r==='granted') go(); else $('liveBox').textContent='未取得方位權限，請勾選手動輸入。';
+    }).catch(function(){ $('liveBox').textContent='此裝置不支援方位感測，請勾選手動輸入。'; });
+  } else if('ondeviceorientationabsolute' in window||'ondeviceorientation' in window) go();
+  else $('liveBox').textContent='此裝置不支援方位感測，請勾選手動輸入。';
+}
+$('imanual').addEventListener('change',function(){
+  if(this.checked){ stopLive(); $('liveBox').innerHTML='手動輸入模式。'; } else startLive();
+});
+$('sample').addEventListener('click',function(){
+  samples.push(liveH!==null?liveH:+$('ib').value); if(samples.length>5) samples.shift();
+  var avg=samples.reduce(function(a,b){return a+b},0)/samples.length;
+  $('ib').value=avg.toFixed(1); liveH=avg; run();
+});
+function freeze(){var d=new Date();
+  $('iy').value=d.getFullYear();$('im').value=d.getMonth()+1;$('id').value=d.getDate();
+  $('ih').value=d.getHours();$('ii').value=d.getMinutes();}
+$('now').addEventListener('click',function(){freeze();run();});
+$('go').addEventListener('click',function(){sel=null;run();});
+['ifam','imodeuse','imode','ibuilt','ib'].forEach(function(id){var e=$(id);if(e)e.addEventListener('change',run);});
+
+/* 檢核與詞表 */
+$('chk2').innerHTML=NH.CHECK.map(function(x,i){
+  return '<div class="tog"><input type="checkbox" id="ck'+i+'"><label for="ck'+i+'" style="margin:0">'+x.q
+    +'<span style="color:var(--dim);font-size:11.5px"><br>　'+x.why+'</span></label></div>';}).join('');
+function tally(){ var n=0; NH.CHECK.forEach(function(x,i){ if($('ck'+i).checked) n++; });
+  $('chk2sum').innerHTML=n?('已勾 <b style="color:var(--vermilion)">'+n+'</b> 項。此為倪氏一家之說，供參考權衡，非定論。')
+    :'尚未勾選。'; }
+NH.CHECK.forEach(function(x,i){ $('ck'+i).addEventListener('change',tally); }); tally();
+$('glossBox').innerHTML=Object.keys(GL.all).map(function(k){
+  return '<b style="color:var(--gold)">'+k.replace('八宅','')+'</b>　'+GL.all[k]}).join('<br>');
+$('docBox').innerHTML=DOCTEXT;
+
+window.addEventListener('error',function(e){
+  var c=$('chk'); if(c) c.innerHTML+='<br><span class="fail">未捕獲例外：'+e.message+'（'+e.lineno+'）</span>';
+});
+if('serviceWorker' in navigator){ window.addEventListener('load',function(){
+  navigator.serviceWorker.register('/sw.js').catch(function(){}); }); }
+freeze(); run(); startLive();
   function selfcheck(){
     var out=[],p=0,f=0;
     function ok(n,c){ if(c){p++;out.push('<i>✓</i> <span class="pass">'+n+'</span>');}
@@ -2071,69 +1814,7 @@ var NH = (function (KY, BZ) {
     $('chk').innerHTML=out.join('<br>');
   }
 
-  (function(){ var c=$('chk2'); if(!c) return;
-    c.innerHTML=NH.CHECK.map(function(x,i){
-      return '<div class="tog"><input type="checkbox" id="ck'+i+'"><label for="ck'+i+'" style="margin:0">'
-        +x.q+'<span style="color:var(--dim);font-size:11.5px"><br>　'+x.why+'</span></label></div>';
-    }).join('');
-  })();
-  (function(){ var b=$('glossBox'); if(!b) return;
-    b.innerHTML=Object.keys(GL.all).map(function(k){return '<b style="color:var(--gold)">'+k+'</b>　'+GL.all[k]}).join('<br>');
-  })();
-  function freeze(){ var d=new Date();
-    $('iy').value=d.getFullYear(); $('im').value=d.getMonth()+1; $('id').value=d.getDate();
-    $('ih').value=d.getHours(); $('ii').value=d.getMinutes(); }
-  $('now').addEventListener('click',function(){ freeze(); run(); });
-  freeze();
-  var liveOn=false, liveHeading=null, samples=[];
-  function setLive(h){
-    liveHeading=h;
-    $('ib').value=h.toFixed(1);
-    drawDial(KY.shanOf(h,{needle:'正針',decl:+$('idec').value,mode:$('imode').value}).magnetic);
-    var s=KY.shanOf(h,{needle:'正針',decl:+$('idec').value,mode:$('imode').value});
-    $('liveBox').innerHTML='<b style="color:var(--gold)">'+h.toFixed(1)+'°</b>　'+s.shan+'山　距界 '
-      +(7.5-Math.abs(s.offset)).toFixed(1)+'°'
-      +(samples.length?'<br>已記錄 '+samples.length+' 點：'+samples.map(function(x){return x.toFixed(1)}).join('、')
-        +'　散布 '+spread().toFixed(1)+'°'+(spread()>2?'　<span class="warn">散布逾二度，疑有干擾，請換位置重量</span>':'　<span class="pass">散布合格</span>'):'')
-      +'<br><span style="color:var(--dim)">手機磁力計在室內可能因鋼筋或電器而穩定地偏移，數值穩不代表準。務必多點取樣。</span>';
-  }
-  function spread(){ if(samples.length<2) return 0;
-    var mn=Math.min.apply(null,samples), mx=Math.max.apply(null,samples); return mx-mn; }
-  function onOrient(e){
-    var h=null;
-    if(typeof e.webkitCompassHeading==='number') h=e.webkitCompassHeading;
-    else if(e.absolute && typeof e.alpha==='number') h=(360-e.alpha)%360;
-    if(h!==null) setLive(h);
-  }
-  $('live').addEventListener('click',function(){
-    if(liveOn){ window.removeEventListener('deviceorientationabsolute',onOrient);
-      window.removeEventListener('deviceorientation',onOrient); liveOn=false;
-      $('live').textContent='用手機羅盤讀取'; return; }
-    function start(){ liveOn=true; $('live').textContent='停止讀取';
-      window.addEventListener('deviceorientationabsolute',onOrient,true);
-      window.addEventListener('deviceorientation',onOrient,true); }
-    if(typeof DeviceOrientationEvent!=='undefined' && DeviceOrientationEvent.requestPermission){
-      DeviceOrientationEvent.requestPermission().then(function(r){
-        if(r==='granted') start(); else $('liveBox').textContent='未取得方位感測權限，請手動填入度數。';
-      }).catch(function(){ $('liveBox').textContent='此裝置不支援方位感測，請手動填入度數。'; });
-    } else if('ondeviceorientationabsolute' in window || 'ondeviceorientation' in window){ start(); }
-    else $('liveBox').textContent='此裝置或瀏覽器不支援方位感測，請手動填入度數。';
-  });
-  $('sample').addEventListener('click',function(){
-    var h=liveHeading!==null?liveHeading:+$('ib').value;
-    samples.push(h); if(samples.length>5) samples.shift();
-    var avg=samples.reduce(function(a,b){return a+b},0)/samples.length;
-    $('ib').value=avg.toFixed(1); setLive(avg);
-  });
-  ['ifam','imodeuse','imode','ibuilt'].forEach(function(id){
-    var e=$(id); if(e) e.addEventListener('change',run); });
-  if('serviceWorker' in navigator){ window.addEventListener('load',function(){
-    navigator.serviceWorker.register('/sw.js').catch(function(){}); }); }
-  $('go').addEventListener('click',run);
-  window.addEventListener('error',function(e){
-    var c=$('chk'); if(c) c.innerHTML+='<br><span class="fail">未捕獲例外：'+e.message+'（'+e.lineno+'）</span>';
-  });
-  run(); selfcheck();
+selfcheck();
 })();
 </script>
 </body>
