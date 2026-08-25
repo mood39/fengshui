@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<title>堪輿理氣 v2.2</title>
+<title>堪輿理氣 v2.4</title>
 <style>
 :root{--lacquer:#14110E;--lacquer2:#1E1A15;--vermilion:#C4342B;--gold:#C9A24B;
   --xuan:#E9E1D0;--dim:#8C8071;--azure:#4E8391;--line:#3A322A}
@@ -49,6 +49,7 @@ button.gh{background:transparent;border:1px solid var(--line);color:var(--gold);
 .rd .b em{font-style:normal;display:block;font-family:"Noto Serif TC",serif;font-size:11.5px;
   letter-spacing:.22em;color:var(--gold);margin-bottom:4px}
 .rd b{color:var(--xuan);font-weight:600}
+.rd .sys{float:right;font-size:9.5px;letter-spacing:.14em;color:var(--dim);border:1px solid var(--line);border-radius:2px;padding:1px 6px;font-weight:400}
 .box{background:var(--lacquer2);border:1px solid var(--line);border-radius:3px;padding:10px 12px;margin:8px 0}
 .g33{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
 .g33 div{background:var(--lacquer2);border:1px solid var(--line);border-radius:3px;padding:9px 3px;text-align:center;font-size:12.5px}
@@ -79,7 +80,7 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px}
 <body>
 <div class="wrap">
   <h1>堪輿理氣</h1>
-  <div class="sub">v2.2　協紀神煞・玄空飛星・八宅・倪氏配屬　四家並列</div>
+  <div class="sub">v2.4　協紀神煞・玄空飛星・八宅・倪氏配屬　四家並列</div>
 
   <nav role="tablist">
     <button role="tab" aria-selected="true" data-p="p1">羅經</button>
@@ -123,12 +124,11 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px}
         <div><label>磁偏角</label><input id="idec" type="number" step="0.01" value="-5.04"></div>
       </div>
       <div class="row">
+        <div><label>來龍讀數（格龍・選填）</label><input id="ilong" type="number" step="0.1" placeholder="不量可留空"></div>
+      </div>
+      <div class="row">
         <div><label>判讀基準</label><select id="imode">
           <option value="magnetic">磁方位（古法）</option><option value="true">真方位</option></select></div>
-        <div><label>家庭組成</label><select id="ifam">
-          <option value="">不指定</option><option>夫妻二人</option><option>夫妻與子</option>
-          <option>夫妻與女</option><option>夫妻一子一女</option><option>單身男</option>
-          <option>單身女</option><option>三代同堂</option></select></div>
       </div>
       <div class="row">
         <div><button class="gh" id="live">啟用手機羅盤</button></div>
@@ -141,22 +141,18 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px}
 
     <section>
       <h2>羅經</h2>
-      <div class="row"><div><select id="ilayer">
-        <option value="年神">外圈著色：年神吉凶</option>
-        <option value="八宅">外圈著色：八宅八方</option>
-        <option value="水法">外圈著色：消砂納水（輔星）</option>
-        <option value="倪氏">外圈著色：倪氏人倫</option></select></div></div>
-      <svg id="dial" viewBox="0 0 340 340" width="340" height="340" role="img"></svg>
-      <div class="cap">最外圈可點，色義依上方選單。三條內圈為三針，各有山名——<br>
-        　<b style="color:#6E6152">外・縫針</b>　消砂納水用（比正針進半山）<br>
-        　<b style="color:var(--vermilion)">中・正針</b>　定向用，<b>本引擎一切判讀以此為準</b><br>
-        　<b style="color:#6E6152">內・中針</b>　格龍用（比正針退半山）<br>
-        同一讀數在三圈落不同的山，差七度半即半個山——這就是為什麼派別之擇先於磁偏角之校。</div>
+      <svg id="dial" viewBox="0 0 380 380" width="380" height="380" role="img"></svg>
+      <div class="cap" id="dialLegend"></div>
       <div id="detail"></div>
     </section>
 
     <section>
       <h2>判讀</h2>
+      <div class="cap" style="margin:0 0 14px">
+        每段右上角標其所屬——<b style="color:var(--gold)">理氣</b>依方位與元運推算（玄空、八宅、分金、輔星），
+        <b style="color:var(--gold)">神煞</b>依年月干支查值（協紀年表月表），
+        <b style="color:var(--gold)">形勢</b>與<b style="color:var(--gold)">配屬</b>依實地與人倫。
+        三系判準不同，各說各話，本引擎並列不裁決。</div>
       <div id="rd" class="rd"></div>
     </section>
 
@@ -177,6 +173,10 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px}
       西北恆為父（夫妻主臥）、西南恆為母、正東恆為長子、東南恆為長女，不隨坐山改變。<br>
       樞紐在「無人帶」：八宮只取天元龍八山（子艮卯巽午坤酉乾）各十五度，其餘十六山無人所主，<br>
       廚廁宜置於此而不占人宮。</p>
+      <div class="row"><div><label>家庭組成</label><select id="ifam">
+        <option value="">不指定</option><option>夫妻二人</option><option>夫妻與子</option>
+        <option>夫妻與女</option><option>夫妻一子一女</option><option>單身男</option>
+        <option>單身女</option><option>三代同堂</option></select></div></div>
       <div id="nhPlan"></div>
       <p style="margin-top:14px"><span class="warn">與八宅兩家配屬互有牴觸，請自行參考。</span></p>
 
@@ -198,6 +198,13 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px}
       <p><b>二·事時</b>　預設當下。決定四柱、當令三元九運、該年該月的神煞分布。建成年決定玄空宅運，與事時是兩回事。</p>
       <p><b>三·坐向</b>　坐山是面對主要採光面的反向，不是大門朝向。手機羅盤預設開啟；室內鋼筋會讓磁力計<b>穩定地偏移</b>，數值不跳不代表準，所以要多點取樣看散布。</p>
       <p><b>四·點盤</b>　起算後羅盤外圈會依吉凶著色。點任一方位，下面展開該方位的年神、月神、飛宮、玄空三星、八宅遊年、倪氏人倫——<b>全部集中在一處，不必在六張圖之間比對</b>。</p>
+
+      <h3>理氣・神煞・形勢三系之別</h3>
+      <p>本引擎所出者可分三系，判讀每段右上角有標：</p>
+      <p><b>理氣</b>——依方位與元運推算，包括玄空飛星、八宅八方、消砂納水之輔星、分金三層。同一間房子，理氣之判一經定盤即不隨年月改變。</p>
+      <p><b>神煞</b>——依年月干支查值，出協紀年表月表。逐年逐月而變，管的是「這一年這個方位能不能動土」。</p>
+      <p><b>形勢與配屬</b>——坐向之取、來龍之格、倪氏人倫之配。前二者靠實地量測，後者依家庭組成。</p>
+      <p>三系判準不同，衝突處本引擎並列不裁決。</p>
 
       <h3>各層在算什麼</h3>
       <p><b>四柱</b>　年月日時的干支。年以立春換、月以節氣換，不是元旦與初一。建除十二直是該日的性質（建、除、滿、平⋯⋯），擇日用。</p>
@@ -1599,57 +1606,69 @@ Array.prototype.forEach.call(document.querySelectorAll('nav button'),function(b)
 });
 
 /* ---------- 羅盤 ---------- */
-var RINGS=[{n:'縫針',r:156,lab:143,use:'消砂納水'},{n:'正針',r:130,lab:117,use:'定向'},{n:'中針',r:104,lab:91,use:'格龍'}];
 function polar(cx,cy,r,deg){var a=(deg-90)*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];}
 function arc(cx,cy,r0,r1,a0,a1){
   var p0=polar(cx,cy,r1,a0),p1=polar(cx,cy,r1,a1),p2=polar(cx,cy,r0,a1),p3=polar(cx,cy,r0,a0);
-  return 'M'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+'A'+r1+' '+r1+' 0 0 1 '+p1[0].toFixed(1)+' '+p1[1].toFixed(1)
-    +'L'+p2[0].toFixed(1)+' '+p2[1].toFixed(1)+'A'+r0+' '+r0+' 0 0 0 '+p3[0].toFixed(1)+' '+p3[1].toFixed(1)+'Z';
+  var big=(a1-a0)>180?1:0;
+  return 'M'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+'A'+r1+' '+r1+' 0 '+big+' 1 '+p1[0].toFixed(1)+' '+p1[1].toFixed(1)
+    +'L'+p2[0].toFixed(1)+' '+p2[1].toFixed(1)+'A'+r0+' '+r0+' 0 '+big+' 0 '+p3[0].toFixed(1)+' '+p3[1].toFixed(1)+'Z';
 }
-function drawDial(bearing,tone){
-  var s='',cx=170,cy=170;
-  s+='<circle cx="170" cy="170" r="168" fill="#1E1A15" stroke="#3A322A"/>';
-  /* 最外圈：吉凶色塊，可點 */
+var DIRS=[['北',0],['東北',45],['東',90],['東南',135],['南',180],['西南',225],['西',270],['西北',315]];
+function txt(x,y,s,color,size,weight){
+  return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" fill="'+color+'" font-size="'+size
+    +'" font-weight="'+(weight||400)+'" text-anchor="middle" dominant-baseline="central" '
+    +'font-family="Noto Serif TC,serif">'+s+'</text>';
+}
+function drawDial(bearing,C){
+  var s='',cx=190,cy=190;
+  /* 一·八方位，置於全盤之外 */
+  DIRS.forEach(function(d){
+    var p=polar(cx,cy,181,d[1]);
+    s+=txt(p[0],p[1],d[0],'#8C8071',d[0].length>1?9:12,600);
+  });
+  s+='<circle cx="190" cy="190" r="168" fill="#1E1A15" stroke="#3A322A"/>';
+  /* 二·年神圈（二十四山，逐山著色並標最重之神） */
   for(var i=0;i<24;i++){
-    var a0=i*15-7.5,a1=i*15+7.5, t=tone[SHAN[i]]||0;
-    var fill=t>0?'rgba(78,131,145,.30)':(t<0?'rgba(196,52,43,.28)':'rgba(255,255,255,.03)');
-    s+='<path d="'+arc(cx,cy,168,140,a0,a1)+'" fill="'+fill+'" stroke="#3A322A" stroke-width="0.6" '
-      +'data-shan="'+SHAN[i]+'" style="cursor:pointer"/>';
-    var p=polar(cx,cy,154,i*15);
-    s+='<text x="'+p[0].toFixed(1)+'" y="'+p[1].toFixed(1)+'" fill="'+(SHAN[i]===sel?'#E9E1D0':'#C9A24B')
-      +'" font-size="12" font-weight="'+(SHAN[i]===sel?'700':'400')+'" text-anchor="middle" dominant-baseline="central" '
-      +'font-family="Noto Serif TC,serif" data-shan="'+SHAN[i]+'" style="cursor:pointer">'+SHAN[i]+'</text>';
+    var sh=SHAN[i],a0=i*15-7.5,a1=i*15+7.5,t=C.tone[sh]||0;
+    var fill=t>0?'rgba(78,131,145,.28)':(t<0?'rgba(196,52,43,.26)':'rgba(255,255,255,.02)');
+    s+='<path d="'+arc(cx,cy,168,146,a0,a1)+'" fill="'+fill+'" stroke="#3A322A" stroke-width="0.5"/>';
+    var lab=C.nianLab[sh]||'';
+    if(lab){ var p=polar(cx,cy,157,i*15);
+      s+=txt(p[0],p[1],lab,t<0?'#E0827B':'#8FC0CC',7.5); }
   }
-  /* 三針各為一層，各有山名 */
-  RINGS.forEach(function(R,ri){
-    var off=KY.NEEDLE[R.n], main=(R.n==='正針');
-    s+='<circle cx="170" cy="170" r="'+R.r+'" fill="none" stroke="'+(main?'#C9A24B':'#3A322A')+'" stroke-width="'+(main?1.4:1)+'"/>';
-    for(var k=0;k<24;k++){
-      var bd=k*15-off-7.5;
-      var q0=polar(cx,cy,R.r-13,bd),q1=polar(cx,cy,R.r,bd);
-      s+='<line x1="'+q0[0].toFixed(1)+'" y1="'+q0[1].toFixed(1)+'" x2="'+q1[0].toFixed(1)+'" y2="'+q1[1].toFixed(1)
-        +'" stroke="#3A322A" stroke-width="0.6"/>';
-      var lp=polar(cx,cy,R.lab,k*15-off);
-      s+='<text x="'+lp[0].toFixed(1)+'" y="'+lp[1].toFixed(1)+'" fill="'+(main?'#C4342B':'#6E6152')
-        +'" font-size="'+(main?11:9)+'" text-anchor="middle" dominant-baseline="central" font-family="Noto Serif TC,serif">'
-        +SHAN[k]+'</text>';
-    }
+  /* 三·八宅圈（八方各四十五度） */
+  ['坎','艮','震','巽','離','坤','兌','乾'].forEach(function(g){
+    var c={坎:0,艮:45,震:90,巽:135,離:180,坤:225,兌:270,乾:315}[g];
+    var x=C.bzMap[g]; if(!x) return;
+    s+='<path d="'+arc(cx,cy,146,124,c-22.5,c+22.5)+'" fill="'+(x.ji?'rgba(78,131,145,.16)':'rgba(196,52,43,.14)')
+      +'" stroke="#3A322A" stroke-width="0.5"/>';
+    var p=polar(cx,cy,135,c);
+    s+=txt(p[0],p[1],x.name,x.ji?'#8FC0CC':'#E0827B',10.5);
   });
-  /* 東南西北 */
-  [['北',0],['東',90],['南',180],['西',270]].forEach(function(d){
-    var p=polar(cx,cy,120,d[1]);
-    s+='<text x="'+p[0].toFixed(1)+'" y="'+p[1].toFixed(1)+'" fill="#8C8071" font-size="13" letter-spacing="2" '
-      +'text-anchor="middle" dominant-baseline="central">'+d[0]+'</text>';
+  /* 四·消砂納水圈（輔星翻卦，八方各四十五度） */
+  if(C.SF) C.SF.list.forEach(function(w){
+    var c={坎:0,艮:45,震:90,巽:135,離:180,坤:225,兌:270,乾:315}[w.gua];
+    s+='<path d="'+arc(cx,cy,124,102,c-22.5,c+22.5)+'" fill="'+(w.ji?'rgba(201,162,75,.13)':'rgba(140,128,113,.08)')
+      +'" stroke="#3A322A" stroke-width="0.5"/>';
+    var p=polar(cx,cy,113,c);
+    s+=txt(p[0],p[1],w.star,w.ji?'#C9A24B':'#6E6152',10);
   });
-  /* 指針 */
-  var n0=polar(cx,cy,-38,bearing), n1=polar(cx,cy,168,bearing);
+  /* 五·正針二十四山（可點） */
+  for(var i=0;i<24;i++){
+    var a0=i*15-7.5,a1=i*15+7.5;
+    s+='<path d="'+arc(cx,cy,102,78,a0,a1)+'" fill="'+(SHAN[i]===sel?'rgba(233,225,208,.10)':'transparent')
+      +'" stroke="#3A322A" stroke-width="0.5" data-shan="'+SHAN[i]+'" style="cursor:pointer"/>';
+    var p=polar(cx,cy,90,i*15);
+    s+='<g data-shan="'+SHAN[i]+'" style="cursor:pointer">'
+      +txt(p[0],p[1],SHAN[i],SHAN[i]===sel?'#E9E1D0':'#C4342B',12,SHAN[i]===sel?700:400)+'</g>';
+  }
+  /* 指針與天池 */
+  var n0=polar(cx,cy,-40,bearing),n1=polar(cx,cy,168,bearing);
   s+='<line x1="'+n0[0].toFixed(1)+'" y1="'+n0[1].toFixed(1)+'" x2="'+n1[0].toFixed(1)+'" y2="'+n1[1].toFixed(1)
     +'" stroke="#E9E1D0" stroke-width="1.8"/>';
-  s+='<circle cx="170" cy="170" r="34" fill="#14110E" stroke="#C9A24B"/>';
-  s+='<text x="170" y="164" fill="#C9A24B" font-size="15" text-anchor="middle" font-family="Noto Serif TC,serif">'
-    +(sel||'—')+'</text>';
-  s+='<text x="170" y="181" fill="#8C8071" font-size="9" text-anchor="middle" letter-spacing="1">'
-    +bearing.toFixed(1)+'°</text>';
+  s+='<circle cx="190" cy="190" r="36" fill="#14110E" stroke="#C9A24B"/>';
+  s+=txt(190,183,(sel||'—'),'#C9A24B',16);
+  s+='<text x="190" y="200" fill="#8C8071" font-size="9" text-anchor="middle">'+bearing.toFixed(1)+'°</text>';
   $('dial').innerHTML=s;
   Array.prototype.forEach.call($('dial').querySelectorAll('[data-shan]'),function(el){
     el.addEventListener('click',function(){ sel=el.getAttribute('data-shan'); render(); });
@@ -1714,9 +1733,19 @@ function detailOf(shan,C){
 /* ---------- 主流程 ---------- */
 function render(){ if(last) paint(last); }
 function paint(C){
-  drawDial(C.bearing,C.tone);
+  drawDial(C.bearing,C);
   $('detail').innerHTML=detailOf(sel,C);
-  $('rd').innerHTML=C.blocks.map(function(x){return '<div class="b"><em>'+x.h+'</em>'+x.t+'</div>'}).join('');
+  $('dialLegend').innerHTML='<b style="color:var(--gold)">由外而內四圈</b>——<br>'
+    +'　<b>方位</b>（盤外）　北・東北・東……八方，供對位<br>'
+    +'　<b>年神圈</b>　二十四山逐山著色：<span class="fail">朱＝今年此方值凶神</span>、'
+    +'<span class="pass">青＝值吉神</span>、素＝無。圈上小字為該方最重之神。<br>'
+    +'　<b>八宅圈</b>　依坐山推得之八方吉凶。生氣天醫延年伏位為吉，五鬼六煞禍害絕命為凶。<br>'
+    +'　<b>輔星圈</b>　消砂納水，以<b>縫針</b>向首之卦起翻卦。'
+    +'<span class="pass">金字</span>為吉（貪狼巨門武曲輔弼），灰字為凶（祿存文曲廉貞破軍）。<br>'
+    +'　<b>二十四山</b>（朱字，<b>可點</b>）　正針之山，判讀基準。點任一山，下方展開該方位全部內容。<br>'
+    +'<span style="color:var(--dim)">中針與縫針不另畫圈——同一讀數三針各落何山，見下方「三針同讀」。</span>';
+  $('rd').innerHTML=C.blocks.map(function(x){
+    return '<div class="b"><em>'+x.h+(x.sys?'<span class="sys">'+x.sys+'</span>':'')+'</em>'+x.t+'</div>'}).join('');
 }
 
 function run(){
@@ -1751,15 +1780,14 @@ function run(){
   byList.forEach(function(x){bzMap[x.gua]=x});
   /* 消砂納水 */
   var SF=BZ.SHUI.shuiFa(XC.xiang);
-  /* 外圈著色依選單 */
-  var layer=$('ilayer').value, tone={};
+  /* 年神圈：逐山著色並取最重之神為標 */
+  var HEAVY2=RD.HEAVY, tone={}, nianLab={};
   SHAN.forEach(function(sh){
-    var gg=BZ.guaOfShan(sh);
-    if(layer==='八宅'){ var x=bzMap[gg]; tone[sh]=x?(x.ji?1:-1):0; }
-    else if(layer==='水法'){ var w=SF?SF.list.filter(function(y){return y.gua===gg})[0]:null;
-      tone[sh]=w?(w.ji&&w.淨陰淨陽合?1:(w.ji||w.淨陰淨陽合?0:-1)):0; }
-    else if(layer==='倪氏'){ tone[sh]=NH.kitchenAt(sh).ok?0:1; }
-    else { var h2=NS.atShanMode(P.year.gz,sh,mode); tone[sh]=h2['凶'].length?-1:(h2['吉'].length?1:0); }
+    var h2=NS.atShanMode(P.year.gz,sh,mode);
+    tone[sh]=h2['凶'].length?-1:(h2['吉'].length?1:0);
+    var hv2=h2['凶'].filter(function(x){return HEAVY2.indexOf(x.name)>=0});
+    nianLab[sh]=hv2.length?hv2[0].name:(h2['凶'].length?h2['凶'][0].name:(h2['吉'].length?h2['吉'][0].name:''));
+    if(nianLab[sh].length>3) nianLab[sh]=nianLab[sh].slice(0,3);
   });
   /* 白話判讀 */
   var H=NS.atShanMode(P.year.gz,S.shan,mode);
@@ -1771,34 +1799,47 @@ function run(){
   var lt=H['凶'].filter(function(x){return HEAVY.indexOf(x.name)<0});
   var lc=NH.lineCheck(S.offset), bs=NH.bashaCheck(S.shan,XC?XC.xiang:'');
   var blocks=[];
-  blocks.push({h:'坐向',t:b.toFixed(1)+'°（'+($('imode').value==='true'?'真方位':'磁方位')+'），落在<b>'+S.shan
+  blocks.push({h:'坐向',sys:'形勢・定位',t:b.toFixed(1)+'°（'+($('imode').value==='true'?'真方位':'磁方位')+'），落在<b>'+S.shan
     +'山</b>、面朝'+XC.xiang+'——通稱「'+S.shan+'山'+XC.xiang+'向」。此山屬'+S.gua+'宮（'+RD.dirOf(S.gua)+'）。'
     +(lc.risky?'<br><span class="warn">距山界僅 '+lc.toEdge.toFixed(1)+'°，即倪氏所謂分金煞，宜換位置重量三次。</span>':'')
     +(bs.hit?'<br><span class="warn">犯八煞黃泉：'+bs.gua+'卦不立'+bs.forbid+'向。</span>':'')});
-  blocks.push({h:'今年此方宜忌',t:(hv.length?'今年（'+P.year.gz+'）此方值<b>'+hv.map(function(x){return x.name}).join('、')
+  blocks.push({h:'今年此方宜忌',sys:'神煞・年',t:(hv.length?'今年（'+P.year.gz+'）此方值<b>'+hv.map(function(x){return x.name}).join('、')
       +'</b>，忌動土興修'+(lt.length?'；另值'+lt.map(function(x){return x.name}).join('、')+'，屬次一級。':'。')
     :(lt.length?'今年（'+P.year.gz+'）此方未值重煞，僅值'+lt.map(function(x){return x.name}).join('、')+'，可制可用。'
       :'今年（'+P.year.gz+'）此方未值凶神。'))
     +(H['吉'].length?'吉神值<b>'+H['吉'].map(function(x){return x.name}).join('、')+'</b>。':'')
     +'<br><span style="color:var(--dim)">年月神煞管的是「這一年這個方位能不能敲牆動土」，搬動家具、更換陳設不在此限。</span>'});
-  blocks.push({h:'本月與今日',t:'本月（'+P.month.gz+'）此方'+(yx.length?'值<b>'+yx.join('、')+'</b>':'未值月家凶神')
+  blocks.push({h:'本月與今日',sys:'神煞・月日',t:'本月（'+P.month.gz+'）此方'+(yx.length?'值<b>'+yx.join('、')+'</b>':'未值月家凶神')
     +(yj.length?'，另值'+yj.join('、'):'')+'。<br>今日為<b>'+jc+'日</b>——<span class="box" style="display:inline-block;padding:4px 10px;margin:2px 0">'
     +(GL.of(jc)||'')+'</span>'});
-  blocks.push({h:'玄空宅盤',t:'以 <b>'+builtY+'</b> 年建成入住計，屬 <b>'+yun+' 運</b>。<br>'
+  blocks.push({h:'玄空宅盤',sys:'理氣・玄空',t:'以 <b>'+builtY+'</b> 年建成入住計，屬 <b>'+yun+' 運</b>。<br>'
     +S.shan+'山'+XC.xiang+'向'+(jian?'（兼向，用替卦）':'')+'，格局為<b>'+XC.pattern+'</b>——'+(GL.of(XC.pattern)||'')
     +(XC.fuyin?'，並見伏吟':'')+(XC.heshi?'，並見合十':'')+'。<br>'
     +'宅盤一經定盤即不再變，逐年變的是加臨其上的流年星。<br>'+P.year.solarYear+' 年流年 <b>'+FG.NAME[LN.年星入中-1]+'</b> 入中。'
     +(LN.入囚?'<br><span class="warn">本宅現正入囚。</span>':'<br>本宅入囚之運期為 '+XK.ruqiuYears(XC).join('、')+'。')});
   var ji=byList.filter(function(x){return x.ji}), xi=byList.filter(function(x){return !x.ji});
   var byTitle=zang?'小遊年（陰宅）':'八宅八方';
-  blocks.push({h:byTitle,t:'以'+S.shan+'山論，此宅屬<b>'+HS.gua+'宮</b>'+(zang?'':'（'+HS.group+'）')+'。'
+  blocks.push({h:byTitle,sys:'理氣・八宅',t:'以'+S.shan+'山論，此宅屬<b>'+HS.gua+'宮</b>'+(zang?'':'（'+HS.group+'）')+'。'
     +'<div class="g33">'+['乾','坎','艮','兌',null,'震','坤','離','巽'].map(function(g){
       if(!g) return '<div><b style="color:var(--gold);font-size:13px">'+HS.gua+'宮</b><u>'+(zang?'本宮':HS.group)+'</u></div>';
       var x=bzMap[g];
       return '<div class="'+(x.ji?'j':'x')+'"><b>'+x.name+'</b><u>'+RD.dirOf(g)+'</u></div>';
     }).join('')+'</div>'});
+  var feng=KY.shanOf(b,{needle:'縫針',decl:+$('idec').value,mode:$('imode').value});
+  var zhong=KY.shanOf(b,{needle:'中針',decl:+$('idec').value,mode:$('imode').value});
+  blocks.push({h:'三針同讀',sys:'形勢・定位',t:'同一讀數 '+b.toFixed(1)+'°，三針各落不同的山——<br>'
+    +'　<b class="fail">正針　'+S.shan+'山</b>　<span class="cap" style="display:inline">定向用。本引擎一切判讀以此為準。</span><br>'
+    +'　<b>縫針　'+feng.shan+'山</b>　<span class="cap" style="display:inline">消砂納水用。上方羅盤之輔星圈即以此起。</span><br>'
+    +'　<b>中針　'+zhong.shan+'山</b>　<span class="cap" style="display:inline">格龍用。須另量來龍方位，非用坐向。</span>'
+    +(function(){var lv=$('ilong').value;
+      if(lv===''||isNaN(+lv)) return '<br><span style="color:var(--dim)">來龍未量，格龍從缺——格龍問的是「氣從哪來」，要對著來脈量，不是對著房子量。</span>';
+      var L=KY.shanOf(+lv,{needle:'中針',decl:+$('idec').value,mode:$('imode').value});
+      var td3=FJ.toudiAt(+lv);
+      return '<br><b style="color:var(--gold)">格龍　來龍 '+(+lv).toFixed(1)+'°，中針作 '+L.shan+'山</b>，透地六十龍為 '
+        +td3.gz+'（'+td3.nayin+'・'+td3.qi+'）'+td3.fenLabel+'。';})()
+    +'<br><span style="color:var(--dim)">三針各差七度半即半個山。用途三家三說，詳見文獻。</span>'});
   var cs2=FJ.chuanShanAt(S.magnetic), td2=FJ.toudiAt(S.magnetic), xd2=FJ.xiuAt(S.magnetic);
-  blocks.push({h:'壓線（分金）',t:'依讀數 '+b.toFixed(1)+'° 逐層定位——<br>'
+  blocks.push({h:'壓線（分金）',sys:'理氣・分金',t:'依讀數 '+b.toFixed(1)+'° 逐層定位——<br>'
     +'穿山七十二龍　'+(cs2.kong?'<b class="fail">'+cs2.shan+'山之正，犯戊己龜甲空亡</b>'
       :'<b class="'+(cs2.ji?'pass':'fail')+'">'+cs2.gz+'</b>（納音'+cs2.nayin+'，'+cs2.qi+'，'+(cs2.ji?'吉':'凶')+'）'+cs2.fenLabel)
     +'<br>透地六十龍　<b class="'+(td2.ji?'pass':'fail')+'">'+td2.gz+'</b>（納音'+td2.nayin+'，'+td2.qi+'）'+td2.fenLabel
@@ -1806,7 +1847,7 @@ function run(){
     +'<br><span style="color:var(--dim)">五氣之判：納音同本支者正氣、我生者生氣、剋我者旺氣為吉；生我者敗氣、我剋者死氣為凶。'
     +'分數如「七亥三壬」謂此線七分在亥、三分在壬。</span>'});
   var fam=$('ifam').value, plan=fam?NH.PLAN[fam]:null;
-  blocks.push({h:'倪海厦配屬',t:'依後天八卦之絕對方位定人倫。<br>西北恆為父（夫妻主臥）、西南恆為母、正東恆為長子、東南恆為長女，不隨坐山改變。<br>'
+  blocks.push({h:'倪海厦配屬',sys:'配屬・倪氏',t:'依後天八卦之絕對方位定人倫。<br>西北恆為父（夫妻主臥）、西南恆為母、正東恆為長子、東南恆為長女，不隨坐山改變。<br>'
     +'樞紐在「無人帶」：八宮只取天元龍八山（子艮卯巽午坤酉乾）各十五度，其餘十六山無人所主，<br>廚廁宜置於此而不占人宮。'
     +(plan?'<div class="box"><b style="color:var(--gold)">'+fam+'</b><br>'
       +plan.map(function(x){return '　'+NH.REN[x[0]].dir+'（'+x[0]+'宮）　'+x[1]}).join('<br>')
@@ -1832,7 +1873,7 @@ function run(){
     +'<br><br><i>凶</i><br>'+['月建','月破','月厭','月刑','月害','劫煞','災煞','月煞'].map(function(k){return '　'+k+'〈'+Y[k]+'〉'}).join('<br>')
     +'<br><br><i>天道</i>　'+Y.天道+'行';
 
-  last={bearing:S.magnetic,tone:tone,blocks:blocks,XC:XC,LN:LN,Y:Y,fmark:fmark,bzMap:bzMap,
+  last={bearing:S.magnetic,tone:tone,nianLab:nianLab,blocks:blocks,XC:XC,LN:LN,Y:Y,fmark:fmark,bzMap:bzMap,
     byTitle:byTitle,yearGZ:P.year.gz,mode:mode,SF:SF,fam:fam,plan:plan,
     bearing:S.magnetic,bearingTrue:S.magnetic,selfShan:S.shan};
   /* 倪氏分頁 */
@@ -1848,68 +1889,82 @@ function run(){
 }
 
 /* ---------- 手機羅盤 ---------- */
-var liveOn=false,liveH=null,samples=[];
+var liveOn=false,liveH=null,samples=[],lastPaint=0,paused=false;
 function spread(){ if(samples.length<2) return 0; return Math.max.apply(null,samples)-Math.min.apply(null,samples); }
+function liveMsg(extra){
+  var h=liveH===null?null:liveH;
+  $('liveBox').innerHTML=(h===null?'':'<b style="color:var(--gold)">'+h.toFixed(1)+'°</b>　'
+      +KY.shanOf(h,{needle:'正針',decl:+$('idec').value,mode:$('imode').value}).shan+'山　')
+    +(samples.length?'已錄 '+samples.length+' 點（'+samples.map(function(x){return x.toFixed(1)}).join('、')
+      +'），散布 '+spread().toFixed(1)+'°'
+      +(spread()>2?' <span class="warn">逾二度，疑有鋼筋或電器干擾，請換位置重量</span>':' <span class="pass">合格</span>'):'')
+    +(extra?'<br>'+extra:'')
+    +'<br><span style="color:var(--dim)">若讀數飄移或明顯不對，把手機拿在手上<b>畫幾個立體的八字</b>（三軸都轉到），'
+    +'系統會重新校正磁力計。室內鋼筋會讓數值<b>穩定地偏掉</b>——不跳動不代表準確，務必多點取樣。</span>';
+}
 function onOrient(e){
+  if(paused) return;
   var h=null;
   if(typeof e.webkitCompassHeading==='number') h=e.webkitCompassHeading;
   else if(e.absolute&&typeof e.alpha==='number') h=(360-e.alpha)%360;
-  if(h===null) return;
-  liveH=h; $('ib').value=h.toFixed(1);
-  var s=KY.shanOf(h,{needle:'正針',decl:+$('idec').value,mode:$('imode').value});
-  if(last){ last.bearing=s.magnetic; drawDial(s.magnetic,last.tone); }
-  $('liveBox').innerHTML='<b style="color:var(--gold)">'+h.toFixed(1)+'°</b>　'+s.shan+'山　距界 '+(7.5-Math.abs(s.offset)).toFixed(1)+'°'
-    +(samples.length?'　｜已錄 '+samples.length+' 點，散布 '+spread().toFixed(1)+'°'
-      +(spread()>2?' <span class="warn">逾二度，疑有干擾</span>':' <span class="pass">合格</span>'):'');
+  if(h===null||isNaN(h)) return;
+  liveH=h;
+  var now=Date.now();
+  if(now-lastPaint<200) return;            /* 節流：每秒至多五次，免得畫面卡住 */
+  lastPaint=now;
+  $('ib').value=h.toFixed(1);
+  if(last){ var sx=KY.shanOf(h,{needle:'正針',decl:+$('idec').value,mode:$('imode').value});
+    last.bearing=sx.magnetic; drawDial(sx.magnetic,last); }
+  liveMsg();
 }
 function stopLive(){
   window.removeEventListener('deviceorientationabsolute',onOrient,true);
   window.removeEventListener('deviceorientation',onOrient,true);
-  liveOn=false;
+  window.removeEventListener('deviceorientationabsolute',onOrient,false);
+  window.removeEventListener('deviceorientation',onOrient,false);
+  liveOn=false; paused=true;
+  $('live').textContent='啟用手機羅盤';
+}
+function attach(){
+  if(liveOn) return;
+  liveOn=true; paused=false;
+  window.addEventListener('deviceorientationabsolute',onOrient,true);
+  window.addEventListener('deviceorientation',onOrient,true);
+  $('live').textContent='停止讀取';
 }
 function needGesture(){
   return typeof DeviceOrientationEvent!=='undefined' && typeof DeviceOrientationEvent.requestPermission==='function';
 }
-function startLive(){
-  if(liveOn) return;
-  function go(){ liveOn=true;
-    window.addEventListener('deviceorientationabsolute',onOrient,true);
-    window.addEventListener('deviceorientation',onOrient,true); }
-  if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){
-    DeviceOrientationEvent.requestPermission().then(function(r){
-      if(r==='granted') go(); else $('liveBox').textContent='未取得方位權限，請勾選手動輸入。';
-    }).catch(function(){ $('liveBox').textContent='此裝置不支援方位感測，請勾選手動輸入。'; });
-  } else if('ondeviceorientationabsolute' in window||'ondeviceorientation' in window) go();
-  else $('liveBox').textContent='此裝置不支援方位感測，請勾選手動輸入。';
-}
 $('live').addEventListener('click',function(){
-  if(liveOn){ stopLive(); this.textContent='啟用手機羅盤'; $('liveBox').innerHTML='已停止讀取。'; return; }
-  $('imanual').checked=false; var btn=this;
+  if(liveOn){ stopLive(); liveMsg('已停止讀取，數值凍結於上，可直接起算。'); return; }
+  $('imanual').checked=false;
   if(needGesture()){
     DeviceOrientationEvent.requestPermission().then(function(r){
-      if(r==='granted'){ liveOn=true;
-        window.addEventListener('deviceorientationabsolute',onOrient,true);
-        window.addEventListener('deviceorientation',onOrient,true);
-        btn.textContent='停止讀取'; $('liveBox').innerHTML='已授權，轉動手機即時讀取。'; }
-      else $('liveBox').innerHTML='<span class="warn">未授權。可再點一次，或勾選手動輸入。</span>';
-    }).catch(function(e){ $('liveBox').innerHTML='<span class="warn">授權失敗：'+e.message+'</span>'; });
-  } else { startLive(); btn.textContent='停止讀取';
-    $('liveBox').innerHTML=liveOn?'已開始讀取。':'<span class="warn">此裝置無方位感測，請手動輸入。</span>'; }
+      if(r==='granted'){ attach(); liveMsg('已授權，轉動手機即時讀取。'); }
+      else liveMsg('<span class="warn">未授權。iOS 需在彈出視窗按「允許」；若誤按拒絕，請至設定→Safari→動作與方向存取，開啟後重載本頁。</span>');
+    }).catch(function(e){ liveMsg('<span class="warn">授權失敗：'+e.message+'</span>'); });
+  } else {
+    if('ondeviceorientationabsolute' in window||'ondeviceorientation' in window){ attach(); liveMsg('已開始讀取。'); }
+    else liveMsg('<span class="warn">此裝置無方位感測，請勾選手動輸入並自行填度數。</span>');
+  }
 });
 $('imanual').addEventListener('change',function(){
-  if(this.checked){ stopLive(); $('live').textContent='啟用手機羅盤'; $('liveBox').innerHTML='手動輸入模式。'; }
+  if(this.checked){ stopLive(); liveMsg('手動輸入模式。'); }
 });
 $('sample').addEventListener('click',function(){
   samples.push(liveH!==null?liveH:+$('ib').value); if(samples.length>5) samples.shift();
   var avg=samples.reduce(function(a,b){return a+b},0)/samples.length;
-  $('ib').value=avg.toFixed(1); liveH=avg; run();
+  paused=true;                                   /* 取樣後暫停即時更新，數值才停得住 */
+  liveH=avg; $('ib').value=avg.toFixed(1); run();
+  liveMsg('已取平均並<b>暫停即時讀取</b>，數值停在 '+avg.toFixed(1)+'°。'
+    +(liveOn?'再按「停止讀取」可完全關閉；欲繼續即時讀取請重按「啟用手機羅盤」。':''));
 });
 function freeze(){var d=new Date();
   $('iy').value=d.getFullYear();$('im').value=d.getMonth()+1;$('id').value=d.getDate();
   $('ih').value=d.getHours();$('ii').value=d.getMinutes();}
 $('now').addEventListener('click',function(){freeze();run();});
 $('go').addEventListener('click',function(){sel=null;run();});
-['ifam','imodeuse','imode','ibuilt','ib','ilayer'].forEach(function(id){var e=$(id);if(e)e.addEventListener('change',run);});
+['imodeuse','imode','ibuilt','ib','ilong','ifam'].forEach(function(id){var e=$(id);if(e)e.addEventListener('change',run);});
 
 /* 檢核與詞表 */
 $('chk2').innerHTML=NH.CHECK.map(function(x,i){
@@ -1929,8 +1984,9 @@ window.addEventListener('error',function(e){
 if('serviceWorker' in navigator){ window.addEventListener('load',function(){
   navigator.serviceWorker.register('/sw.js').catch(function(){}); }); }
 freeze(); run();
-if(!needGesture()){ startLive(); }
-else $('liveBox').innerHTML='<span style="color:var(--gold)">iOS 需先點「啟用手機羅盤」授權</span>——瀏覽器規定必須由手勢觸發，無法自動開啟。';
+liveMsg(needGesture()
+  ? '<span style="color:var(--gold)">iOS 需先點「啟用手機羅盤」授權</span>——瀏覽器規定必須由使用者手勢觸發，無法自動開啟。'
+  : '可點「啟用手機羅盤」即時讀取，或直接手動填入度數。');
   function selfcheck(){
     var out=[],p=0,f=0;
     function ok(n,c){ if(c){p++;out.push('<i>✓</i> <span class="pass">'+n+'</span>');}
