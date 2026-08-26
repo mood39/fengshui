@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<title>堪輿理氣 v3.4</title>
+<title>堪輿理氣 v3.5</title>
 <style>
 :root{--lacquer:#14110E;--lacquer2:#1E1A15;--vermilion:#C4342B;--gold:#C9A24B;
   --xuan:#E9E1D0;--dim:#8C8071;--azure:#4E8391;--line:#3A322A}
@@ -45,7 +45,23 @@ button.gh{background:transparent;border:1px solid var(--line);color:var(--gold);
 .cap{font-size:11.5px;color:var(--dim);line-height:1.8;margin-top:10px}
 .warn{color:var(--vermilion)}
 .pass{color:var(--azure)}.fail{color:var(--vermilion)}
-.rd .b{margin-bottom:16px}
+.rd .b{margin-bottom:6px;border-top:1px solid var(--line)}
+.rd .b>summary{cursor:pointer;list-style:none;padding:9px 0}
+.rd .b>summary::-webkit-details-marker{display:none}
+.rd .b>summary::after{content:"▸";float:right;color:var(--dim);font-size:11px}
+.rd .b[open]>summary::after{content:"▾"}
+.rd .b>div{padding:0 0 12px}
+.sum{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.sum span{border:1px solid var(--line);border-radius:3px;padding:5px 10px;font-size:13px;background:var(--lacquer2)}
+.sum .j{color:var(--azure);border-color:#2C4A52}
+.sum .x{color:var(--vermilion);border-color:#4A2320}
+.sum .g{color:var(--gold);border-color:#4A3E22}
+table.t24{width:100%;border-collapse:collapse;font-size:12px}
+table.t24 td,table.t24 th{padding:4px 5px;border-bottom:1px solid var(--line);vertical-align:top}
+table.t24 th{color:var(--dim);font-weight:400;font-size:10.5px;letter-spacing:.1em}
+table.t24 .s{color:var(--gold);font-family:"Noto Serif TC",serif;font-size:13px;white-space:nowrap}
+table.t24 .j{color:var(--azure)} table.t24 .x{color:var(--vermilion)}
+table.t24 tr.hit{background:rgba(233,225,208,.05)}
 .rd .b em{font-style:normal;display:block;font-family:"Noto Serif TC",serif;font-size:11.5px;
   letter-spacing:.22em;color:var(--gold);margin-bottom:4px}
 .rd b{color:var(--xuan);font-weight:600}
@@ -80,7 +96,7 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px}
 <body>
 <div class="wrap">
   <h1>堪輿理氣</h1>
-  <div class="sub">v3.4　協紀神煞・玄空飛星・八宅・倪氏配屬・秦簡日書</div>
+  <div class="sub">v3.5　協紀神煞・玄空飛星・八宅・倪氏配屬・秦簡日書</div>
 
   <nav role="tablist">
     <button role="tab" aria-selected="true" data-p="p1">羅經</button>
@@ -2060,10 +2076,10 @@ function drawDial(bearing,C){
     s+='<path d="'+arc(cx,cy,210,176,a0,a1)+'" fill="'+fill+'" stroke="#3A322A" stroke-width="0.5"/>';
     var lab=C.nianLab[sh]||'', col=t<0?'#E8938C':'#9CCBD6';
     if(lab){
-      if(lab.length<=2){ var p=polar(cx,cy,193,i*15); s+=txt(p[0],p[1],lab,col,11); }
-      else { var p1=polar(cx,cy,201,i*15),p2=polar(cx,cy,186,i*15);
-        s+=txt(p1[0],p1[1],lab.slice(0,Math.ceil(lab.length/2)),col,9.5)
-          +txt(p2[0],p2[1],lab.slice(Math.ceil(lab.length/2)),col,9.5); }
+      var p=polar(cx,cy,193,i*15);
+      if(lab.length<=2){ s+=txt(p[0],p[1],lab,col,11); }
+      else { var h1=lab.slice(0,Math.ceil(lab.length/2)), h2=lab.slice(Math.ceil(lab.length/2));
+        s+=txt(p[0],p[1]-6,h1,col,9.5)+txt(p[0],p[1]+6,h2,col,9.5); }
     }
   }
   var CEN={坎:0,艮:45,震:90,巽:135,離:180,坤:225,兌:270,乾:315};
@@ -2199,8 +2215,9 @@ function paint(C){
     +'<span class="pass">金字</span>為吉（貪狼巨門武曲輔弼），灰字為凶（祿存文曲廉貞破軍）。<br>'
     +'　<b>二十四山</b>（朱字，<b>可點</b>）　正針之山，判讀基準。點任一山，下方展開該方位全部內容。<br>'
     +'<span style="color:var(--dim)">中針與縫針不另畫圈——同一讀數三針各落何山，見下方「三針同讀」。</span>';
-  $('rd').innerHTML=C.blocks.map(function(x){
-    return '<div class="b"><em>'+x.h+(x.sys?'<span class="sys">'+x.sys+'</span>':'')+'</em>'+x.t+'</div>'}).join('');
+  $('rd').innerHTML=(C.summary||'')+C.blocks.map(function(x,i){
+    return '<details class="b"'+(i<2?' open':'')+'><summary><em>'+x.h
+      +(x.sys?'<span class="sys">'+x.sys+'</span>':'')+'</em></summary><div>'+x.t+'</div></details>'}).join('');
 }
 
 function run(){
@@ -2310,9 +2327,13 @@ function run(){
     var g={}; KY.SHAN.forEach(function(x){(g[T[x].star]=g[T[x].star]||[]).push(x)});
     blocks.push({h:'四墓九星',sys:'理氣・水法',
       t:S.shan+'山洪範五行屬<b>'+wx0+'</b>，為<b>'+wx0+'局</b>，貪狼起於養位<b>'+BZ.SIMU.JU[wx0].yang+'</b>。<br>'
+      +'<table class="t24" style="margin-top:6px"><tr><th>星</th><th>吉凶</th><th>所轄之山</th></tr>'
       +BZ.SIMU.ORDER.map(function(st){
         var ji='貪狼巨門武曲左輔右弼'.indexOf(st)>=0;
-        return '　<b class="'+(ji?'pass':'fail')+'">'+st+'</b>　'+g[st].join('');}).join('<br>')
+        var mine=g[st].indexOf(S.shan)>=0;
+        return '<tr'+(mine?' class="hit"':'')+'><td class="'+(ji?'j':'x')+'">'+st+'</td>'
+          +'<td class="'+(ji?'j':'x')+'">'+(ji?'吉':'凶')+'</td>'
+          +'<td class="s">'+g[st].join('')+'</td></tr>';}).join('')+'</table>'
       +'<br><span style="color:var(--dim)">貪巨武輔弼為吉，文廉破祿為凶。'
       +'書載「貪巨武水宜朝來注聚，廉破祿水只宜去不宜聚」，然《慎庵》按語謂此例與雙山三合相牴牾——'
       +'如乾山巽向，巽為長生，水宜來，若依此例流去則為流破長生。二說並存，本引擎只出星位不作水路之斷。</span>'});})();
@@ -2383,14 +2404,45 @@ function run(){
     return '<div><b style="font-size:13px"><span style="color:var(--azure)">'+q.山+'</span> '+q.運
       +' <span style="color:var(--vermilion)">'+q.向+'</span></b><u>'+FG.GUA[g]+'　年'+q.流年+'</u></div>';
   }).join('')+'</div>';
-  var A=NS.byMode(P.year.gz,mode);
-  $('dt3').innerHTML=['吉','凶'].map(function(c){return '<i>'+c+'</i><br>'+A[c].map(function(x){
-    return '　'+x.name+'〈'+x.value+'〉'+(x.weak?' <span class="fail">疑</span>':'')}).join('<br>')}).join('<br><br>');
-  $('dt4').innerHTML='<i>吉</i><br>'+['天德','天德合','月德','月德合','月空','月將'].map(function(k){return '　'+k+'〈'+(Y[k]||'—')+'〉'}).join('<br>')
-    +'<br><br><i>凶</i><br>'+['月建','月破','月厭','月刑','月害','劫煞','災煞','月煞'].map(function(k){return '　'+k+'〈'+Y[k]+'〉'}).join('<br>')
-    +'<br><br><i>天道</i>　'+Y.天道+'行';
+  $('dt3').innerHTML='<table class="t24"><tr><th>山</th><th>吉神</th><th>凶神</th></tr>'
+    +SHAN.map(function(sh){
+      var h3=NS.atShanMode(P.year.gz,sh,mode);
+      return '<tr'+(sh===S.shan?' class="hit"':'')+'><td class="s">'+sh+'</td>'
+        +'<td class="j">'+(h3['吉'].map(function(x){return x.name}).join('、')||'—')+'</td>'
+        +'<td class="x">'+(h3['凶'].map(function(x){return x.name}).join('、')||'—')+'</td></tr>';
+    }).join('')+'</table>';
+  $('dt4').innerHTML='<table class="t24"><tr><th>吉神</th><th>所在</th><th>凶神</th><th>所在</th></tr>'
+    +(function(){ var J=['天德','天德合','月德','月德合','月空','月將'],
+        X=['月建','月破','月厭','月刑','月害','劫煞','災煞','月煞'], r='';
+      for(var i=0;i<Math.max(J.length,X.length);i++){
+        var jn=J[i], xn=X[i];
+        r+='<tr><td class="j">'+(jn||'')+'</td><td class="s">'+(jn?(Y[jn]||'—'):'')+'</td>'
+          +'<td class="x">'+(xn||'')+'</td><td class="s">'+(xn?Y[xn]:'')+'</td></tr>';
+      } return r;})()
+    +'</table><div class="cap">天道'+Y.天道+'行　三合局'+Y.三合局+'　月將'+Y.月將+'</div>';
 
-  last={bearing:S.magnetic,tone:tone,nianLab:nianLab,blocks:blocks,XC:XC,LN:LN,Y:Y,fmark:fmark,bzMap:bzMap,
+  var sumChips=[];
+  sumChips.push({c:'g',t:S.shan+'山'+XC.xiang+'向'});
+  sumChips.push({c:'g',t:yun+'運・'+XC.pattern});
+  if(XC.fuyin) sumChips.push({c:'x',t:'伏吟'});
+  if(XC.heshi) sumChips.push({c:'j',t:'合十'});
+  (function(){var q=XK.qixing(XC);
+    if(q.真打劫) sumChips.push({c:'j',t:'七星打劫・真'});
+    else if(q.假打劫) sumChips.push({c:'j',t:'七星打劫・假'});})();
+  (function(){var cm=XK.chengmen(XC,XC.yun).filter(function(e){return e.ok});
+    if(cm.length) sumChips.push({c:'j',t:'城門　'+cm.map(function(e){return e.gua}).join('・')});})();
+  if(hv.length) sumChips.push({c:'x',t:'忌動土　'+hv.map(function(x){return x.name}).join('・')});
+  else if(!lt.length) sumChips.push({c:'j',t:'今年此方無凶神'});
+  (function(){var b2=BZ.houseOf(S.shan); if(!b2) return;
+    var self=byList.filter(function(x){return x.gua===b2.gua})[0];
+    if(self) sumChips.push({c:self.ji?'j':'x',t:'坐山'+self.name});})();
+  sumChips.push({c:cs2.ji?'j':'x',t:'壓線　'+(cs2.kong?'龜甲空亡':cs2.gz+'・'+cs2.qi)});
+  (function(){var e=FJ.BF.at(b); if(e) sumChips.push({c:e.ji?'j':'x',t:'分金　'+e.gz+'・'+e.type});})();
+  if(lc.risky) sumChips.push({c:'x',t:'近山界　宜複測'});
+  var summary='<div class="sum">'+sumChips.map(function(x){
+    return '<span class="'+x.c+'">'+x.t+'</span>'}).join('')+'</div>';
+
+  last={bearing:S.magnetic,tone:tone,nianLab:nianLab,summary:summary,blocks:blocks,XC:XC,LN:LN,Y:Y,fmark:fmark,bzMap:bzMap,
     byTitle:byTitle,yearGZ:P.year.gz,mode:mode,SF:SF,fam:fam,plan:plan,
     bearing:S.magnetic,bearingTrue:S.magnetic,selfShan:S.shan};
   /* 倪氏分頁 */
