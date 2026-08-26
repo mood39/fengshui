@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<title>堪輿理氣 v3.5</title>
+<title>堪輿理氣 v3.7</title>
 <style>
 :root{--lacquer:#14110E;--lacquer2:#1E1A15;--vermilion:#C4342B;--gold:#C9A24B;
   --xuan:#E9E1D0;--dim:#8C8071;--azure:#4E8391;--line:#3A322A}
@@ -96,7 +96,7 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px}
 <body>
 <div class="wrap">
   <h1>堪輿理氣</h1>
-  <div class="sub">v3.5　協紀神煞・玄空飛星・八宅・倪氏配屬・秦簡日書</div>
+  <div class="sub">v3.7　協紀神煞・玄空飛星・八宅・倪氏配屬・秦簡日書</div>
 
   <nav role="tablist">
     <button role="tab" aria-selected="true" data-p="p1">羅經</button>
@@ -1979,6 +1979,63 @@ var FJ = (function (KY) {
   BZ.QIMEN = { JU: JU, futou: futou, juOf: juOf, shangGua: shangGua, GUA9: GUA9, seq: seq };
 })(KY, FJ, BZ);
 
+/* 京房候卦與紅鸞七十二龍 —— 據《葉公九升古羅盤》第八層、第四層 */
+(function (KY, FJ, BZ) {
+  'use strict';
+  var Z = KY.ZHI.join(''), G = KY.GAN.join('');
+  var seq = []; for (var i = 0; i < 60; i++) seq.push(G.charAt(i % 10) + Z.charAt(i % 12));
+  function mod(a, n) { return ((a % n) + n) % n; }
+  /* 十二月各配五卦，序為候、大夫、卿、公、辟 */
+  var YUE = {
+    子: ['未濟', '蹇', '頤', '中孚', '復'], 丑: ['屯', '謙', '睽', '升', '臨'],
+    寅: ['小過', '蒙', '益', '漸', '泰'], 卯: ['需', '隨', '晉', '解', '大壯'],
+    辰: ['豫', '訟', '蠱', '革', '夬'], 巳: ['旅', '師', '比', '小畜', '乾'],
+    午: ['大有', '家人', '井', '咸', '姤'], 未: ['鼎', '豐', '渙', '履', '遯'],
+    申: ['恆', '節', '同人', '損', '否'], 酉: ['巽', '萃', '大畜', '賁', '觀'],
+    戌: ['歸妹', '無妄', '明夷', '困', '剝'], 亥: ['艮', '既濟', '噬嗑', '大過', '坤']
+  };
+  var RANK = ['候', '大夫', '卿', '公', '辟'];
+  var LIST = [];
+  '子丑寅卯辰巳午未申酉戌亥'.split('').forEach(function (z) {
+    YUE[z].forEach(function (g, i) { LIST.push({ gua: g, yue: z, rank: RANK[i] }); });
+  });
+  /* 六十龍依周天之序配六十卦，甲子起頤（卦序第三），故卦序＝周天序加二 */
+  function idxOfLong(gz) {
+    var i = seq.indexOf(gz); if (i < 0) return -1;
+    var zi = mod(i, 12), k = Math.floor(mod(i - zi, 60) / 12);   /* 支序與第幾干 */
+    return zi * 5 + k;                                            /* 周天之序 */
+  }
+  function jingfang(gz) {
+    var a = idxOfLong(gz); if (a < 0) return null;
+    var e = LIST[mod(a + 2, 60)];
+    return { gua: e.gua, yue: e.yue, rank: e.rank, order: mod(a + 2, 60) };
+  }
+  /* 紅鸞七十二龍：位同穿山，惟以納音論生剋——生我、比和為吉，剋我為凶。
+     干維無龍之處，以其山之洪範五行為用。 */
+  var SH = { 木: '火', 火: '土', 土: '金', 金: '水', 水: '木' };
+  var KE = { 木: '土', 土: '水', 水: '火', 火: '金', 金: '木' };
+  function honglun(deg) {
+    var cs = FJ.chuanShanAt(deg);
+    if (!cs) return null;
+    if (cs.kong) {
+      var wx = (typeof WX !== 'undefined') ? WX.of(cs.shan).洪範五行 : null;
+      return { kong: true, shan: cs.shan, wx: wx, note: '干維無龍，以本山洪範五行為用' };
+    }
+    return { kong: false, gz: cs.gz, nayin: cs.nayin, shan: cs.shan };
+  }
+  /* 龍之納音與砂水五行之生剋 */
+  function judge(longWX, shaWX) {
+    if (!longWX || !shaWX) return null;
+    if (longWX === shaWX) return { n: '比旺', ji: 1 };
+    if (SH[shaWX] === longWX) return { n: '生我', ji: 1 };
+    if (SH[longWX] === shaWX) return { n: '我生', ji: 0 };
+    if (KE[shaWX] === longWX) return { n: '剋我', ji: 0 };
+    return { n: '我剋', ji: 0 };
+  }
+  BZ.JINGFANG = { YUE: YUE, RANK: RANK, LIST: LIST, of: jingfang, idxOfLong: idxOfLong };
+  BZ.HONGLUAN = { of: honglun, judge: judge };
+})(KY, FJ, BZ);
+
 /* 睡虎地秦簡日書甲種 —— 日之古法三層
    一·〈除〉篇十二名（濡贏建陷柀平寧空坐蓋成甬），名目與後世建除全異
    二·〈秦除〉篇，即建除十二直之秦代形式（盈作滿、摯作執、柀作破）
@@ -2169,6 +2226,9 @@ function detailOf(shan,C){
       +'<br>節氣分度　<b>'+qz.qi+'</b> '+qz.hou
       +(function(){var e=FJ.BF.at(C.bearing); if(!e) return '';
         return '<br>一百二十分金　<b class="'+(e.ji?'pass':'fail')+'">'+e.gz+'</b>　'+e.type+'　'+(e.ji?'宜取':'宜避');})()
+      +(function(){ if(!td) return '';
+        var jf=BZ.JINGFANG.of(td.gz); if(!jf) return '';
+        return '<br>京房候卦　<b>'+jf.gua+'</b>（'+jf.yue+'月'+jf.rank+'）';})()
       +(function(){ if(!td) return '';
         var sg=BZ.QIMEN.shangGua(td.gz,qz.qi); if(!sg) return '';
         return '<br>卦例上卦　<b>'+sg.gua+'卦</b>　'+sg.dun+'・'+sg.ju+'（符頭'+sg.futou+'）';})()
@@ -2378,6 +2438,12 @@ function run(){
     +(function(){var e=FJ.BF.at(b); if(!e) return '';
       return '<br>一百二十分金　<b class="'+(e.ji?'pass':'fail')+'">'+e.gz+'</b>　'+e.type+'　'
         +(e.ji?'宜取':'宜避')+'　<span style="color:var(--dim)">'+e.from.toFixed(0)+'–'+e.to.toFixed(0)+'°</span>';})()
+    +(function(){ if(!td2) return '';
+      var jf=BZ.JINGFANG.of(td2.gz); if(!jf) return '';
+      return '<br>京房候卦　<b>'+jf.gua+'</b>卦　'+jf.yue+'月・'+jf.rank;})()
+    +(function(){ var hl=BZ.HONGLUAN.of(b); if(!hl) return '';
+      return '<br>紅鸞七十二龍　'+(hl.kong?'<span class="fail">'+hl.shan+'山干維無龍，以洪範'+hl.wx+'為用</span>'
+        :'<b>'+hl.gz+'</b>　納音'+hl.nayin);})()
     +(function(){ if(!td2) return '';
       var sg=BZ.QIMEN.shangGua(td2.gz,BZ.GUALI.qiAt(b).qi); if(!sg) return '';
       return '<br>卦例上卦　<b>'+sg.gua+'卦</b>（'+sg.gong+'宮）　'+sg.dun+'・'+sg.ju
@@ -2692,6 +2758,25 @@ liveMsg(needGesture()
       for(var i=0;i<60;i+=2){ var a=G[i%10]+Z[i%12], b=G[(i+1)%10]+Z[(i+1)%12];
         if(FJ.NAYIN[a]&&FJ.NAYIN[a]===FJ.NAYIN[b]) n++; }
       return n===30;})());
+    ok('玄空全盤：三張書影盤例八十一數全合', (function(){
+      var P={'8子':{4:[3,7,4],9:[8,3,8],2:[1,5,6],3:[2,6,5],5:[4,8,3],7:[6,1,1],8:[7,2,9],1:[9,4,7],6:[5,9,2]},
+             '8丙':{4:[2,7,5],9:[7,3,9],2:[9,5,7],3:[1,6,6],5:[3,8,4],7:[5,1,2],8:[6,2,1],1:[8,4,8],6:[4,9,3]},
+             '8午':{4:[4,7,3],9:[8,3,8],2:[6,5,1],3:[5,6,2],5:[3,8,4],7:[1,1,6],8:[9,2,7],1:[7,4,9],6:[2,9,5]}};
+      return Object.keys(P).every(function(k){
+        var c=XK.chart(+k.charAt(0), k.slice(1));
+        return Object.keys(P[k]).every(function(g){
+          return [c.shanPan[g],c.yunPan[g],c.xiangPan[g]].join()===P[k][g].join(); });});})());
+    ok('京房候卦：六十卦齊備而名無重', BZ.JINGFANG.LIST.length===60 &&
+      (function(){var m={};BZ.JINGFANG.LIST.forEach(function(x){m[x.gua]=1});return Object.keys(m).length===60})());
+    ok('京房候卦：書載五例（甲子頤・丙子中孚・戊子復・庚子屯・壬子謙）', (function(){
+      var E={甲子:'頤',丙子:'中孚',戊子:'復',庚子:'屯',壬子:'謙'};
+      return Object.keys(E).every(function(g){return BZ.JINGFANG.of(g).gua===E[g]});})());
+    ok('京房候卦：卦位四錨（中孚子位・頤壬尾・蹇壬中・未濟亥尾壬頭）', (function(){
+      return BZ.JINGFANG.of('丙子').gua==='中孚' && BZ.JINGFANG.of('甲子').gua==='頤'
+        && BZ.JINGFANG.of('癸亥').gua==='蹇' && BZ.JINGFANG.of('辛亥').gua==='未濟';})());
+    ok('紅鸞：干維無龍者以洪範五行代之', (function(){
+      var h=BZ.HONGLUAN.of(15); return h&&h.kong&&!!h.wx;})());
+    ok('紅鸞：丙寅火見甲子金為凶（書載）', BZ.HONGLUAN.judge('火','金').ji===0);
     ok('小玄空五行：二十四山無重無漏', (function(){
       var a=''; for(var k in BZ.XIAOXK.XIAO) a+=BZ.XIAOXK.XIAO[k];
       return a.length===24 && KY.SHAN.every(function(s2){return !!BZ.XIAOXK.of(s2)});})());
