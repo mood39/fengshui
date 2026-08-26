@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<title>堪輿理氣 v3.1</title>
+<title>堪輿理氣 v3.4</title>
 <style>
 :root{--lacquer:#14110E;--lacquer2:#1E1A15;--vermilion:#C4342B;--gold:#C9A24B;
   --xuan:#E9E1D0;--dim:#8C8071;--azure:#4E8391;--line:#3A322A}
@@ -80,7 +80,7 @@ table.k th{color:var(--dim);font-weight:400;font-size:11px}
 <body>
 <div class="wrap">
   <h1>堪輿理氣</h1>
-  <div class="sub">v3.1　協紀神煞・玄空飛星・八宅・倪氏配屬・秦簡日書</div>
+  <div class="sub">v3.4　協紀神煞・玄空飛星・八宅・倪氏配屬・秦簡日書</div>
 
   <nav role="tablist">
     <button role="tab" aria-selected="true" data-p="p1">羅經</button>
@@ -1083,6 +1083,102 @@ var XK = (function (KY, FG) {
   };
 })(KY, XK);
 
+/* 三般卦 —— 據坊間所傳《青囊奧語》「北斗七星打劫，離宮要相合」之解
+   父母三般卦：每宮山盤、運盤、向盤三數合為一四七、二五八、三六九者。
+   連珠三般卦：每宮三數相連，如一二三、四五六、七八九之類。 */
+(function (XK) {
+  'use strict';
+  var FUMU = [[1, 4, 7], [2, 5, 8], [3, 6, 9]];
+  function sameSet(a, b) {
+    var x = a.slice().sort(), y = b.slice().sort();
+    return x[0] === y[0] && x[1] === y[1] && x[2] === y[2];
+  }
+  function isFumu(t) { return FUMU.some(function (f) { return sameSet(t, f); }); }
+  function isLianzhu(t) {
+    var s = t.slice().sort(function (a, b) { return a - b; });
+    if (s[1] === s[0] + 1 && s[2] === s[1] + 1) return true;
+    /* 九一二、八九一之類，越九而環 */
+    var r = t.slice().map(function (v) { return v % 9; }).sort(function (a, b) { return a - b; });
+    return (r[1] === r[0] + 1 && r[2] === r[1] + 1);
+  }
+  XK.sanban = function (chart) {
+    var gongs = [1, 2, 3, 4, 6, 7, 8, 9, 5];
+    var fu = 0, lian = 0, detail = {};
+    gongs.forEach(function (g) {
+      var t = [chart.shanPan[g], chart.yunPan[g], chart.xiangPan[g]];
+      var f = isFumu(t), l = isLianzhu(t);
+      if (f) fu++; if (l) lian++;
+      detail[g] = { t: t, fumu: f, lianzhu: l };
+    });
+    return { 父母三般: fu === 9, 連珠三般: lian === 9,
+      父母宮數: fu, 連珠宮數: lian, detail: detail };
+  };
+  XK.SANBAN_FUMU = FUMU;
+})(XK);
+
+/* 七星打劫與城門訣 —— 據坊間玄空飛星教學所傳，並附算例反驗 */
+(function (KY, FG, XK) {
+  'use strict';
+  function mod(a, n) { return ((a % n) + n) % n; }
+  var G3 = [[1, 4, 7], [2, 5, 8], [3, 6, 9]];
+  function isSet(t) {
+    var s = t.slice().sort(function (a, b) { return a - b; });
+    return G3.some(function (f) { return f[0] === s[0] && f[1] === s[1] && f[2] === s[2]; });
+  }
+  /* 一·七星打劫
+     必要條件：一為雙星到向；二為離震乾（真）或坎巽兌（假）三宮之山盤、向盤、運盤各成一四七、二五八、三六九。
+     第三條「三宮須有門窗、外巒頭宜空曠」屬形勢，不可算，另出提示。 */
+  var ZHEN = { 離: 9, 震: 3, 乾: 6 }, JIA = { 坎: 1, 巽: 4, 兌: 7 };
+  function pick(chart, m) {
+    var gs = [], k;
+    for (k in m) gs.push(m[k]);
+    return { 山: gs.map(function (g) { return chart.shanPan[g]; }),
+      運: gs.map(function (g) { return chart.yunPan[g]; }),
+      向: gs.map(function (g) { return chart.xiangPan[g]; }) };
+  }
+  /* 真打劫者離宮打劫，向首須在離；假打劫者坎宮打劫，向首須在坎。
+     源文標目即作「離宮打劫・真打劫／坎宮打劫・假打劫」。 */
+  XK.qixing = function (chart) {
+    var ok = chart.pattern === '雙星到向';
+    var z = pick(chart, ZHEN), j = pick(chart, JIA);
+    var zhen = ok && chart.xiangGong === 9 && isSet(z.山) && isSet(z.運) && isSet(z.向);
+    var jia = ok && chart.xiangGong === 1 && isSet(j.山) && isSet(j.運) && isSet(j.向);
+    return { 雙星到向: ok, 真打劫: zhen, 假打劫: jia, 真: z, 假: j };
+  };
+  /* 二·城門訣
+     向首所在宮之左右兩宮各試之：取該宮之運盤數入中，以元旦盤求該數所屬之宮，
+     於其中取與向同元龍之山，陽順陰逆飛佈，飛至原宮若得當運旺星，即為真城門。 */
+  var GONG2GUA = { 1: '坎', 2: '坤', 3: '震', 4: '巽', 6: '乾', 7: '兌', 8: '艮', 9: '離' };
+  var GUA2GONG = { 坎: 1, 坤: 2, 震: 3, 巽: 4, 乾: 6, 兌: 7, 艮: 8, 離: 9 };
+  var PALACE = { 1: '壬子癸', 8: '丑艮寅', 3: '甲卯乙', 4: '辰巽巳',
+    9: '丙午丁', 2: '未坤申', 7: '庚酉辛', 6: '戌乾亥' };
+  /* 八宮環列之序（後天，順時針）：坎艮震巽離坤兌乾 */
+  var RING = [1, 8, 3, 4, 9, 2, 7, 6];
+  function neighbours(gong) {
+    var i = RING.indexOf(gong);
+    return i < 0 ? [] : [RING[mod(i - 1, 8)], RING[mod(i + 1, 8)]];
+  }
+  XK.chengmen = function (chart, yun) {
+    var xg = chart.xiangGong, yuan = { 地元: 0, 天元: 1, 人元: 2 }[chart.yuanLong];
+    var out = [];
+    neighbours(xg).forEach(function (g) {
+      var yStar = chart.yunPan[g];
+      if (yStar === 5) { out.push({ gong: g, gua: GONG2GUA[g], ok: false, why: '運星五入中，無山可稽' }); return; }
+      var srcGua = GONG2GUA[yStar], shan = PALACE[GUA2GONG[srcGua]].charAt(yuan);
+      var yang = XK.YANG.indexOf(shan) >= 0;
+      var p = XK.fly(yStar, yang);
+      out.push({ gong: g, gua: GONG2GUA[g], yunStar: yStar, srcGua: srcGua, shan: shan,
+        dir: yang ? '順飛' : '逆飛', got: p[g], ok: p[g] === yun });
+    });
+    /* 合生成：向首與該宮運盤數成一六、二七、三八、四九 */
+    var SHENG = { 1: 6, 6: 1, 2: 7, 7: 2, 3: 8, 8: 3, 4: 9, 9: 4 };
+    out.forEach(function (e) {
+      e.合生成 = (SHENG[chart.yunPan[xg]] === e.yunStar);
+    });
+    return out;
+  };
+})(KY, FG, XK);
+
 /* 白譯層 —— 名詞之白話簡釋。所釋者為術數傳統之說法，非事實斷言。 */
 var GL = (function () {
   'use strict';
@@ -1225,6 +1321,50 @@ var WX = (function (KY) {
     return out;
   };
 })(KY, FG, XK);
+
+/* 小玄空五行與二十四天星 —— 據《葉公九升古羅盤》第六層、第十二層 */
+(function (KY, WX, BZ) {
+  'use strict';
+  /* 一·小玄空五行（第十二層）
+     訣曰：丙丁乙酉原屬火，乾坤卯午金同坐，亥癸艮甲是木神，
+           戌庚丑未土為真，子寅辰巽兼辛巳，申與壬方俱水。 */
+  var XIAO = { 火: '丙丁乙酉', 金: '乾坤卯午', 木: '亥癸艮甲',
+    土: '戌庚丑未', 水: '子寅辰巽辛巳申壬' };
+  function xiaoOf(shan) {
+    for (var k in XIAO) if (XIAO[k].indexOf(shan) >= 0) return k;
+    return null;
+  }
+  /* 水路生剋：生向剋向為吉，生出剋出為凶 */
+  var SH = { 木: '火', 火: '土', 土: '金', 金: '水', 水: '木' };
+  var KE = { 木: '土', 土: '水', 水: '火', 火: '金', 金: '木' };
+  function shuiJudge(xiangShan, shuiShan) {
+    var a = xiaoOf(xiangShan), b = xiaoOf(shuiShan);
+    if (!a || !b) return null;
+    if (SH[b] === a) return { n: '生向', ji: 1 };
+    if (KE[b] === a) return { n: '剋向', ji: 1 };
+    if (SH[a] === b) return { n: '生出', ji: 0 };
+    if (KE[a] === b) return { n: '剋出', ji: 0 };
+    return { n: '比和', ji: 1 };
+  }
+  /* 二·二十四天星（第六層）——原文只載最貴與次貴十星，餘不載 */
+  var TIANXING = {
+    亥: { star: '紫微垣', rank: '四垣・最貴' }, 壬: { star: '四輔', rank: '四垣・最貴' },
+    艮: { star: '天市垣', rank: '四垣・最貴' }, 兌: { star: '少微垣', rank: '四垣・最貴' },
+    酉: { star: '少微垣', rank: '四垣・最貴' }, 庚: { star: '少微垣旁照', rank: '旁照' },
+    丙: { star: '太微垣', rank: '四垣・最貴' }, 巽: { star: '太微垣旁照', rank: '旁照' },
+    巳: { star: '太微垣旁照', rank: '旁照' },
+    丁: { star: '南極', rank: '次貴・主壽' }, 辛: { star: '天乙', rank: '次貴・主文' },
+    震: { star: '司命', rank: '次貴・主武' }, 卯: { star: '司命', rank: '次貴・主武' }
+  };
+  var SIMU = '辰戌丑未';   /* 四墓：魁罡牛鬼之鄉，天星之最下 */
+  function tianxingOf(shan) {
+    if (TIANXING[shan]) return TIANXING[shan];
+    if (SIMU.indexOf(shan) >= 0) return { star: '魁罡牛鬼', rank: '四墓・最下' };
+    return null;            /* 原文未載者不臆補 */
+  }
+  BZ.XIAOXK = { XIAO: XIAO, of: xiaoOf, shuiJudge: shuiJudge };
+  BZ.TIANXING = { TAB: TIANXING, SIMU: SIMU, of: tianxingOf };
+})(KY, WX, BZ);
 
 /* 小遊年變卦 —— 據《協紀》卷二〈本原二〉
    卷二明列大小遊年之對應：「貪狼與小遊同亦曰生氣；廉貞即小遊之巨門亦曰五鬼；
@@ -2022,6 +2162,14 @@ function detailOf(shan,C){
     if(w) h+='<div style="margin-top:4px">消砂納水　<b class="'+(w.ji?'pass':'fail')+'">'+w.name+'（'+w.star+'）</b>'
       +'　淨陰淨陽'+(w.淨陰淨陽合?'相合':'不合')+'　<span class="cap" style="display:inline">水路'
       +(w.ji&&w.淨陰淨陽合?'吉':(w.ji||w.淨陰淨陽合?'半吉':'凶'))+'</span></div>'; }
+  (function(){ var x=BZ.XIAOXK.of(shan), t=BZ.TIANXING.of(shan);
+    h+='<div style="margin-top:4px">小玄空五行　<b>'+x+'</b>';
+    if(C.XC){ var j=BZ.XIAOXK.shuiJudge(C.XC.xiang,shan);
+      if(j) h+='　<span class="cap" style="display:inline">水自此來，於'+C.XC.xiang+'向為<b class="'
+        +(j.ji?'pass':'fail')+'">'+j.n+'</b></span>'; }
+    h+='</div>';
+    h+='<div style="margin-top:4px">二十四天星　'+(t?'<b class="'+(t.rank.indexOf('最下')>=0?'fail':'pass')+'">'
+      +t.star+'</b>　'+t.rank:'<span style="color:var(--dim)">原文未載</span>')+'</div>'; })();
   (function(){ var sm=BZ.SIMU.of(C.selfShan,shan); if(!sm) return;
     h+='<div style="margin-top:4px">四墓九星　<b class="'+(sm.ji?'pass':'fail')+'">'+sm.star+'</b>　'
       +(sm.ji?'吉':'凶')+'　<span class="cap" style="display:inline">'+sm.ju+'局，貪狼起'+sm.yang+'（養位）</span></div>'; })();
@@ -2127,9 +2275,24 @@ function run(){
         +'</span>';})()});
   blocks.push({h:'玄空宅盤',sys:'理氣・玄空',t:'以 <b>'+builtY+'</b> 年建成入住計，屬 <b>'+yun+' 運</b>。<br>'
     +S.shan+'山'+XC.xiang+'向'+(jian?'（兼向，用替卦）':'')+'，格局為<b>'+XC.pattern+'</b>——'+(GL.of(XC.pattern)||'')
-    +(XC.fuyin?'，並見伏吟':'')+(XC.heshi?'，並見合十':'')+'。<br>'
+    +(XC.fuyin?'，並見伏吟':'')+(XC.heshi?'，並見合十':'')
+    +(function(){var q=XK.qixing(XC);
+      return q.真打劫?'，<b style="color:var(--gold)">合七星打劫（真・離宮）</b>'
+        :(q.假打劫?'，<b style="color:var(--gold)">合七星打劫（假・坎宮）</b>':'');})()
+    +(function(){var sb=XK.sanban(XC);
+      return sb.父母三般?'，<b style="color:var(--gold)">全盤父母三般卦</b>'
+        :(sb.父母宮數?'（父母三般'+sb.父母宮數+'宮）':'');})()+'。<br>'
     +'宅盤一經定盤即不再變，逐年變的是加臨其上的流年星。<br>'+P.year.solarYear+' 年流年 <b>'+FG.NAME[LN.年星入中-1]+'</b> 入中。'
-    +(LN.入囚?'<br><span class="warn">本宅現正入囚。</span>':'<br>本宅入囚之運期為 '+XK.ruqiuYears(XC).join('、')+'。')});
+    +(LN.入囚?'<br><span class="warn">本宅現正入囚。</span>':'<br>本宅入囚之運期為 '+XK.ruqiuYears(XC).join('、')+'。')
+    +(function(){var q=XK.qixing(XC); if(!q.真打劫&&!q.假打劫) return '';
+      return '<br><span style="color:var(--dim)">七星打劫尚須形勢相應——打劫之三宮宜有門窗，外巒頭宜見平原空地。此為實地之事，非計算所能定。</span>';})()
+    +(function(){var cm=XK.chengmen(XC,XC.yun);
+      var ok=cm.filter(function(e){return e.ok});
+      return '<br>城門訣　'+(ok.length?ok.map(function(e){
+          return '<b class="pass">'+e.gua+'宮可為城門</b>（運星'+e.yunStar+'，先天'+e.srcGua+'宮取'+e.shan+'山，'+e.dir+'得'+e.got+'）'
+            +(e.合生成?'　合生成':'');}).join('；')
+        :'<span class="fail">向首左右兩宮俱不可為城門</span>')
+        +'　<span style="color:var(--dim)">城門者，向首左右之宮，旺氣可通之路。</span>';})()});
   var ji=byList.filter(function(x){return x.ji}), xi=byList.filter(function(x){return !x.ji});
   var byTitle=zang?'小遊年（陰宅）':'八宅八方';
   blocks.push({h:byTitle,sys:'理氣・八宅',t:'以'+S.shan+'山論，此宅屬<b>'+HS.gua+'宮</b>'+(zang?'':'（'+HS.group+'）')+'。'
@@ -2153,6 +2316,15 @@ function run(){
       +'<br><span style="color:var(--dim)">貪巨武輔弼為吉，文廉破祿為凶。'
       +'書載「貪巨武水宜朝來注聚，廉破祿水只宜去不宜聚」，然《慎庵》按語謂此例與雙山三合相牴牾——'
       +'如乾山巽向，巽為長生，水宜來，若依此例流去則為流破長生。二說並存，本引擎只出星位不作水路之斷。</span>'});})();
+  (function(){ var x=BZ.XIAOXK.of(S.shan), t=BZ.TIANXING.of(S.shan);
+    blocks.push({h:'小玄空與天星',sys:'理氣・水法',
+      t:S.shan+'山小玄空五行屬<b>'+x+'</b>。<br>'
+      +'二十四天星　'+(t?'<b class="'+(t.rank.indexOf('最下')>=0?'fail':'pass')+'">'+t.star+'</b>（'+t.rank+'）'
+        :'<span style="color:var(--dim)">原文未載此山之星</span>')
+      +'<br><span style="color:var(--dim)">小玄空定水路屈曲之細情：水所自來之山，其五行生向、剋向為吉，'
+      +'生出、剋出為凶。與三合水法論倒左倒右者不同，一主大局、一主細情。'
+      +'天星以四垣為最尊——紫微臨亥、天市臨艮、少微臨兌、太微臨丙；次則南極臨丁主壽、天乙臨辛主文、司命臨震主武；'
+      +'辰戌丑未四墓為魁罡牛鬼之鄉，天星之最下。原文止載此數星，餘九山未載，本引擎不臆補。</span>'});})();
   (function(){ var j9=BZ.JIUXING.of(S.shan); if(!j9) return;
     blocks.push({h:'坐山九星',sys:'理氣・九星',t:S.shan+'山得<b class="'+(j9.ji?'pass':'fail')+'">'+j9.star+'</b>'
       +(j9.wx!=='—'?'（'+j9.wx+'）':'')+'，'+(j9.ji?'為吉':'為凶')+'。'
@@ -2468,6 +2640,41 @@ liveMsg(needGesture()
       for(var i=0;i<60;i+=2){ var a=G[i%10]+Z[i%12], b=G[(i+1)%10]+Z[(i+1)%12];
         if(FJ.NAYIN[a]&&FJ.NAYIN[a]===FJ.NAYIN[b]) n++; }
       return n===30;})());
+    ok('小玄空五行：二十四山無重無漏', (function(){
+      var a=''; for(var k in BZ.XIAOXK.XIAO) a+=BZ.XIAOXK.XIAO[k];
+      return a.length===24 && KY.SHAN.every(function(s2){return !!BZ.XIAOXK.of(s2)});})());
+    ok('小玄空：火金木土各四山、水獨八山', (function(){
+      var c={}; KY.SHAN.forEach(function(s2){var w=BZ.XIAOXK.of(s2); c[w]=(c[w]||0)+1;});
+      return c['火']===4&&c['金']===4&&c['木']===4&&c['土']===4&&c['水']===8;})());
+    ok('二十四天星：四垣次貴四墓共十五山可考', KY.SHAN.filter(function(s2){
+      return !!BZ.TIANXING.of(s2)}).length===15);
+    ok('二十四天星：四墓為最下', ['辰','戌','丑','未'].every(function(s2){
+      return BZ.TIANXING.of(s2).rank.indexOf('最下')>=0}));
+    ok('七星打劫：八運子山午向為真打劫（書載）', XK.qixing(XK.chart(8,'子')).真打劫);
+    ok('七星打劫：八運丙山壬向為假打劫（書載）', XK.qixing(XK.chart(8,'丙')).假打劫);
+    ok('七星打劫：真假各十二局且真繫離宮假繫坎宮', (function(){
+      var z=0,j=0,bad=0;
+      for(var y=1;y<=9;y++) for(var i=0;i<24;i++){
+        var c=XK.chart(y,KY.SHAN[i]), r=XK.qixing(c);
+        if(r.真打劫){z++; if(c.xiangGong!==9) bad++;}
+        if(r.假打劫){j++; if(c.xiangGong!==1) bad++;} }
+      return z===12&&j===12&&bad===0;})());
+    ok('城門訣：八運午山子向乾宮可、艮宮不可（書載）', (function(){
+      var r=XK.chengmen(XK.chart(8,'午'),8), m={};
+      r.forEach(function(e){m[e.gua]=e;});
+      return m['乾']&&m['乾'].ok&&m['乾'].got===8&&m['艮']&&!m['艮'].ok&&m['艮'].got===5;})());
+    ok('城門訣：八運辛山乙向巽宮可、艮宮不可（書載）', (function(){
+      var r=XK.chengmen(XK.chart(8,'辛'),8), m={};
+      r.forEach(function(e){m[e.gua]=e;});
+      return m['巽']&&m['巽'].ok&&m['巽'].got===8&&m['艮']&&!m['艮'].ok&&m['艮'].got===5;})());
+    ok('三般卦：父母三般於二百一十六局中得十六局', (function(){
+      var n=0; for(var y=1;y<=9;y++) for(var i=0;i<24;i++)
+        if(XK.sanban(XK.chart(y,KY.SHAN[i])).父母三般) n++;
+      return n===16;})());
+    ok('三般卦：艮坤寅申於二五八運皆成父母三般', ['艮','坤','寅','申'].every(function(s2){
+      return [2,5,8].every(function(y){return XK.sanban(XK.chart(y,s2)).父母三般});}));
+    ok('三般卦：全盤成局者九宮皆合', (function(){
+      var c=XK.chart(2,'艮'), r=XK.sanban(c); return r.父母三般&&r.父母宮數===9;})());
     ok('秦簡〈秦除〉與建除十二直逐月逐日全合（一四四組）', (function(){
       var Z2=KY.ZHI.join(''),n=0;
       for(var m=0;m<12;m++) for(var d=0;d<12;d++)
